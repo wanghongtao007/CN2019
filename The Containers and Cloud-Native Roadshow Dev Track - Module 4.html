@@ -1,0 +1,2893 @@
+<!DOCTYPE html>
+<!-- saved from url=(0104)http://guides-m4-labs-infra.apps.cluster-bjs-3f37.bjs-3f37.open.redhat.com/workshop/cloudnative/complete -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style type="text/css">.turbolinks-progress-bar {
+  position: fixed;
+  display: block;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: #0076ff;
+  z-index: 9999;
+  transition: width 300ms ease-out, opacity 150ms 150ms ease-in;
+  transform: translate3d(0, 0, 0);
+}</style>
+  
+  
+
+  <link rel="stylesheet" media="all" href="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/application-dcf5640dabe7c086c5db76b2e378b4def3309902bc32af61ab63094a23e1730b.css" data-turbolinks-track="reload">
+  <script src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/application-1763c4134299cf1911a383dd8d9b23b574b429196c500fbba1a010629fc4c558.js.下载" data-turbolinks-track="reload"></script><style type="text/css">/* Chart.js */
+@-webkit-keyframes chartjs-render-animation{from{opacity:0.99}to{opacity:1}}@keyframes chartjs-render-animation{from{opacity:0.99}to{opacity:1}}.chartjs-render-monitor{-webkit-animation:chartjs-render-animation 0.001s;animation:chartjs-render-animation 0.001s;}</style>
+<title>
+      The Containers and Cloud-Native Roadshow Dev Track - Module 4
+  </title><meta name="csrf-param" content="authenticity_token"><meta name="csrf-token" content="KpAoGG3eJUBGkS3D75pEcg4cIH3iL0I+q3Ewus54w26J7LRSyUAuXlUOTHhieRhqTKF5P85sdbvaan86YIjQmw=="></head>
+
+<body>
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid d-flex justify-content-start">
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarContent">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+      <a class="navbar-brand mb-0 h1" href="http://guides-m4-labs-infra.apps.cluster-bjs-3f37.bjs-3f37.open.redhat.com/workshop/cloudnative" id="workshopName">The Containers and Cloud-Native Roadshow Dev Track - Module 4</a>
+  </div>
+</nav>
+
+<script type="application/javascript">
+    if (App.hasOwnProperty('subscription_id')) {
+        App.cable.subscriptions.remove(App.subscription_id);
+    }
+
+    App.subscription_id = App.report_page_view('cloudnative#complete', 'eb65a4ca-9148-4f7c-ad24-4a7075f863cb');
+</script>
+
+<main class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+        <h2>Your Workshop Environment</h2>
+        <h2 id="the-workshop-environment-you-are-using">The Workshop Environment You Are Using</h2>
+
+<p>Your workshop environment consists of several components which have been pre-installed and are ready to use. Depending on which parts of the workshop you’re doing, you will use one or more of:</p>
+
+<ul>
+  <li><a href="https://www.openshift.com/" target="_blank">Red Hat OpenShift</a> - You’ll use one or more <em>projects</em> (Kubernetes namespaces) that are your own and are isolated from other workshop students</li>
+  <li><a href="https://developers.redhat.com/products/codeready-workspaces/overview" target="_blank">Red Hat CodeReady Workspaces</a> - based on <strong>Eclipse Che</strong>, it’s a cloud-based, in-browser IDE (similar to IntelliJ IDEA, VSCode, Eclipse IDE). You’ve been provisioned your own personal workspace for use with this workshop. You’ll write, test, and deploy code from here.</li>
+  <li><a href="https://developers.redhat.com/products/rhamt" target="_blank">Red Hat Application Migration Toolkit</a> - You’ll use this to migrate an existing application</li>
+  <li><a href="https://www.redhat.com/en/products/runtimes" target="_blank">Red Hat Runtimes</a> - a collection of cloud-native runtimes like Spring Boot, Node.js, and <a href="https://quarkus.io/" target="_blank">Quarkus</a></li>
+  <li><a href="https://www.redhat.com/en/technologies/jboss-middleware/amq" target="_blank">Red Hat AMQ Streams</a> - streaming data platform based on <strong>Apache Kafka</strong></li>
+  <li><a href="https://access.redhat.com/products/red-hat-single-sign-on" target="_blank">Red Hat SSO</a> - For authentication / authorization - based on <strong>Keycloak</strong></li>
+  <li>Other open source projects like <a href="https://gogs.io/" target="_blank">Gogs</a> (Git server that holds application source code), <a href="https://knative.dev/" target="_blank">Knative</a> (for serverless apps), <a href="https://jenkins.io/" target="_blank">Jenkins</a> and <a href="https://cloud.google.com/tekton/" target="_blank">Tekton</a> (CI/CD pipelines), <a href="https://prometheus.io/" target="_blank">Prometheus</a> and <a href="https://grafana.com/" target="_blank">Grafana</a> (monitoring apps), and more.</li>
+</ul>
+
+<p>You’ll be provided clickable URLs throughout the workshop to access the services that have been installed for you.</p>
+
+<h2 id="how-to-complete-this-workshop">How to complete this workshop</h2>
+
+<p>Simply follow these instructions end-to-end. <strong>You’ll need to do quite a bit of copy/paste for Linux commands and source code modifications</strong>, as well as clicking around on various consoles used in the labs. When you get to the end of each section, you can click the “Next &gt;” button at the bottom to advance to the next topic. You can also use the menu on the left to move around the instructions at will.</p>
+
+<p>The entire workshop is split into one or more <em>modules</em> - Look at the top of the screen in the header to see which module you are on. After you complete this module, your instructor may have additional modules to complete.</p>
+
+<p>Good luck, and let’s get started!</p>
+
+        <hr>
+        <h2>Cloud-Native Application Architectures</h2>
+        <h2 id="cloud-native-application-architectures">Cloud Native Application Architectures</h2>
+
+<p>Developing applications that are reactive, imperative, event driven, and polyglot are all requirements of modern application architecture. While cloud infrastructure and container Kubernetes solutions, such as Red Hat OpenStack Platform and Red Hat OpenShift, provide a robust infrastructure foundation for distributed environments, similar seamless application services require building applications that take full advantage of such an infrastructure.</p>
+
+<p>Moreover, applications require hybrid and multi cloud architecture to thrive in the digital economy. A unified cloud native application environment has become essential to developers because it enables higher productivity and innovation with a full, cohesive development platform. An application environment is equally critical to operations because of the rapid change and high demands for scalability, agility, and reliability.</p>
+
+<p>In this module, we will learn what cloud-native architecture we need to design for running containerized applications on DevOps/Cloud Native platform in scale and speed.
+Then we will also develop cloud native applications based on architecture patterns such as high-performing cache, event-driven/reactive, and serverless using
+<a href="https://www.redhat.com/en/technologies/cloud-computing/openshift/application-runtimes">Red Hat Runtimes</a>, <a href="https://developers.redhat.com/products/codeready-workspaces/overview" target="_blank">Red Hat CodeReady Workspaces</a> and
+<a href="https://www.redhat.com/en/technologies/cloud-computing/openshift">Red Hat OpenShift Container Platform</a>.</p>
+
+<h4 id="capabilities-of-a-cloud-native-application-architectures">Capabilities of a Cloud Native Application Architectures?</h4>
+
+<hr>
+
+<p>The benefits of cloud native application architectures enable speed of development and deployment, flexibility, quality, and reliability. More importantly, it allows developers to integrate the applications with the latest open source technologies without a steep learning curve. While there are many ways to build and architect cloud native applications following are some great ingredients for consideration:</p>
+
+<ul>
+  <li>
+    <p><em>Runtimes</em> - More likely to be written in the container first or/and Kubernetes native language, which means runtimes such as Java, Node.js, Go, Python, and Ruby, etc.</p>
+  </li>
+  <li>
+    <p><em>Security</em> - Deploying and maintaining applications in a multi cloud, hybrid cloud application environment, security becomes of utmost importance and should be part of the environment.</p>
+  </li>
+  <li>
+    <p><em>Observability</em> - The ability to observer applications and their behavior in the cloud. Tools that can give realtime metrics, and more information about the use e.g., Prometheus, Grafana, Kiali, etc.</p>
+  </li>
+  <li>
+    <p><em>Efficiency</em> - Focused on tiny memory footprint, small artifact size, and fast booting time to make portable applications across hybrid/multi-cloud platforms. Primarily, it will leverage an expected spice in production via rapid scaling with consuming minimal computing resources.</p>
+  </li>
+  <li>
+    <p><em>Interoperability</em> - Easy to integrate cloud native apps with the latest open source technologies such as Infinispan, MicroProfile, Hibernate, Apache Kafka, Jaeger, Prometheus, and more for building standard runtimes architecture.</p>
+  </li>
+  <li>
+    <p><em>DevOps/DevSecOps</em> - Designed for continuous deployment to production in line with the minimum viable product (MVP), with security as part of the tooling together with development, automating testing, and collaboration.</p>
+  </li>
+</ul>
+
+<h4 id="how-to-build-cloud-native-applications-and-architecture-with-red-hat">How to build Cloud Native applications and architecture with Red Hat?</h4>
+
+<hr>
+
+<p><code>Red Hat Runtime​s​</code> is a recommended set of products, tools, and components to develop and maintain cloud-native applications. It provides lightweight runtimes and frameworks for highly-distributed cloud environments such as microservices, with in-memory caching for fast data access, and messaging for quick data transfer supporting existing applications.</p>
+
+<p>Red Hat Runtime​s​ products and components:</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/rhar.png" alt="rhar"></p>
+
+<ul>
+  <li>
+    <p><em>Red Hat® JBoss® Enterprise Application Platform 7​​ (JBoss EAP)</em> is the market-leading opensource platform for modern Java applications deployed in any environment.
+ JBoss EAP’s architecture is lightweight, modular, and cloud ready. Based on the opensource WildFly app server project, the platform offers powerful management and automation for higher developer productivity.</p>
+  </li>
+  <li>
+    <p><em>A set of cloud-native runtimes</em> are Spring Boot with Tomcat, Reactive Vert.x, Javascript Node.Js, MicroProfile Throntail.(Quarkus is coming soon!)</p>
+  </li>
+  <li>
+    <p><em>Red Hat OpenJDK​</em> is an opensource implementation of the Java Platform SE (Standard Edition) supported and maintained by the OpenJDK community. OpenJDK is the default Java development and runtime in Red Hat Enterprise Linux.</p>
+  </li>
+  <li>
+    <p><em>Red Hat Data Grid​</em>​ is an opensource ​in-memory distributed data management system designed for scalability and fast access to large volumes of data.
+ More than just a distributed caching solution, it also offers additional functionality such as map/reduce, querying, processing for streaming data, and
+ transaction capabilities​.</p>
+  </li>
+  <li>
+    <p><em>Red Hat AMQ​​ (Broker)</em> is a pure-Java multiprotocol message broker that offers specialized queueing behaviors, message persistence, and manageability.</p>
+  </li>
+  <li>
+    <p><em>Red Hat Application Migration Toolkit​</em>​ provides a set of utilities for easing the process of taking customers’ proprietary or outdated middleware platforms to
+ state-of-the-art lightweight, modular, and cloud-ready middleware application infrastructure is making teams more productive and ready for the future.</p>
+  </li>
+  <li>
+    <p><em>Missions and Boosters</em>​​ are a combination of runtime implementations and working applications that accelerate application development. ​Missions are working applications that showcase different fundamental pieces of building cloudnative applications and services. A booster is the implementation of a mission in a specific runtime.</p>
+  </li>
+  <li>
+    <p><em>Red Hat Single Sign-On​​</em> based on the Keycloak project, Red Hat sso enables customers to secure web applications byproviding Web single sign-on) capabilities
+ based on popular standards such as SAML 2.0, OpenID Connect and OAuth 2.0.The RH-sso server can act as a SAML or OpenID Connect-based identity provider,
+ mediating your enterprise user directoryor 3rd-party SSO provider for identity information with your applications via standards-based tokens.</p>
+  </li>
+</ul>
+
+<p>Red Hat Runtimes​​ also provide integrated and optimized products and components to deliver modern applications, whether the goal is to keep existing applications or create new ones. Applications Runtimes enable developers to containerize applications with a microservices architecture, improve data access speed via in-memory data caching, enhance application performance with messaging, or adapt cloud-native application development using modern development patterns and technologies.</p>
+
+<p>Additionally, we have also chosen to use Quarkus for most of the applications in the labs. Read on to learn more about Quarkus.</p>
+
+<blockquote>
+  <p>NOTE: At the time of writing this guide, Quarkus is still a community project and is not part of any of the Red Hat Middleware products.</p>
+</blockquote>
+
+<h5 id="what-is-quarkus">What is Quarkus?</h5>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/quarkus-logo.png" alt="quarkus-logo"></p>
+
+<p>For years, the client-server architecture has been the de-facto standard to build applications.
+But a major shift happened. The one model rules them all age is over. A new range of applications
+and architecture styles has emerged and impacts how code is written and how applications are deployed and executed.
+HTTP microservices, reactive applications, message-driven microservices and serverless are now central players in modern systems.</p>
+
+<p><a href="https://quarkus.io/">Qurakus</a> offers 4 major benefits to build cloud-native, microservices, and serverless Java applicaitons:</p>
+
+<ul>
+  <li>
+    <p><em>Developer Joy</em> - Cohesive platform for optimized developer joy through unified configuration, Zero config with live reload in the blink of an eye,
+ streamlined code for the 80% common usages with flexible for the 20%, and no hassle native executable generation.</p>
+  </li>
+  <li>
+    <p><em>Unifies Imperative and Reactive</em> - Inject the EventBus or the Vertx context for both Reactive and imperative development in the same application.</p>
+  </li>
+  <li>
+    <p><em>Functions as a Service and Serverless</em> - Superfast startup and low memory utilization. With Quarkus, you can embrace this new world without having
+to change your programming language.</p>
+  </li>
+  <li>
+    <p><em>Best of Breed Frameworks &amp; Standards</em> - CodeReady Workspaces Vert.x, Hibernate, RESTEasy, Apache Camel, CodeReady Workspaces MicroProfile, Netty, Kubernetes, OpenShift,
+Jaeger, Prometheus, Apacke Kafka, Infinispan, and more.</p>
+  </li>
+</ul>
+
+<h4 id="getting-ready-for-the-labs">Getting Ready for the labs</h4>
+
+<hr>
+
+<h5 id="if-this-is-the-first-module-you-are-doing-today">If this is the first module you are doing today</h5>
+
+<p>You will be using Red Hat CodeReady Workspaces, an online IDE based on <a href="https://www.eclipse.org/che/" target="_blank">Eclipe Che</a>. <strong>Changes to files are auto-saved every few seconds</strong>, so you don’t need to explicitly save changes.</p>
+
+<p>To get started, <a href="http://codeready-labs-infra.apps.cluster-bjs-3f37.bjs-3f37.open.redhat.com/" target="_blank">access the Che instance</a> and log in using the username and password you’ve been assigned (e.g. <code>userXX/r3dh4t1!</code>):</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/che-login.png" alt="cdw"></p>
+
+<p>Once you log in, you’ll be placed on your personal dashboard. We’ve pre-created workspaces for you to use. Click on the name of the pre-created workspace on the left, as shown below (the name will be different depending on your assigned number). You can also click on the name of the workspace in the center, and then click on the green button that says “OPEN” on the top right hand side of the screen:</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/che-precreated.png" alt="cdw"></p>
+
+<p>After a minute or two, you’ll be placed in the workspace:</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/che-workspace.png" alt="cdw"></p>
+
+<p>You might see <strong>Workspace agent is not running</strong> in the popup message, click on <code>Restart</code>:</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/che-workspace-restart.png" alt="cdw"></p>
+
+<p>To gain extra screen space, click on the yellow arrow to hide the left menu (you won’t need it):</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/che-realestate.png" alt="cdw"></p>
+
+<p>Users of Eclipse, IntelliJ IDEA or Visual Studio Code will see a familiar layout: a project/file browser on the left, a code editor on the right, and a terminal at the bottom. You’ll use all of these during the course of this workshop, so keep this browser tab open throughout. <strong>If things get weird, you can simply reload the browser tab to refresh the view.</strong></p>
+
+<h5 id="import-projects">Import Projects</h5>
+
+<p>Click on the <strong>Import Projects…</strong> in <strong>Workspace</strong> menu and enter the following:</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/codeready-workspace-menu.png" alt="codeready-workspace-import"></p>
+
+<ul>
+  <li>Version Control System: <code>GIT</code></li>
+  <li>URL: <code>http://gogs-labs-infra.apps.cluster-bjs-3f37.bjs-3f37.open.redhat.com/userXX/cloud-native-workshop-v2m4-labs.git</code>(IMPORTANT: replace userXX with your lab user)</li>
+  <li>Check <code>Import recursively (for multi-module projects)</code></li>
+  <li>Name: <code>cloud-native-workshop-v2m4-labs</code></li>
+</ul>
+
+<p><strong>Tip</strong>: You can find GIT URL when you click on <a href="http://gogs-labs-infra.apps.cluster-bjs-3f37.bjs-3f37.open.redhat.com/" target="_blank">GIT URL</a> then login with your credentials.</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/codeready-workspace-import.png" alt="codeready-workspace-import" width="700px"></p>
+
+<p>The projects are imported now into your workspace and is visible in the project explorer.</p>
+
+<blockquote>
+  <p><code>NOTE</code>: the Terminal window in CodeReady Workspaces. For the rest of these labs, anytime you need to run a command in a terminal, you can use the CodeReady Workspaces <code>Terminal</code> window.</p>
+</blockquote>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/codeready-workspace-terminal.png" alt="codeready-workspace-terminal"></p>
+
+        <hr>
+        <h2>Creating High-performing Cacheable Service</h2>
+        <h2 id="lab1---creating-high-performing-cacheable-service">Lab1 - Creating High-performing Cacheable Service</h2>
+
+<p>In this lab, we’ll develop 5 microservices into the cloud-native appliation architecture. These cloud-native applications
+will have transactions with multiple datasources such as <code>PostgreSQL</code> and <code>MongoDB</code>. Especially, we will learn how to configure datasources easily using
+<code>Quarkus Extensions</code>. In the end, we will optimize <code>data transaction performance</code> of the shopping cart service thru integrating with a <code>Cache(Data Grid) server</code>
+to increase end users’(customers) satification. And there’s more fun facts how easy it is to deploy applications on OpenShift 4 via <code>oc</code> command line tool.</p>
+
+<h4 id="goals-of-this-lab">Goals of this lab</h4>
+
+<hr>
+
+<p>The goal is to develop advanced cloud-native applications on <code>Red Hat Runtimes</code> and deploy them on <code>OpenShift 4</code> including
+<code>single sign-on access management</code> and <code>distributed cache manageemnt</code>. After this lab, you should end up with something like:</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/lab1-goal.png" alt="goal"></p>
+
+<h4 id="deploying-inventory-service">1. Deploying Inventory Service</h4>
+
+<hr>
+
+<p><code>Inventory Service</code> serves inventory and availability data for retail products. Lets’s go through quickly how the inventory service works and built on
+<code>Quarkus</code> Java runtimes. Go to <code>Project Explorer</code> in <code>CodeReady Workspaces</code> Web IDE and expand <code>inventory-service</code> directory.</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/codeready-workspace-inventory-project.png" alt="inventory_service" width="500px"></p>
+
+<p>While the code is surprisingly simple, under the hood this is using:</p>
+
+<ul>
+  <li><code>RESTEasy</code> to expose the REST endpoints</li>
+  <li><code>Hibernate ORM</code> with Panache to perform the CRUD operations on the database</li>
+  <li><code>Maven</code> Java project structure</li>
+</ul>
+
+<p><code>Hibernate ORM</code> is the de facto JPA implementation and offers you the full breadth of an Object Relational Mapper.
+It makes complex mappings possible, but it does not make simple and common mappings trivial. Hibernate ORM with
+Panache focuses on making your entities trivial and fun to write in Quarkus.</p>
+
+<p>When you open <code>Inventory.java</code> in <code>src/main/java/com/redhat/cloudnative/</code> as below, you will understand how easy to create a domain model
+using Quarkus extension(<a href="https://quarkus.io/guides/hibernate-orm-panache-guide" target="_blank">Hibernate ORM with Panache</a>).</p>
+
+<pre><code class="language-java">@Entity
+@Cacheable
+public class Inventory extends PanacheEntity {
+
+    public String itemId;
+    public String location;
+    public int quantity;
+    public String link;
+
+    public Inventory() {
+
+    }
+
+}
+</code></pre>
+
+<ul>
+  <li>
+    <p>By extending <code>PanacheEntity</code> in your entities, you will get an ID field that is auto-generated. If you require a custom ID strategy, you can extend <code>PanacheEntityBase</code> instead and handle the ID yourself.</p>
+  </li>
+  <li>
+    <p>By using Use public fields, there is no need for functionless getters and setters (those that simply get or set the field). You simply refer to fields like Inventory.location without the need to write a Inventory.geLocation() implementation. Panache will
+auto-generate any getters and setters you do not write, or you can develop your own getters/setters that do more than get/set, which will be called when the field is accessed directly.</p>
+  </li>
+</ul>
+
+<p>The <code>PanacheEntity</code> superclass comes with lots of super useful static methods and you can add your own in your derived entity class, and much like traditional object-oriented programming it’s natural and recommended to place custom queries as close to the entity as possible, ideally within the entity definition itself.
+Users can just start using your entity Inventory by typing Inventory, and getting completion for all the operations in a single place.</p>
+
+<p>When an entity is annotated with <code>@Cacheable</code>, all its field values are cached except for collections and relations to other entities.
+This means the entity can be loaded without querying the database, but be careful as it implies the loaded entity might not reflect recent changes in the database.</p>
+
+<p>Next, let’s find out how <code>inventory service</code> exposes <code>RESTful APIs</code> on Quarkus. Open <code>InventoryResource.java</code> in <code>src/main/java/com/redhat/cloudnative/</code> and
+you will see the following code sniffet.</p>
+
+<p>The REST services defines two endpoints:</p>
+
+<ul>
+  <li><code>/api/inventory</code> that is accessible via <code>HTTP GET</code> which will return all known product Inventory entities as JSON</li>
+  <li><code>/api/inventory/&lt;itemId&gt;</code> that is accessible via <code>HTTP GET</code> at for example <code>/inventory/329199</code> with the last path parameter being the location which
+we want to check its inventory status.</li>
+</ul>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/inventoryResource.png" alt="inventory_service"></p>
+
+<p><code>In Development</code>, we will configure to use local <code>in-memory H2 database</code> for local testing, as defined in <code>src/main/resources/application.properties</code>:</p>
+
+<pre><code class="language-java">quarkus.datasource.url=jdbc:h2:file://projects/database.db
+quarkus.datasource.driver=org.h2.Driver
+quarkus.datasource.username=inventory
+quarkus.datasource.password=mysecretpassword
+quarkus.datasource.max-size=8
+quarkus.datasource.min-size=2
+quarkus.hibernate-orm.database.generation=drop-and-create
+quarkus.hibernate-orm.log.sql=false
+</code></pre>
+
+<p>Let’s run the inventory application locally using <code>maven plugin command</code> via CodeReady Workspaces Terminal:</p>
+
+<p><code>cd /projects/cloud-native-workshop-v2m4-labs/inventory-service/</code></p>
+
+<p><code>mvn compile quarkus:dev</code></p>
+
+<p>You should see a bunch of log output that ends with:</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/inventory_mvn_compile.png" alt="inventory_service"></p>
+
+<p>Open a <code>new</code> CodeReady Workspaces Terminal and invoke the RESTful endpoint using the following CURL commands. The output looks like here:</p>
+
+<p><code>curl http://localhost:8080/api/inventory ; echo</code></p>
+
+<p><code>curl http://localhost:8080/api/inventory/329199 ; echo</code></p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/inventory_local_test.png" alt="inventory_service"></p>
+
+<blockquote>
+  <p><code>NOTE</code>: Make sure to stop Quarkus development mode via <code>Close</code> terminal. Next, you need to open a new Terminal in CodeReady Workspaces then change the directory once again via <code>cd</code> command that you executed previously.</p>
+</blockquote>
+
+<p><code>In production</code>, the inventory service will connect to <code>PostgeSQL</code> on <code>OpenShift</code> cluster.</p>
+
+<p>We will use <code>Quarkus extension</code> to add <code>PostgreSQL JDBC Driver</code>. Go back to CodeReady Workspaces Terminal and run the following maven plugin:</p>
+
+<p><code>mvn quarkus:add-extension -Dextensions="jdbc-postgresql"</code></p>
+
+<p>Package the applicaiton via running the following maven plugin in CodeReady WorkspacesTerminal:</p>
+
+<p><code>mvn clean package -DskipTests</code></p>
+
+<blockquote>
+  <p><code>NOTE</code>: You should <code>SKIP</code> the Unit test because you don’t have PostgreSQL database in local environment.</p>
+</blockquote>
+
+<p>Although your Eclipse Che workspace is running on the Kubernetes cluster, it’s running with a default restricted <em>Service Account</em> that prevents you from creating most resource types. If you’ve completed other modules, you’re probably already logged in, but let’s login again: open a Terminal and issue the following command:</p>
+
+<p><code>oc login https://$KUBERNETES_SERVICE_HOST:$KUBERNETES_SERVICE_PORT --insecure-skip-tls-verify=true</code></p>
+
+<p>Enter your username and password assigned to you:</p>
+
+<ul>
+  <li>Username: <code>userXX</code></li>
+  <li>Password: <code>r3dh4t1!</code></li>
+</ul>
+
+<p>You should see like:</p>
+
+<pre><code class="language-shell">Login successful.
+
+You have access to the following projects and can switch between them with 'oc project &lt;projectname&gt;':
+
+  * default
+    istio-system
+    user0-bookinfo
+    user0-catalog
+    user0-cloudnative-pipeline
+    user0-cloudnativeapps
+    user0-inventory
+
+Using project "default".
+Welcome! See 'oc help' to get started.
+</code></pre>
+
+<p>First, open a new brower with the <a href="https://console-openshift-console.apps.cluster-bjs-3f37.bjs-3f37.open.redhat.com/" target="_blank">OpenShift web console</a></p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/openshift_login.png" alt="openshift_login"></p>
+
+<p>Login using:</p>
+
+<ul>
+  <li>Username: <code>userXX</code></li>
+  <li>Password: <code>r3dh4t1!</code></li>
+</ul>
+
+<blockquote>
+  <p><strong>NOTE</strong>: Use of self-signed certificates</p>
+
+  <p>When you access the OpenShift web console](https://console-openshift-console.apps.cluster-bjs-3f37.bjs-3f37.open.redhat.com) or other URLs via <em>HTTPS</em> protocol, you will see browser warnings
+like <code>Your &gt; Connection is not secure</code> since this workshop uses self-signed certificates (which you should not do in production!).
+For example, if you’re using <strong>Chrome</strong>, you will see the following screen.</p>
+
+  <p>Click on <code>Advanced</code> then, you can access the HTTPS page when you click on <code>Proceed to...</code>!!!</p>
+
+  <p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/browser_warning.png" alt="warning"></p>
+
+  <p>Other browsers have similar procedures to accept the security exception.</p>
+</blockquote>
+
+<p>You will see the OpenShift landing page:</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/openshift_landing.png" alt="openshift_landing"></p>
+
+<blockquote>
+  <p>The project displayed in the landing page depends on which labs you will run today. If you will develop <code>Service Mesh and Identity</code> then you will see pre-created projects as the above screeenshot.</p>
+</blockquote>
+
+<p>Our production inventory microservice will use an external database (PostgreSQL) to house inventory data.
+First, deploy a new instance of PostgreSQL by executing the following commands via CodeReady Workspaces Terminal:</p>
+
+<ul>
+  <li>Create a new project in OpenShift Cluster. You need to replace <code>userXX</code> with your username:</li>
+</ul>
+
+<p><code>oc project userXX-cloudnativeapps</code></p>
+
+<ul>
+  <li>Deploy PostgreSQL to the project:</li>
+</ul>
+
+<pre><code class="language-shell">oc new-app -e POSTGRESQL_USER=inventory \
+  -e POSTGRESQL_PASSWORD=mysecretpassword \
+  -e POSTGRESQL_DATABASE=inventory openshift/postgresql:10 \
+  --name=inventory-database
+</code></pre>
+
+<ul>
+  <li>Build the image using on OpenShift:</li>
+</ul>
+
+<p><code>oc new-build registry.access.redhat.com/redhat-openjdk-18/openjdk18-openshift:1.5 --binary --name=inventory -l app=inventory</code></p>
+
+<p>This build uses the new <a href="https://access.redhat.com/documentation/en-us/red_hat_jboss_middleware_for_openshift/3/html/red_hat_java_s2i_for_openshift/index" target="_blank">Red Hat OpenJDK Container Image</a>, providing foundational software needed to run Java applications, while staying at a reasonable size.</p>
+
+<ul>
+  <li>Start and watch the build, which will take about minutes to complete:</li>
+</ul>
+
+<p><code>oc start-build inventory --from-file target/*-runner.jar --follow</code></p>
+
+<ul>
+  <li>Deploy it as an OpenShift application after the build is done and override the Postgres URL to specify our production Postgres credentials:</li>
+</ul>
+
+<p><code>oc new-app inventory -e QUARKUS_PROFILE=prod</code></p>
+
+<ul>
+  <li>Create the route</li>
+</ul>
+
+<p><code>oc expose svc/inventory</code></p>
+
+<ul>
+  <li>Finally, make sure it’s actually done rolling out:</li>
+</ul>
+
+<p><code>oc rollout status -w dc/inventory</code></p>
+
+<p>Wait for that command to report replication controller <code>inventory-1</code> successfully rolled out before continuing.</p>
+
+<blockquote>
+  <p><code>NOTE:</code> Even if the rollout command reports success the application may not be ready yet and the reason for
+that is that we currently don’t have any liveness check configured, but we will add that in the next steps.</p>
+</blockquote>
+
+<p>And now we can access using curl once again to find all inventories:</p>
+
+<ul>
+  <li>Get the route URL</li>
+</ul>
+
+<p><code>export URL="http://$(oc get route | grep inventory | awk '{print $2}')"</code></p>
+
+<p><code>curl $URL/api/inventory ; echo</code></p>
+
+<p>You will see the following result:</p>
+
+<blockquote>
+  <p><strong>NOTE</strong> It may take a few tries to get the below result as the pod spins up. Keep trying until you get the below output!</p>
+</blockquote>
+
+<pre><code class="language-shell">[{"id":1,"itemId":"329299","link":"http://maps.google.com/?q=Raleigh","location":"Raleigh","quantity":736},{"id":2,"itemId":"329199","link":"http://maps.google.com/?q=Bost
+on","location":"Boston","quantity":512},{"id":3,"itemId":"165613","link":"http://maps.google.com/?q=Seoul","location":"Seoul","quantity":256},{"id":4,"itemId":"165614","li
+nk":"http://maps.google.com/?q=Singapore","location":"Singapore","quantity":54},{"id":5,"itemId":"165954","link":"http://maps.google.com/?q=London","location":"London","qu
+antity":87},{"id":6,"itemId":"444434","link":"http://maps.google.com/?q=NewYork","location":"NewYork","quantity":443},{"id":7,"itemId":"444435","link":"http://maps.google.
+com/?q=Paris","location":"Paris","quantity":600},{"id":8,"itemId":"444437","link":"http://maps.google.com/?q=Tokyo","location":"Tokyo","quantity":230}]
+</code></pre>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/inventory_curl_result.png" alt="openshift_login"></p>
+
+<p>So now <code>Inventory</code> service is deployed to OpenShift. You can also see it in the Project Status in the OpenShift Console
+with its single replica running in 1 pod, along with the Postgres database pod.</p>
+
+<h4 id="deploying-catalog-service">2. Deploying Catalog Service</h4>
+
+<hr>
+
+<p><code>Catalog Service</code> serves products and prices for retail products. Lets’s go through quickly how the catalog service works and built on
+<code>Spring Boot</code> Java runtimes.  Go to <code>Project Explorer</code> in <code>CodeReady Workspaces</code> Web IDE and expand <code>catalog-service</code> directory.</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/codeready-workspace-catalog-project.png" alt="catalog" width="500px"></p>
+
+<p>First of all, we won’t implement the catalog application to retrieve data because of all funtions are already built when we imported this project from Git server.
+There’re a few interesting things what we need to take a look at this Spring Boot application before we will deploy it to OpenShift cluster.</p>
+
+<p>This catalog service is not using the default BOM (Bill of material) that Spring Boot projects typically use. Instead, we are using
+a BOM provided by Red Hat as part of the <a href="http://snowdrop.me/" target="_blank">Snowdrop</a> project.</p>
+
+<pre><code class="language-xml">&lt;dependencyManagement&gt;
+&lt;dependencies&gt;
+  &lt;dependency&gt;
+    &lt;groupId&gt;me.snowdrop&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-bom&lt;/artifactId&gt;
+    &lt;version&gt;${spring-boot.bom.version}&lt;/version&gt;
+    &lt;type&gt;pom&lt;/type&gt;
+    &lt;scope&gt;import&lt;/scope&gt;
+  &lt;/dependency&gt;
+&lt;/dependencies&gt;
+&lt;/dependencyManagement&gt;
+</code></pre>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/catalog-pom.png" alt="catalog"></p>
+
+<p>Also, catalog service calls the inventory service that we deployed earlier using REST to retrieve the inventory status and include that in the response.
+Open <code>CatalogService.java</code> in <code>src/main/java/com/redhat/coolstore/service</code> directory via Project Explorer and how <code>read()</code> and <code>readAll()</code> method work:</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/catalog-service-codes.png" alt="catalog"></p>
+
+<p>Build and deploy the project using the following command, which will use the maven plugin to deploy via CodeReady Workspaces Terminal:</p>
+
+<p><code>cd /projects/cloud-native-workshop-v2m4-labs/catalog-service/</code></p>
+
+<p><code>mvn clean package spring-boot:repackage -DskipTests</code></p>
+
+<p>The build and deploy may take a minute or two. Wait for it to complete. You should see a <code>BUILD SUCCESS</code> at the
+end of the build output.</p>
+
+<p>Our production catalog microservice will use an external database (PostgreSQL) to house inventory data.
+First, deploy a new instance of PostgreSQL by executing via CodeReady Workspaces Terminal:</p>
+
+<p>Make sure if the current project is <code>userXX-cloudnativeapps</code>.</p>
+
+<ul>
+  <li>Deploy PostgreSQL to the project:</li>
+</ul>
+
+<pre><code class="language-shell">oc new-app -e POSTGRESQL_USER=catalog \
+    -e POSTGRESQL_PASSWORD=mysecretpassword \
+    -e POSTGRESQL_DATABASE=catalog \
+    openshift/postgresql:10 \
+    --name=catalog-database
+</code></pre>
+
+<ul>
+  <li>Build the image using on OpenShift:</li>
+</ul>
+
+<p><code>oc new-build registry.access.redhat.com/redhat-openjdk-18/openjdk18-openshift:1.5 --binary --name=catalog -l app=catalog</code></p>
+
+<ul>
+  <li>Start and watch the build, which will take about minutes to complete:</li>
+</ul>
+
+<p><code>oc start-build catalog --from-file=target/catalog-1.0.0-SNAPSHOT.jar --follow</code></p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/catalog-build-logs.png" alt="catalog"></p>
+
+<ul>
+  <li>Deploy it as an OpenShift application after the build is done and override the Postgres URL to specify our production Postgres credentials:</li>
+</ul>
+
+<p><code>oc new-app catalog</code></p>
+
+<ul>
+  <li>Create the route</li>
+</ul>
+
+<p><code>oc expose service catalog</code></p>
+
+<ul>
+  <li>Finally, make sure it’s actually done rolling out:</li>
+</ul>
+
+<p><code>oc rollout status -w dc/catalog</code></p>
+
+<p>Wait for that command to report replication controller <code>catalog-1</code> successfully rolled out before continuing.</p>
+
+<blockquote>
+  <p><code>NOTE:</code> Even if the rollout command reports success the application may not be ready yet and the reason for
+that is that we currently don’t have any liveness check configured, but we will add that in the next steps.</p>
+</blockquote>
+
+<p>And now we can access using curl once again to find a certain inventory:</p>
+
+<ul>
+  <li>Get the route URL</li>
+</ul>
+
+<p><code>export URL="http://$(oc get route | grep catalog | awk '{print $2}')"</code></p>
+
+<p><code>curl $URL/api/product/329299 ; echo</code></p>
+
+<p>You will see the following result:</p>
+
+<blockquote>
+  <p><strong>NOTE</strong> It may take a few tries to get the below result as the pod spins up. Keep trying until you get the below output! Also, you may get <code>quantity:0</code> for the first few times as the link to the inventory service is established.</p>
+</blockquote>
+
+<p><code>{"itemId":"329299","name":"Red Fedora","desc":"Official Red Hat Fedora","price":34.99,"quantity":736}</code></p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/catalog_curl_result.png" alt="openshift_login"></p>
+
+<p>So now <code>Catalog</code> service is deployed to OpenShift. You can also see it in the Project Status in the OpenShift Console
+with running 4 pods such as catalog, catalog-database, inventory, and inventory-database.</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/catalog-project-status.png" alt="catalog"></p>
+
+<h4 id="developing-and-deploying-shopping-cart-service">3. Developing and Deploying Shopping Cart Service</h4>
+
+<hr>
+
+<p>By now, you have deployed some of the essential elements for the Coolstore application. However, an online shop without a cart means no checkout experience. In this section, we are going to implement the Shopping Cart; in our Microservice world, we are going to call it the <code>cart service</code> and our java artifact/repo is called the <code>cart-service</code>.</p>
+
+<h5 id="lets-get-started">Let’s get started!</h5>
+
+<p>In a nutshell, the Cart service is RESTful and built with Quarkus using the Red Hat’s Distributed <code>Data Grid</code> technology.</p>
+
+<h5 id="what-are-the-building-blocks-of-the-shopping-cart-aka-cart-service">What are the building blocks of the Shopping cart a.k.a cart-service?</h5>
+
+<p>It uses a Red Hat’s Distributed <code>Data Grid</code> technology to store all shopping carts and assigns a unique id to them. It uses the <code>Quarkus Infinispan client</code> to do this.
+The Shopping cart makes a call via the Quarkus Rest client to fetch all items in the Catalog. In the end, Shopping cart also throws out a <code>Kafka</code> message to the topic Orders, when checking out. For that, we use the <code>Quarkus Kafka client</code> in the next lab. Last and perhaps worth mentioning the <code>REST+Swagger UI</code> also part of the REST API support in <code>Quarkus</code>.</p>
+
+<p>What is a <code>Shopping Cart</code> in our context? A Shopping cart has a list of Shopping Items. Quantity of a product in the Items list <code>Discount</code> and promotional details. We will see these in more details when we look at our model.</p>
+
+<p>For this lab, we are using the code ready workspaces, make sure you have the following project open in your workspace. Lets’s go through quickly how the cart service works and built on <code>Quarkus</code> Java runtimes.  Go to <code>Project Explorer</code> in <code>CodeReady Workspaces</code> Web IDE and expand <code>cart-service</code> directory.</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/codeready-workspace-cart-project.png" alt="cart" width="500px"></p>
+
+<h5 id="adding-a-distributed-cache-to-our-cart-service">Adding a distributed cache to our cart-service</h5>
+
+<p>We are going to use the Red hat Distributed <code>Data Grid</code> for caching all the users’ carts.</p>
+
+<p><code>Red Hat® Distributed Data Grid</code> is an in-memory, distributed, NoSQL datastore solution. Your applications can access, process, and analyze data at in-memory speed to deliver a superior user experience with features and benefits as below:</p>
+
+<ul>
+  <li>
+    <p><code>Act faster</code> - Quickly access your data through fast, low-latency data processing using memory (RAM) and distributed parallel execution.</p>
+  </li>
+  <li>
+    <p><code>Scale quickly</code> - Achieve linear scalability with data partitioning and distribution across cluster nodes.</p>
+  </li>
+  <li>
+    <p><code>Always available</code>- Gain high availability through data replication across cluster nodes.</p>
+  </li>
+  <li>
+    <p><code>Fault tolerance</code> - Attain fault tolerance and recover from disaster through cross-data center geo-replication and clustering.</p>
+  </li>
+  <li>
+    <p><code>More productivity</code> - Gain development flexibly and higher productivity with a highly versatile, functionally rich NoSQL data store.</p>
+  </li>
+  <li>
+    <p><code>Protect data</code> - Obtain comprehensive data security with encryption and role-based access.</p>
+  </li>
+</ul>
+
+<p>Lets create a simple version of the cache service in our cluster. Open the Terminal in your CodeReady workspace and run the following command:</p>
+
+<p><code>oc new-app jboss/infinispan-server:10.0.0.Beta3 --name=datagrid-service</code></p>
+
+<blockquote>
+  <p><code>NOTE</code>: This will create a single instance of infinispan server the community version of the DataGrid. At the time of writing this guide, the infinspan client for Quarkus does not work with DataGrid, and Quarkus itself is also a community project.</p>
+</blockquote>
+
+<p>Once deployed you should see the newly created <code>datagrid-service</code> in your project dashboard as follows:</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/cart-cache-pod.png" alt="cart"></p>
+
+<p>Now that our cache service a.k.a datagrid-service is deployed. We want to ensure that everything in our cart is persisted in this blazing fast cache. It will help us when we have a few million users per second on a black Friday.</p>
+
+<p>Following is what we need to do:</p>
+
+<ul>
+  <li>
+    <p>Model our data</p>
+  </li>
+  <li>
+    <p>Choose how we store the data</p>
+  </li>
+  <li>
+    <p>Create a marshaller for our data</p>
+  </li>
+  <li>
+    <p>Inject our cache connection into the service</p>
+  </li>
+</ul>
+
+<p>We have made this choice easier for you. The default serialization is done using a library based on <code>protobuf</code>. We need to define the protobuf schema and a marshaller for each user type(s).</p>
+
+<p>Let’s take a look at our <code>cart.proto</code> file in <code>META-INF</code>:</p>
+
+<pre><code class="language-java">package coolstore;
+
+message ShoppingCart {
+  required double cartItemTotal = 1;
+  required double cartItemPromoSavings = 2;
+  required double shippingTotal = 3;
+  required double shippingPromoSavings = 4;
+  required double cartTotal = 5;
+  required string cartId = 6;
+
+  repeated ShoppingCartItem shoppingCartItemList = 7;
+}
+
+message ShoppingCartItem {
+  required double price = 1;
+  required int32 quantity = 2;
+  required double promoSavings = 3;
+  required Product product = 4;
+}
+
+// TODO ADD Product
+message Promotion {
+  required string itemId = 1;
+  required double percentOff = 2;
+}
+</code></pre>
+
+<ul>
+  <li>
+    <p>So our ShoppingCart has ShoppingCartItem</p>
+  </li>
+  <li>
+    <p>ShoppingCartItem has Product</p>
+  </li>
+</ul>
+
+<p>But we havent defined the <code>Product</code> yet. Lets go ahead and do that. Add this code to the <code>//TODO ADD Product</code> marker:</p>
+
+<pre><code class="language-java">message Product {
+  required string itemId = 1;
+  required string name = 2;
+  required string desc = 3;
+  required double price = 4;
+}
+</code></pre>
+
+<p><code>Great!</code>, now we have the Product defined in our proto model.
+We should also ensure that this model also exists as <code>POJO</code>(Plain Old Java Object), that way our <code>REST Endpoint</code>, or <code>Cache</code> will be able to directly serialize and desrialize the data.</p>
+
+<p>Lets open up our <code>Product.java</code> in package model:</p>
+
+<pre><code class="language-java">    private String itemId;
+    private String name;
+    private String desc;
+    private double price;
+</code></pre>
+
+<p>Notice that the entities match our proto file. The rest or Getters and Setters, so we can read and write data into them.</p>
+
+<p>Lets go ahead and create a <code>Marshaller </code>for our Product class which will do exactly what we intend, read and write to our cache.</p>
+
+<p>Create a new Java class called <code>ProductMarshaller.java</code> in <code>com.redhat.cloudnative.model</code> and copy the below code into the file:</p>
+
+<pre><code class="language-java">package com.redhat.cloudnative.model;
+
+import com.redhat.cloudnative.model.Product;
+import org.infinispan.protostream.MessageMarshaller;
+
+import java.io.IOException;
+
+public class ProductMarshaller implements MessageMarshaller&lt;Product&gt; {
+
+    /**
+     * Proto file specimen
+     * message Product {
+     * required string itemId = 1;
+     * required string name = 2;
+     * required string desc = 3;
+     * required double price = 4;
+     * }
+     */
+
+    @Override
+    public Product readFrom(ProtoStreamReader reader) throws IOException {
+        String itemId = reader.readString("itemId");
+        String name = reader.readString("name");
+        String desc = reader.readString("desc");
+        double price = reader.readDouble("price");
+
+        return new Product(itemId, name, desc, price);
+    }
+
+    @Override
+    public void writeTo(ProtoStreamWriter writer, Product product) throws IOException {
+        writer.writeString("itemId", product.getItemId());
+        writer.writeString("name", product.getName());
+        writer.writeString("desc", product.getDesc());
+        writer.writeDouble("price", product.getPrice());
+    }
+
+    @Override
+    public Class&lt;? extends Product&gt; getJavaClass() {
+        return Product.class;
+    }
+
+    @Override
+    public String getTypeName() {
+        return "coolstore.Product";
+    }
+
+}
+</code></pre>
+
+<p>So now we have the capability to read from a <code>ProtoStream</code> and <code>Write</code> to it. And this will be done directly into our cache. We have already created the other model classes and mashallers, feel free to look around.</p>
+
+<p>Now its time to configure our <code>RemoteCache</code>, since its not embedded into our service. Open the <code>Producers.java</code> file in the <code>com.redhat.cloudnative</code> directory/package.</p>
+
+<p>We use the producer to ensure our RemoteCache gets instantiated. We create methods called getCache and getConfigBuilder</p>
+
+<ul>
+  <li>
+    <p>getConfigBuilder: sets up the basic cache config</p>
+  </li>
+  <li>
+    <p>getCache, sets up our marshallers and proto files</p>
+  </li>
+  <li>
+    <p>other config properties are injected at runtime</p>
+  </li>
+</ul>
+
+<p>Add this code below the <code>// TODO Add getCache</code> and <code>// TODO add getConfigBuilder</code> marker:</p>
+
+<pre><code class="language-java">    @Produces
+    RemoteCache&lt;String, ShoppingCart&gt; getCache() throws IOException {
+
+        RemoteCacheManager manager = new RemoteCacheManager(getConfigBuilder().build());
+
+        SerializationContext serCtx = ProtoStreamMarshaller.getSerializationContext(manager);
+        FileDescriptorSource fds = new FileDescriptorSource();
+        fds.addProtoFiles("META-INF/cart.proto");
+        serCtx.registerProtoFiles(fds);
+        serCtx.registerMarshaller(new ShoppingCartMarshaller());
+        serCtx.registerMarshaller(new ShoppingCartItemMarshaller());
+        serCtx.registerMarshaller(new ProductMarshaller());
+        serCtx.registerMarshaller(new PromotionMarhsaller());
+        return manager.getCache();
+    }
+
+    protected ConfigurationBuilder getConfigBuilder() {
+        ConfigurationBuilder cfg = null;
+        cfg = new ConfigurationBuilder().addServer()
+                .host(dgHost)
+                .port(dgPort)
+                .marshaller(new ProtoStreamMarshaller())
+                .clientIntelligence(ClientIntelligence.BASIC);
+
+        return cfg;
+
+    }
+</code></pre>
+
+<p><code>Perfect</code>, now we have all the building blocks ready to use the cache. Lets start using our cache.</p>
+
+<p>Next we need to make sure we will inject our cache in our service. Open <code>com.redhat.cloudnative.service.ShoppingCartServiceImpl</code> and add this at the <code>// TODO Inject RemoteCache</code> marker:</p>
+
+<pre><code class="language-java">    @Inject
+    @Remote("default")
+    RemoteCache&lt;String, ShoppingCart&gt; carts;
+</code></pre>
+
+<h5 id="building-cart-service-rest-api-with-quarkus">Building <code>cart-service</code> REST API with Quarkus</h5>
+
+<p>The cart is quite simple; All the information from the browser i.e., via our <code>Angular App</code> is via <code>JSON</code> at the <code>/api/cart</code> endpoint:</p>
+
+<ul>
+  <li><code>GET</code> request <code>/{cartId}</code> gets the items in the cart, or creates a new unique ID if one is not present</li>
+  <li><code>POST</code> to <code>/{cartId}/{itemId}/{quantity}</code> will add items to the cart</li>
+  <li><code>DELETE</code> to <code>/{cartId}/{itemId}/{quantity}</code> will remove items from the cart. * And finally a <code>POST</code> to <code>/checkout/{cartId}</code> will remove the items and invoke the checkout procedure</li>
+</ul>
+
+<p>Let’s take a look at how we do this with Quarkus. In our <code>cart-service</code> project and in our main package i.e., <code>com.redhat.cloudnative</code> is the <code>CartResource</code>. Let’s take a look at the getCart method.</p>
+
+<p>At the <code>// TODO ADD getCart method</code> marker, add this method:</p>
+
+<pre><code class="language-java">    public ShoppingCart getCart(@PathParam("cartId") String cartId) {
+        return shoppingCartService.getShoppingCart(cartId);
+    }
+</code></pre>
+
+<p>The code above is using the <code>ShoppingCartService</code>, which is injected into the <code>CartResource</code> via the Dependency Injection. The <code>ShoppingCartService</code> take a <code>cartId</code> as a parameter and returns the associated ShoppingCart. So that’s perfect, however, for our Endpoint i.e., <code>CartResource</code> to respond, we need to define a couple of things:</p>
+
+<ul>
+  <li>
+    <p>The type of HTTPRequest</p>
+  </li>
+  <li>
+    <p>The type of data it can receive</p>
+  </li>
+  <li>
+    <p>The path it resolves too</p>
+  </li>
+</ul>
+
+<p>Add the following code on top of the <code>getCart</code> method</p>
+
+<pre><code class="language-java">    @GET
+    @Produces(MediaType.TEXT_PLAIN)
+    @Path("/{cartId}")
+    @Operation(summary = "get the contents of cart by cartId")
+</code></pre>
+
+<p>We have now successfully stated that the method adheres to a GET request and accepts data in <code>plain text</code>. The path would be <code>/api/cart/{cartId}</code>
+finally, we add the <code>@Operation</code> annotation for some documentation, which is important for other developers using our service.</p>
+
+<p>Take this opportunity to look at some of the other methods. You will find <code>@POST</code> and <code>@DELETE</code> and also the paths they adhere too. This is how we can construct a simple Endpoint for our application.</p>
+
+<blockquote>
+  <p><strong>NOTE</strong>
+There are other <code>// TODO</code> markers and commented-out code we will use later. Leave them alone for now.</p>
+</blockquote>
+
+<h5 id="package-and-deploy-the-cart-service">Package and Deploy the cart-service</h5>
+
+<p>Package the cart application via clicking on <code>Package for OpenShift</code> in <code>Commands Palette</code>:</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/quarkus-dev-run-packageforOcp.png" alt="cart"></p>
+
+<p>Or run the following maven plugin in CodeReady WorkspacesTerminal:</p>
+
+<p><code>cd /projects/cloud-native-workshop-v2m4-labs/cart-service/</code></p>
+
+<p><code>mvn clean package -DskipTests</code></p>
+
+<p>Build the image using on OpenShift:</p>
+
+<p><code>oc new-build registry.access.redhat.com/redhat-openjdk-18/openjdk18-openshift:1.5 --binary --name=cart -l app=cart</code></p>
+
+<p>This build uses the new <a href="https://access.redhat.com/documentation/en-us/red_hat_jboss_middleware_for_openshift/3/html/red_hat_java_s2i_for_openshift/index" target="_blank">Red Hat OpenJDK Container Image</a>, providing foundational software needed to run Java applications, while staying at a reasonable size.</p>
+
+<ul>
+  <li>Start and watch the build, which will take about minutes to complete:</li>
+</ul>
+
+<p><code>oc start-build cart --from-file target/*-runner.jar --follow</code></p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/cart-build-logs.png" alt="cart"></p>
+
+<ul>
+  <li>Deploy it as an OpenShift application after the build is done:</li>
+</ul>
+
+<p><code>oc new-app cart</code></p>
+
+<ul>
+  <li>Create the route</li>
+</ul>
+
+<p><code>oc expose svc/cart</code></p>
+
+<ul>
+  <li>Finally, make sure it’s actually done rolling out:</li>
+</ul>
+
+<p><code>oc rollout status -w dc/cart</code></p>
+
+<p>Wait for that command to report replication controller <code>cart-1</code> successfully rolled out before continuing.</p>
+
+<blockquote>
+  <p><code>NOTE:</code> Even if the rollout command reports success the application may not be ready yet and the reason for
+that is that we currently don`t have any liveness check configured.</p>
+</blockquote>
+
+<p>With the app deployed, we can check out the API page that Quarkus generates.</p>
+
+<p>Run this command in the CodeReady Terminal to discover the URL to the app:</p>
+
+<p><code>echo http://$(oc get route cart -o=go-template --template='{{ .spec.host }}')/swagger-ui</code></p>
+
+<p>Open this URL in your browser!</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/cart-swagger-ui.png" alt="cart"></p>
+
+<p>Notice that the documentation after the methods, this is an excellent way for other service developers to know what you intend to do with each service method. You can try to invoke the methods and see the output from the service. Hence an excellent way to test quickly as well.</p>
+
+<h4 id="developing-and-deploying-order-service">4. Developing and Deploying Order Service</h4>
+
+<hr>
+
+<p><code>Order Service</code> manages all orders when customers checkout items in the shopping cart. Lets’s go through quickly how the order service get
+<code>REST</code> services to use the <code>MongoDB</code> database with <code>Quarkus</code> Java runtimes. Go to <code>Project Explorer</code> in <code>CodeReady Workspaces</code> Web IDE and
+expand <code>order-service</code> directory.</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/codeready-workspace-order-project.png" alt="catalog" width="500px"></p>
+
+<p>The application built in <code>Quarkus</code> is quite simple: the user can add elements in a list using <code>RESTful APIs</code> and the list is updated.
+All the information between the client and the server are formatted as <code>JSON</code>. The elements are stored in <code>MongoDB</code>.</p>
+
+<h5 id="adding-maven-dependencies-using-quarkus-extensions">Adding Maven Dependencies using Quarkus Extensions</h5>
+
+<p>Execute the following command via CodeReady Workspaces Terminal:</p>
+
+<p><code>cd /projects/cloud-native-workshop-v2m4-labs/order-service/</code></p>
+
+<p><code>mvn quarkus:add-extension -Dextensions="resteasy-jsonb,mongodb-client"</code></p>
+
+<p>This command generates a Maven structure importing the RESTEasy/JAX-RS, JSON-B and MongoDB Client extensions. After this,
+the quarkus-mongodb-client extension has been added to your <code>pom.xml</code>.</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/order-pom-dependency.png" alt="catalog"></p>
+
+<h5 id="creating-order-service-using-json-rest-service">Creating Order Service using JSON REST service</h5>
+
+<p>First, let’s have a look at the <code>Order</code> bean in <code>src/main/java/com/redhat/cloudnative/</code>as follows:</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/order_bean.png" alt="openshift_login" width="700px"></p>
+
+<p>Nothing fancy. One important thing to note is that having a default constructor is required by the <code>JSON serialization layer</code>.</p>
+
+<p>Now, open a <code>com.redhat.cloudnative.OrderService</code> that will be the business layer of our application and <code>store/load</code> the orders from the mongoDB database.
+Add the following Java codes at each market.</p>
+
+<ul>
+  <li><code>// TODO: Inject MongoClient here</code> marker:</li>
+</ul>
+
+<pre><code class="language-java">    @Inject MongoClient mongoClient;
+</code></pre>
+
+<ul>
+  <li><code>// TODO: Add a while loop to make an order lists using MongoCursor here</code> marker in <code>list()</code> method:</li>
+</ul>
+
+<pre><code class="language-java">        MongoCursor&lt;Document&gt; cursor = getCollection().find().iterator();
+
+        try {
+            while (cursor.hasNext()) {
+                Document document = cursor.next();
+                Order order = new Order();
+                order.setOrderId(document.getString("orderId"));
+                order.setName(document.getString("name"));
+                order.setTotal(document.getString("total"));
+                order.setCcNumber(document.getString("ccNumber"));
+                order.setCcExp(document.getString("ccExp"));
+                order.setBillingAddress(document.getString("billingAddress"));
+                order.setStatus(document.getString("status"));
+                list.add(order);
+            }
+        } finally {
+            cursor.close();
+        }
+
+</code></pre>
+
+<ul>
+  <li><code>// TODO: Add to create a Document based order here</code> marker in <code>add(Order order)</code> method:</li>
+</ul>
+
+<pre><code class="language-java">        Document document = new Document()
+                .append("orderId", order.getOrderId())
+                .append("name", order.getName())
+                .append("total", order.getTotal())
+                .append("ccNumber", order.getCcNumber())
+                .append("ccExp", order.getCcExp())
+                .append("billingAddress", order.getBillingAddress())
+                .append("status", order.getStatus());
+        getCollection().insertOne(document);
+</code></pre>
+
+<p>Now, edit the <code>com.redhat.cloudnative.OrderResource</code> class as follows in each marker:</p>
+
+<ul>
+  <li><code>// TODO: Add JAX-RS annotations here</code> marker:</li>
+</ul>
+
+<pre><code class="language-java">@Path("/api/orders")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
+</code></pre>
+
+<ul>
+  <li><code>// TODO: Inject OrderService here</code> marker:</li>
+</ul>
+
+<pre><code class="language-java">    @Inject OrderService orderService;
+</code></pre>
+
+<ul>
+  <li><code>// TODO: Add list(), add(), updateStatus() methods here</code> marker:</li>
+</ul>
+
+<pre><code class="language-java">    @GET
+    public List&lt;Order&gt; list() {
+        return orderService.list();
+    }
+
+    @POST
+    public List&lt;Order&gt; add(Order order) {
+        orderService.add(order);
+        return list();
+    }
+
+    @GET
+    @Path("/{orderId}/{status}")
+    public List&lt;Order&gt; updateStatus(@PathParam("orderId") String orderId, @PathParam("status") String status) {
+        orderService.updateStatus(orderId, status);
+        return list();
+    }
+</code></pre>
+
+<p>The implementation is pretty straightforward and you just need to define your endpoints using the <code>JAX-RS annotations</code> and
+use the <code>OrderService</code> to list/add new orders.</p>
+
+<h5 id="configuring-the-mongodb-database">Configuring the MongoDB database</h5>
+
+<p>The main property to configure is the URL to access to <code>MongoDB,</code> almost all configuration can be included in the connection URI
+so we advise you to do so, you can find more information in the <a href="https://docs.mongodb.com/manual/reference/connection-string/" target="_blank">MongoDB documentation</a></p>
+
+<p>Open <code>application.properties</code> in <code>src/main/resources/</code> and add the following configuration:</p>
+
+<p><code>quarkus.mongodb.connection-string = mongodb://order-database:27017</code></p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/order_application_properties.png" alt="order"></p>
+
+<h5 id="simplifying-mongodb-client-usage-using-bson-codec">Simplifying MongoDB Client usage using BSON codec</h5>
+
+<p>By using a Bson <code>Codec</code>, the MongoDB Client will take care of the transformation of your domain object to/from a MongoDB <code>Document</code> automatically.</p>
+
+<p>First you need to create a Bson <code>Codec</code> that will tell Bson how to transform your entity to/from a MongoDB <code>Document</code>.
+Here we use a <code>CollectibleCodec</code> as our object is retrievable from the database (it has a MongoDB identifier), if not we would have used a <code>Codec</code> instead.
+More information in the <a href="https://mongodb.github.io/mongo-java-driver/3.10/bson/codecs" target="_blank">codec documentation</a>.</p>
+
+<p>Edit the <code>com.redhat.cloudnative.codec.OrderCodec</code> class as follows:</p>
+
+<ul>
+  <li><code>// TODO: Add Encode &amp; Decode contexts here</code> marker:</li>
+</ul>
+
+<pre><code class="language-java">    @Override
+    public void encode(BsonWriter writer, Order Order, EncoderContext encoderContext) {
+        Document doc = new Document();
+        doc.put("orderId", Order.getOrderId());
+        doc.put("name", Order.getName());
+        doc.put("total", Order.getTotal());
+        doc.put("ccNumber", Order.getCcNumber());
+        doc.put("ccExp", Order.getCcExp());
+        doc.put("billingAddress", Order.getBillingAddress());
+        doc.put("status", Order.getStatus());
+        documentCodec.encode(writer, doc, encoderContext);
+    }
+
+    @Override
+    public Class&lt;Order&gt; getEncoderClass() {
+        return Order.class;
+    }
+
+    @Override
+    public Order generateIdIfAbsentFromDocument(Order document) {
+        if (!documentHasId(document)) {
+            document.setOrderId(UUID.randomUUID().toString());
+        }
+        return document;
+    }
+
+    @Override
+    public boolean documentHasId(Order document) {
+        return document.getOrderId() != null;
+    }
+
+    @Override
+    public BsonValue getDocumentId(Order document) {
+        return new BsonString(document.getOrderId());
+    }
+
+    @Override
+    public Order decode(BsonReader reader, DecoderContext decoderContext) {
+        Document document = documentCodec.decode(reader, decoderContext);
+        Order order = new Order();
+        if (document.getString("orderId") != null) {
+            order.setOrderId(document.getString("orderId"));
+        }
+        order.setName(document.getString("name"));
+        order.setTotal(document.getString("total"));
+        order.setCcNumber(document.getString("ccNumber"));
+        order.setCcExp(document.getString("ccExp"));
+        order.setBillingAddress(document.getString("billingAddress"));
+        order.setStatus(document.getString("status"));
+        return order;
+    }
+</code></pre>
+
+<p>Then you need to create a <code>CodecProvider</code> to link this <code>Codec</code> to the Order class.</p>
+
+<p>Edit the <code>com.redhat.cloudnative.codec.OrderCodecProvider</code> class as follows:</p>
+
+<ul>
+  <li><code>// TODO: Add Codec get method here</code> marker:</li>
+</ul>
+
+<pre><code class="language-java">    @Override
+    public &lt;T&gt; Codec&lt;T&gt; get(Class&lt;T&gt; clazz, CodecRegistry registry) {
+        if (clazz == Order.class) {
+            return (Codec&lt;T&gt;) new OrderCodec();
+        }
+        return null;
+    }
+</code></pre>
+
+<p><code>Quarkus</code> will register the <code>CodecProvider</code> for you.</p>
+
+<p>Finally, when getting the <code>MongoCollection</code> from the database you can use directly the <code>Order</code> class instead of the <code>Document</code> one,
+the codec will automatically map the <code>Document</code> to/from your <code>Order</code> class.</p>
+
+<p>Edit the <code>com.redhat.cloudnative.CodecOrderService</code> class as follows:</p>
+
+<ul>
+  <li><code>// TODO: Add MongoCollection method here</code> marker:</li>
+</ul>
+
+<pre><code class="language-java">    private MongoCollection&lt;Order&gt; getCollection(){
+        return mongoClient.getDatabase("order").getCollection("order", Order.class);
+    }
+</code></pre>
+
+<h5 id="building-and-deploying-application-to-openshift">Building and Deploying Application to OpenShift</h5>
+
+<p>Package the cart application via clicking on <code>Package for OpenShift</code> in <code>Commands Palette</code>:</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/quarkus-dev-run-packageforOcp.png" alt="codeready-workspace-maven"></p>
+
+<p>Or run the following maven plugin in CodeReady WorkspacesTerminal:</p>
+
+<p><code>mvn clean package -DskipTests</code></p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/order-mvn-package.png" alt="order"></p>
+
+<h5 id="deploying-order-service-with-mongodb-to-openshift">Deploying Order service with MongoDB to OpenShift</h5>
+
+<p>Run the following <code>oc</code> command to deploy a <code>MongoDB</code> to OpenShift via CodeReady Workspaces Terminal:</p>
+
+<p><code>oc new-app --docker-image mongo:4.0 --name=order-database</code></p>
+
+<p>Once the MongoDB is deployed successfully, it will be showd in <code>Project Status</code>.</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/order-monogo-status.png" alt="order"></p>
+
+<p>Build the image using on OpenShift:</p>
+
+<p><code>oc new-build registry.access.redhat.com/redhat-openjdk-18/openjdk18-openshift:1.5 --binary --name=order -l app=order</code></p>
+
+<p>This build uses the new <a href="https://access.redhat.com/documentation/en-us/red_hat_jboss_middleware_for_openshift/3/html/red_hat_java_s2i_for_openshift/index" target="_blank">Red Hat OpenJDK Container Image</a>, providing foundational software needed to run Java applications, while staying at a reasonable size.</p>
+
+<ul>
+  <li>Start and watch the build, which will take about minutes to complete:</li>
+</ul>
+
+<p><code>oc start-build order --from-file target/*-runner.jar --follow</code></p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/order-build-logs.png" alt="order"></p>
+
+<ul>
+  <li>Deploy it as an OpenShift application after the build is done:</li>
+</ul>
+
+<p><code>oc new-app order</code></p>
+
+<ul>
+  <li>Create the route</li>
+</ul>
+
+<p><code>oc expose svc/order</code></p>
+
+<ul>
+  <li>Finally, make sure it’s actually done rolling out:</li>
+</ul>
+
+<p><code>oc rollout status -w dc/order</code></p>
+
+<p>Wait for that command to report replication controller <code>order-1</code> successfully rolled out before continuing.</p>
+
+<blockquote>
+  <p><code>NOTE:</code> Even if the rollout command reports success the application may not be ready yet and the reason for
+that is that we currently don’t have any liveness check configured, but we will add that in the next steps.</p>
+</blockquote>
+
+<p>And now we can access using curl once again to find all inventories:</p>
+
+<ul>
+  <li>Get the route URL</li>
+</ul>
+
+<p><code>export URL="http://$(oc get route | grep order | awk '{print $2}')"</code></p>
+
+<p><code>curl $URL/api/orders ; echo</code></p>
+
+<p>You will see empty result because you didn’t add any shopping items yet:</p>
+
+<p><code>[]</code></p>
+
+<h4 id="deploying-web-ui-service">5. Deploying WEB-UI Service</h4>
+
+<hr>
+
+<p><code>WEB-UI Service</code> serves a frontend based on <a href="https://angularjs.org/" target="_blank">AngularJS</a> and <a href="http://patternfly.org/" target="_blank">PatternFly</a> running in a
+<a href="https://access.redhat.com/documentation/en/openshift-container-platform/3.3/paged/using-images/chapter-2-source-to-image-s2i">Node.js</a> container.
+<a href="https://developers.redhat.com/products/rhoar">Red Hat OpenShift Application Runtimes</a> includes <code>Node.js</code> support in enterprise prouction environment.</p>
+
+<p>Lets’s go through quickly how the frontend service works and built on <code>Node.js</code> runtimes. Go to <code>Project Explorer</code> in <code>CodeReady Workspaces</code> Web IDE
+and expand <code>coolstore-ui</code> directory.</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/codeready-workspace-coolstore-ui.png" alt="coolstore-ui" width="500px"></p>
+
+<p>You will see javascripts for specific cloud-native services such as cart, catatlog, and order service as above.</p>
+
+<p>Now, we will deploy a presentation layer to OpenShift cluster using <code>Nodeshift</code> command line tool, a programmable API that you can use to deploy Node.js projects to <code>OpenShift</code>.</p>
+
+<ul>
+  <li>Install the <code>Nodeshift</code> tool via CodeReady Workspaces Terminal:</li>
+</ul>
+
+<p><code>cd /projects/cloud-native-workshop-v2m4-labs/coolstore-ui/</code></p>
+
+<p><code>npm install --save-dev nodeshift</code></p>
+
+<ul>
+  <li>Deploy the web-ui service using <code>Nodeshift</code> via CodeReady Workspaces Terminal and it will take a couple of minutes to complete the web-ui application deployment:</li>
+</ul>
+
+<p><code>npm run nodeshift</code></p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/coolstore-ui-deploy.png" alt="coolstore-ui"></p>
+
+<ul>
+  <li>Create the route</li>
+</ul>
+
+<p><code>oc expose svc/coolstore-ui</code></p>
+
+<p>Go to <code>Networking &gt; Routes</code> in <a href="https://console-openshift-console.apps.cluster-bjs-3f37.bjs-3f37.open.redhat.com/" target="_blank">OpenShift web console</a> and click on the route URL of <code>coolstore-ui</code>:</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/web-ui-route.png" alt="coolstore-ui"></p>
+
+<p>You will see the prouct page of <code>Red Hat Cool Store</code> as below:</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/web-ui-landing.png" alt="coolstore-ui"></p>
+
+<h4 id="summary">Summary</h4>
+
+<p>In this scenario we developed five microservices with <code>REST API</code> exposure to communicate with the other microservices. We also used a variety of application
+runtimes such as <code>Quarkus</code>, <code>Spring Boot</code>, and <code>NodeJS</code> to compile, package, and containerize applications which is a major capability of the advanced cloud-native architecture.</p>
+
+<p>To deploy the cloud-native applications with multiple datasources on <code>OpenShift</code> cluster, <code>Quarkus</code> provides an easy way to connect multiple datasources and
+obtain a reference to those datasources such as <code>PostgreSQL</code> and <code>MongoDB</code> in code.</p>
+
+<p>In the end, we optimized <code>data transaction performance</code> of the shopping cart service thru integrating with a <code>JBoss Data Grid</code>
+to increase end users’(customers) satification. <code>Congratulations!</code></p>
+
+        <hr>
+        <h2>Creating Event-Driven Service</h2>
+        <h2 id="lab2---creating-event-drivenreactive-services">Lab2 - Creating Event-Driven/Reactive Services</h2>
+
+<p>Traditional microservice architecture is typically composed of many individual services with different functions. Each application service has many clients that need to communicate with the service for fetching data. It will become more complex to handle data streams because everything can be a stream of data such as end-user clicks, RESTful APIs, IoT devices generating data. And complexity rises when these services are running on hybrid or multi-cloud infrastructure.</p>
+
+<p>In an event-driven architecture, we can treat data streams as <em>events</em> using reactive programming and distributed messaging. <em>Reactive programming</em> is an asynchronous programming paradigm concerned with data streams and the propagation of change. In the previous lab, we developed Inventory, Catalog, Shopping Cart and Order services with obvious interactions.</p>
+
+<p>In this lab, we’ll change our shopping cart and order implementation and add a payment service as an Event-Driven/Reactive application in our cloud-native appliation architecture. These cloud-native applications will use AMQ Streams (based on Apache Kafka) as a messaging/streaming backbome. AMQ Streams makes it easy to run Apache Kafka on OpenShift with key features:</p>
+
+<ul>
+  <li>Designed for horizontal scalability</li>
+  <li>Message ordering guarantee at the partition level</li>
+  <li>Message rewind/replay - <em>Long term</em> storage allows the reconstruction of an application state by replaying the messages</li>
+</ul>
+
+<h4 id="goals-of-this-lab">Goals of this lab</h4>
+
+<p>The goal is to develop advanced cloud-native applications on <strong>Red Hat Runtimes</strong> and deploy them on <strong>OpenShift 4</strong> including
+<strong>AMQ Streams</strong> for distributed messaing capabilities. After this lab, you should end up with something like:</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/lab2-goal.png" alt="goal"></p>
+
+<p>Scalability is one of the flagship features of Apache Kafka. It is achieved by partitioning the data
+and distributing them across multiple brokers. Such data sharding also has a big impact on how clients connect and use the broker. This is especially visible
+when Kafka is running within a platform like Kubernetes but is accessed from outside of that platform.</p>
+
+<p><a href="https://strimzi.io/">Strimzi</a> is an open source project that provides container images and operators for running
+<a href="https://developers.redhat.com/videos/youtube/CZhOJ_ysIiI/">Apache Kafka</a>.</p>
+
+<p>In this lab, we will use productized and supported versions of the Strimzi and Apache Kafka projects through <a href="https://www.redhat.com/en/technologies/jboss-middleware/amq?extIdCarryOver=true&amp;sc_cid=701f2000001OH7TAAW" target="_blank">Red Hat AMQ</a>.</p>
+
+<h4 id="create-a-kafka-cluster-and-topics">1. Create a Kafka Cluster and Topics</h4>
+
+<hr>
+
+<p>AMQ Streams is already installed using the following <em>Operators</em> so you don’t need to install it in this lab:</p>
+
+<ul>
+  <li>
+    <p><code>Kafka Operator</code> - Responsible for deploying and managing Apache Kafka clusters within an OpenShift cluster.</p>
+  </li>
+  <li>
+    <p><code>Topic Operator</code> - Responsible for managing Kafka topics within a Kafka cluster running within an OpenShift cluster.</p>
+  </li>
+  <li>
+    <p><code>User Operator</code> - Responsible for managing Kafka users within a Kafka cluster running within an OpenShift cluster.</p>
+  </li>
+</ul>
+
+<p>The basic architecture of operators in AMQ is seen below:</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/kafka-operators-arch.png" alt="amqstreams" width="900px"></p>
+
+<ul>
+  <li>Creating a <code>Kafka cluster</code> in <code>userXX-cloudnativeapp</code> project</li>
+</ul>
+
+<p>Navigate to <em>Catalog &gt; Developer Catalog</em> in the left menu. In the search box, type in ‘kafka’ and Click on the <code>Kafka</code> box.</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/kafka-catalog.png" alt="kafka"></p>
+
+<p>Click on <strong>Create</strong> to represent a Kafka cluster using AMQ Streams Operator.</p>
+
+<blockquote>
+  <p><strong>WARNING</strong></p>
+
+  <p>Be sure you are in your <code>userXX-cloudnativeapp</code> project in the drop-down menu at the top. If you are in any other project, and try to create things, it will fail with permission denied!</p>
+</blockquote>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/kafka-create.png" alt="kafka"></p>
+
+<p>You will enter YAML editor that defines a <code>Kafka</code> Cluster. Keep the all values as-is then click on <strong>Create</strong> on the bottom.</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/kafka-create-detail.png" alt="kafka"></p>
+
+<p>Next, we will create Kafka <em>Topic</em>. Return to <em>Catalog &gt; Developer Catalog</em> and type in <code>kafka</code> but this time click on the <strong>Kafka Topic</strong> box.</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/kafka-topic-catalog.png" alt="kafka"></p>
+
+<p>Click on <strong>Create</strong> to create a topic inside the Kafka cluster.</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/kafka-topic-create.png" alt="kafka"></p>
+
+<p>You will enter YAML editor that defines a <code>KafkaTopic</code> object. Change the name to <code>orders</code> as shown then click on <strong>Create</strong> on the bottom.</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/kafka-topic-orders-create.png" alt="kafka"></p>
+
+<p>Create another topic using the same process as above, but called <code>payments</code></p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/kafka-another-topic-create.png" alt="kafka"></p>
+
+<p>Change the name to <code>payments</code> then click on <strong>Create</strong> on the bottom.</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/kafka-topic-payments-create.png" alt="kafka"></p>
+
+<p><strong>Well done!</strong> You now have a running Kafka cluster with two Kafka Topics called <code>payments</code> and <code>orders</code>.</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/kafka-topics-created.png" alt="kafka"></p>
+
+<h4 id="develop-and-deploy-payment-service">2. Develop and Deploy Payment Service</h4>
+
+<hr>
+
+<p>Our <strong>Payment Service</strong> will offer online services for accepting electronic payments by a variety of payment methods including credit card or
+bank-based payments when orders are checked out in shopping cart. It doesn’t really do anything but will represent a payment microservice that will “process” online shopping orders as they are posted to our services.</p>
+
+<p>In CodeReady Workspaces, navigate to the <code>payment-service</code> directory.</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/codeready-workspace-payment-project.png" alt="catalog" width="500px"></p>
+
+<p>In this step, we will learn how our Quarkus-based payment service can use Kafka to receive order events and <em>react</em> with payment events.</p>
+
+<h5 id="adding-maven-dependencies-using-quarkus-extensions">Adding Maven Dependencies using Quarkus Extensions</h5>
+
+<p>Execute the following command via CodeReady Workspaces <em>Terminal</em>:</p>
+
+<p><code>cd /projects/cloud-native-workshop-v2m4-labs/payment-service/</code></p>
+
+<p><code>mvn quarkus:add-extension -Dextensions="kafka"</code></p>
+
+<p>This command imports the Kafka extensions for Quarkus applications
+and provides all the necessary capabilities to integrate with Kafka clusters. Confirm your <code>pom.xml</code> looks as below, with the new dependencies:</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/payment-pom-dependency.png" alt="payment"></p>
+
+<h5 id="writing-the-application">Writing the application</h5>
+
+<p>Let’s start by adding fields to access configuration using <code>@ConfigProperty</code> and a <code>Producer</code> field which will be used to send messages. We’ll also add a <code>log</code> field so we can see debug messages later on.</p>
+
+<ul>
+  <li>Add this code to the <code>PaymentResource.java</code> file (in the <code>src/main/java/com/redhat/cloudnative</code> directory) at the <code>// TODO: Add Messaging ConfigProperty here</code> marker:</li>
+</ul>
+
+<pre><code class="language-java">    @ConfigProperty(name = "mp.messaging.outgoing.payments.bootstrap.servers")
+    public String bootstrapServers;
+
+    @ConfigProperty(name = "mp.messaging.outgoing.payments.topic")
+    public String paymentsTopic;
+
+    @ConfigProperty(name = "mp.messaging.outgoing.payments.value.serializer")
+    public String paymentsTopicValueSerializer;
+
+    @ConfigProperty(name = "mp.messaging.outgoing.payments.key.serializer")
+    public String paymentsTopicKeySerializer;
+
+    private Producer&lt;String, String&gt; producer;
+
+    public static final Logger log = LoggerFactory.getLogger(PaymentResource.class);
+
+</code></pre>
+
+<p>Next, we need a method to handle incoming events, which in this lab will be coming directly from Kafka, but later will come through as HTTP POST events.</p>
+
+<ul>
+  <li>Add this code at the <code>// TODO: Add handleCloudEvent method here</code> marker:</li>
+</ul>
+
+<pre><code class="language-java">    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.TEXT_PLAIN)
+    public void handleCloudEvent(String cloudEventJson) {
+        String orderId = "unknown";
+        String paymentId = "" + ((int)(Math.floor(Math.random() * 100000)));
+
+        try {
+            log.info("received event: " + cloudEventJson);
+            JsonObject event = new JsonObject(cloudEventJson);
+            orderId = event.getString("orderId");
+            String total = event.getString("total");
+            JsonObject ccDetails = event.getJsonObject("creditCard");
+            String name = event.getString("name");
+
+            // fake processing time
+            Thread.sleep(5000);
+            if (!ccDetails.getString("number").startsWith("4")) {
+                 fail(orderId, paymentId, "Invalid Credit Card: " + ccDetails.getString("number"));
+            }
+             pass(orderId, paymentId, "Payment of " + total + " succeeded for " + name + " CC details: " + ccDetails.toString());
+        } catch (Exception ex) {
+             fail(orderId, paymentId, "Unknown error: " + ex.getMessage() + " for payment: " + cloudEventJson);
+        }
+    }
+</code></pre>
+
+<blockquote>
+  <p>Note that the <code>Thread.sleep(5000);</code> will cause credit card “processing” to take 5 seconds, to simulate a real world processing time.</p>
+</blockquote>
+
+<p>Now we need to implement the <code>pass()</code> and <code>fail()</code> methods referenced above. These methods will send messages to Kafka using our <code>producer</code> field.</p>
+
+<ul>
+  <li>Add the following code to the <code>// TODO: Add pass method here</code> marker:</li>
+</ul>
+
+<pre><code class="language-java">    private void pass(String orderId, String paymentId, String remarks) {
+
+        JsonObject payload = new JsonObject();
+        payload.put("orderId", orderId);
+        payload.put("paymentId", paymentId);
+        payload.put("remarks", remarks);
+        payload.put("status", "COMPLETED");
+        log.info("Sending payment success: " + payload.toString());
+        producer.send(new ProducerRecord&lt;String, String&gt;(paymentsTopic, payload.toString()));
+    }
+</code></pre>
+
+<ul>
+  <li>Add this code to the <code>// TODO: Add fail method here</code> marker:</li>
+</ul>
+
+<pre><code class="language-java">    private void fail(String orderId, String paymentId, String remarks) {
+        JsonObject payload = new JsonObject();
+        payload.put("orderId", orderId);
+        payload.put("paymentId", paymentId);
+        payload.put("remarks", remarks);
+        payload.put("status", "FAILED");
+        log.info("Sending payment failure: " + payload.toString());
+        producer.send(new ProducerRecord&lt;String, String&gt;(paymentsTopic, payload.toString()));
+    }
+</code></pre>
+
+<p>Next, add a method that will receive events from Kafka. We will use the MicroProfile reactive messaging API <code>@Incoming</code> annotation to do this.</p>
+
+<ul>
+  <li>Add this code to the <code>// TODO: Add consumer method here</code> marker:</li>
+</ul>
+
+<pre><code class="language-java">    @Incoming("orders")
+    public CompletionStage&lt;Void&gt; onMessage(KafkaMessage&lt;String, String&gt; message)
+            throws IOException {
+
+        log.info("Kafka message with value = {} arrived", message.getPayload());
+        handleCloudEvent(message.getPayload());
+        return message.ack();
+    }
+</code></pre>
+
+<p>And finally, we need a method to initialize the Kafka producer (the consumer will be initialized automatically via Quarkus Kafka extension). We will use the Quarkus <code>StartupEvent</code> Lifecycle listener API, with the <code>@Observes</code> annotation to mark this method as one that should run when the app starts:</p>
+
+<ul>
+  <li>Add this code to the <code>// TODO: Add init method here</code> marker:</li>
+</ul>
+
+<pre><code class="language-java">    public void init(@Observes StartupEvent ev) {
+        Properties props = new Properties();
+
+        props.put("bootstrap.servers", bootstrapServers);
+        props.put("value.serializer", paymentsTopicValueSerializer);
+        props.put("key.serializer", paymentsTopicKeySerializer);
+        producer = new KafkaProducer&lt;String, String&gt;(props);
+    }
+</code></pre>
+
+<p>This method will consume Kafka streams from the <code>orders</code> topic and call our <code>handleCloudEvent()</code> method. Later on we’ll delete this method and use Knative Events to handle the incoming stream. But for now we’ll use this method to listen to the topic.</p>
+
+<h5 id="configuring-the-application">Configuring the application</h5>
+
+<p>Quarkus and its extensions are configured by an <code>application.properties</code> file. Open this file (it is in the <code>src/main/resources</code> directory).</p>
+
+<ul>
+  <li>Add these values to the file:</li>
+</ul>
+
+<pre><code class="language-java"># Outgoing stream
+mp.messaging.outgoing.payments.bootstrap.servers=my-cluster-kafka-bootstrap:9092
+mp.messaging.outgoing.payments.connector=smallrye-kafka
+mp.messaging.outgoing.payments.topic=payments
+mp.messaging.outgoing.payments.value.serializer=org.apache.kafka.common.serialization.StringSerializer
+mp.messaging.outgoing.payments.key.serializer=org.apache.kafka.common.serialization.StringSerializer
+
+# Incoming stream (unneeded when using Knative events)
+mp.messaging.incoming.orders.connector=smallrye-kafka
+mp.messaging.incoming.orders.value.deserializer=org.apache.kafka.common.serialization.StringDeserializer
+mp.messaging.incoming.orders.key.deserializer=org.apache.kafka.common.serialization.StringDeserializer
+mp.messaging.incoming.orders.bootstrap.servers=my-cluster-kafka-bootstrap:9092
+mp.messaging.incoming.orders.group.id=payment-order-service
+mp.messaging.incoming.orders.auto.offset.reset=earliest
+mp.messaging.incoming.orders.enable.auto.commit=true
+mp.messaging.incoming.orders.request.timeout.ms=30000
+</code></pre>
+
+<h5 id="deploying-payment-service-to-openshift">Deploying Payment service to OpenShift</h5>
+
+<p>Package the payment application by clicking on <strong>Package for OpenShift</strong> in the Commands Palette`:</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/quarkus-dev-run-packageforOcp.png" alt="payment"></p>
+
+<p>Or run the following command in a CodeReady Workspaces <em>Terminal</em>:</p>
+
+<p><code>mvn clean package -DskipTests</code></p>
+
+<p>This will build an executable JAR file in the <code>target/</code> directory.</p>
+
+<ul>
+  <li>To deploy this to OpenShift, define a new build in our project:</li>
+</ul>
+
+<p><code>oc new-build registry.access.redhat.com/redhat-openjdk-18/openjdk18-openshift:1.5 --binary --name=payment -l app=payment</code></p>
+
+<blockquote>
+  <p>This build uses the new <a href="https://access.redhat.com/documentation/en-us/red_hat_jboss_middleware_for_openshift/3/html/red_hat_java_s2i_for_openshift/index" target="_blank">Red Hat OpenJDK Container Image</a>, providing foundational software needed to run Java applications, while staying at a reasonable size.</p>
+</blockquote>
+
+<ul>
+  <li>Force update the OpenJDK image tags just in case they haven’t been imported yet:</li>
+</ul>
+
+<p><code>oc import-image openjdk18-openshift --all</code></p>
+
+<ul>
+  <li>Start and watch the build, which will take about minutes to complete:</li>
+</ul>
+
+<p><code>oc start-build payment --from-file target/*-runner.jar --follow</code></p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/payment-build-logs.png" alt="payment"></p>
+
+<ul>
+  <li>Deploy it as an OpenShift application after the build is done:</li>
+</ul>
+
+<p><code>oc new-app payment</code></p>
+
+<ul>
+  <li>Create the route</li>
+</ul>
+
+<p><code>oc expose svc/payment</code></p>
+
+<ul>
+  <li>Finally, make sure it’s actually done rolling out:</li>
+</ul>
+
+<p><code>oc rollout status -w dc/payment</code></p>
+
+<p>Wait for that command to report <code>replication controller payment-1 successfully rolled out</code> before continuing.</p>
+
+<blockquote>
+  <p><strong>NOTE:</strong>
+Even if the rollout command reports success the application may not be ready yet and the reason for
+that is that we currently don’t have any liveness check configured.</p>
+</blockquote>
+
+<ul>
+  <li>Testing the Application</li>
+</ul>
+
+<p>Go to <em>Workloads &gt; Pods</em> on the left menu then search <code>kafka-cluster</code> pods. Click on the <code>my-cluster-kafka-0</code> pod:</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/my-cluster-kafka-0.png" alt="payment"></p>
+
+<p>We will watch the Kafka topic via a CLI to confirm the messages are being sent/received in Kafka. Click on the <em>Terminal</em> tab in OpenShift (not in CodeReady!) then execute the following command:</p>
+
+<p><code>bin/kafka-console-consumer.sh --topic payments --bootstrap-server localhost:9092</code></p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/kafka-console-consumer.png" alt="payment"></p>
+
+<p>Keep this tab open to act as a debugger for Kafka messages.</p>
+
+<p>Let’s produce a new topic message using <code>curl</code> command in CodeReady Workspaces <em>Terminal</em>:</p>
+
+<p>First, fetch the URL of our new payment service and store it in an environment variable:</p>
+
+<p><code>export URL="http://$(oc get route | grep payment | awk '{print $2}')"</code></p>
+
+<p>Then execute this to HTTP POST a message to our payment service with an example order:</p>
+
+<pre><code class="language-shell">curl -i -H 'Content-Type: application/json' -X POST -d'{"orderId": "12321","total": "232.23", "creditCard": {"number": "4232454678667866","expiration": "04/22","nameOnCard": "Jane G Doe"}, "billingAddress": "123 Anystreet, Pueblo, CO 32213", "name": "Jane Doe"}' $URL
+</code></pre>
+
+<p>The payment service will recieve this <em>order</em> and produce a <em>payment</em> result on the Kafka <em>payment</em> topic. You will see the following result in <code>Pod Terminal</code>:</p>
+
+<pre><code class="language-shell">{"orderId":"12321","paymentId":"25658","remarks":"Payment of 232.23 succeeded for Jane Doe CC details: {\"number\":\"4232454678667866\",\"expiration\":\"04/22\",\"nameOnCard\":\"Jane G Doe\"}","status":"COMPLETED"}
+</code></pre>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/payment_curl_result.png" alt="payment"></p>
+
+<p>Before moving to the next step, stop the Kafka consumer console via <code>CTRL + C</code> in Terminal:</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/kafka-console-consumer-stop.png" alt="payment"></p>
+
+<h4 id="adding-kafka-client-to-cart-service">3. Adding Kafka Client to Cart Service</h4>
+
+<hr>
+
+<p>By now we have added several microservices to operate on our retail shopping data. Quite often, other services or functions would need the data we are working with. e.g.  once a user checks out, there are other services like an <em>Order Service</em> and our <em>Payment Service</em> that will need this information, and would most likely want to process further. So we will integrate our Cart service with Kafka so that it can send an order message when a shopper checks out.</p>
+
+<p>To do that open the <code>cart-service/src/main/java/com/redhat/cloudnative/CartResource.java</code> file in CodeReady.</p>
+
+<h5 id="adding-maven-dependencies-using-quarkus-extensions-1">Adding Maven Dependencies using Quarkus Extensions</h5>
+
+<p>Execute the following command via CodeReady Workspaces <em>Terminal</em>:</p>
+
+<p><code>cd /projects/cloud-native-workshop-v2m4-labs/cart-service/</code></p>
+
+<p><code>mvn quarkus:add-extension -Dextensions="kafka"</code></p>
+
+<p>This will add the Kafka extension and APIs to our Cart service app.</p>
+
+<ul>
+  <li>Like our Payment service, add this code to the <code>// TODO: Add annotation of orders messaging configuration here</code> marker:</li>
+</ul>
+
+<pre><code class="language-java">    @ConfigProperty(name = "mp.messaging.outgoing.orders.bootstrap.servers")
+    public String bootstrapServers;
+
+    @ConfigProperty(name = "mp.messaging.outgoing.orders.topic")
+    public String ordersTopic;
+
+    @ConfigProperty(name = "mp.messaging.outgoing.orders.value.serializer")
+    public String ordersTopicValueSerializer;
+
+    @ConfigProperty(name = "mp.messaging.outgoing.orders.key.serializer")
+    public String ordersTopicKeySerializer;
+
+    private Producer&lt;String, String&gt; producer;
+</code></pre>
+
+<p>Next, un-comment (or add if they are missing) the following <code>import</code> statements:</p>
+
+<pre><code class="language-java">import org.apache.kafka.clients.producer.KafkaProducer;
+import org.apache.kafka.clients.producer.Producer;
+import org.apache.kafka.clients.producer.ProducerRecord;
+</code></pre>
+
+<p>The init method as it denotes creates the Kafka configuration, we have externalized this configuration and injected the variables as properties on the class.</p>
+
+<ul>
+  <li>Replace the empty <code>init()</code> method with this code:</li>
+</ul>
+
+<pre><code class="language-java">    public void init(@Observes StartupEvent ev) {
+        Properties props = new Properties();
+
+        props.put("bootstrap.servers", bootstrapServers);
+        props.put("value.serializer", ordersTopicValueSerializer);
+        props.put("key.serializer", ordersTopicKeySerializer);
+        producer = new KafkaProducer&lt;String, String&gt;(props);
+    }
+</code></pre>
+
+<p>The <code>sendOrder()</code> method is quite simple, it takes the Order POJO as a param and serializes that into JSON to send over the Kafka topic.</p>
+
+<ul>
+  <li>Replace the empty <code>sendOrder()</code> method with this code:</li>
+</ul>
+
+<pre><code class="language-java">    private void sendOrder(Order order, String cartId) {
+        order.setTotal(shoppingCartService.getShoppingCart(cartId).getCartTotal() + "");
+        producer.send(new ProducerRecord&lt;String, String&gt;(ordersTopic, Json.encode(order)));
+        log.info("Sent message: " + Json.encode(order));
+    }
+</code></pre>
+
+<p>Now that we have those methods, lets add a call to our <code>sendOrder()</code> method when we are checking out. Replace the code for <code>checkout()</code> with this code:</p>
+
+<pre><code class="language-java">    @POST
+    @Path("/checkout/{cartId}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(summary = "checkout")
+    public ShoppingCart checkout(@PathParam("cartId") String cartId, Order order) {
+        sendOrder(order, cartId);
+        return shoppingCartService.checkout(cartId);
+    }
+</code></pre>
+
+<p>Almost there! Next let’s add the configuration to our <code>application.properties</code> file (in the <code>src/main/resources</code> of the <code>cart-service</code> project):</p>
+
+<pre><code class="language-java">mp.messaging.outgoing.orders.bootstrap.servers=my-cluster-kafka-bootstrap:9092
+mp.messaging.outgoing.orders.connector=smallrye-kafka
+mp.messaging.outgoing.orders.topic=orders
+mp.messaging.outgoing.orders.value.serializer=org.apache.kafka.common.serialization.StringSerializer
+mp.messaging.outgoing.orders.key.serializer=org.apache.kafka.common.serialization.StringSerializer
+</code></pre>
+
+<h5 id="re-deploying-cart-service-to-openshift">Re-Deploying Cart service to OpenShift</h5>
+
+<p>Package the cart application via clicking on <code>Package for OpenShift</code> in <code>Commands Palette</code>:</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/quarkus-dev-run-packageforOcp.png" alt="cart"></p>
+
+<p>Or run the following maven plugin in CodeReady Workspaces <em>Terminal</em>:</p>
+
+<p><code>mvn clean package -DskipTests</code></p>
+
+<p>Rebuild a container image based the cart artifact that we just packaged, which will take about minutes to complete:</p>
+
+<p><code>oc start-build cart --from-file target/*-runner.jar --follow</code></p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/cart-build-logs.png" alt="cart"></p>
+
+<p>The cart service will be redeployed automatically via <a href="https://docs.openshift.com/container-platform/4.1/applications/deployments/managing-deployment-processes.html#deployments-triggers_deployment-operations" target="_blank">OpenShift Deployment triggers</a> after it completes to build.</p>
+
+<h4 id="adding-kafka-client-to-order-service">4. Adding Kafka Client to Order Service</h4>
+
+<p>Like the <code>payments</code> service, our <code>order</code> service will listen for orders being placed, but will not process payments - instead the order service will merely record the orders and their states for eventual display in the UI. Let’s add this capability to the order service.</p>
+
+<hr>
+
+<h5 id="adding-maven-dependencies-using-quarkus-extensions-2">Adding Maven Dependencies using Quarkus Extensions</h5>
+
+<p>Execute the following command via CodeReady Workspaces Terminal:</p>
+
+<p><code>cd /projects/cloud-native-workshop-v2m4-labs/order-service/</code></p>
+
+<p><code>mvn quarkus:add-extension -Dextensions="kafka"</code></p>
+
+<p>This command generates a Maven project, importing the Kafka extensions for Quarkus applications
+and provides all the necessary capabilities to integrate with the Kafka clusters and subscribe <code>payments</code> topic and <code>orders</code> topic. Let’s confirm your <code>pom.xml</code> as below:</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/order-kafka-pom-dependency.png" alt="order"></p>
+
+<h5 id="creating-orders-and-payments-consumer-in-order-service">Creating Orders and Payments Consumer in Order Service</h5>
+
+<p>In the <code>order-service</code> project, Create a new Java class, <code>KafkaOrders.java</code> in <code>src/main/java/com/redhat/cloudnative</code> to consume messages from the Kafka <code>orders</code> and <code>payments</code> topic. Copy the following entire code into <code>KafkaOrders.java</code>.</p>
+
+<pre><code class="language-java">package com.redhat.cloudnative;
+
+import io.smallrye.reactive.messaging.kafka.KafkaMessage;
+import org.eclipse.microprofile.reactive.messaging.Incoming;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.enterprise.context.ApplicationScoped;
+
+import java.io.IOException;
+import java.util.concurrent.CompletionStage;
+
+import javax.inject.Inject;
+import io.vertx.core.json.JsonObject;
+
+@ApplicationScoped
+public class KafkaOrders {
+
+    private static final Logger LOG = LoggerFactory.getLogger(KafkaOrders.class);
+
+    @Inject
+    OrderService orderService;
+
+    @Incoming("orders")
+    public CompletionStage&lt;Void&gt; onMessage(KafkaMessage&lt;String, String&gt; message)
+            throws IOException {
+
+        LOG.info("Kafka order message with value = {} arrived", message.getPayload());
+
+        JsonObject orders = new JsonObject(message.getPayload());
+        Order order = new Order();
+        order.setOrderId(orders.getString("orderId"));
+        order.setName(orders.getString("name"));
+        order.setTotal(orders.getString("total"));
+        order.setCcNumber(orders.getJsonObject("creditCard").getString("number"));
+        order.setCcExp(orders.getJsonObject("creditCard").getString("expiration"));
+        order.setBillingAddress(orders.getString("billingAddress"));
+        order.setStatus("PROCESSING");
+        orderService.add(order);
+
+        return message.ack();
+    }
+
+    @Incoming("payments")
+    public CompletionStage&lt;Void&gt; onMessagePayments(KafkaMessage&lt;String, String&gt; message)
+            throws IOException {
+
+        LOG.info("Kafka payment message with value = {} arrived", message.getPayload());
+
+        JsonObject payments = new JsonObject(message.getPayload());
+        orderService.updateStatus(payments.getString("orderId"), payments.getString("status"));
+
+        return message.ack();
+    }
+
+}
+</code></pre>
+
+<p>Almost there; Next lets add the configuration to our <code>src/main/resources/application.properties</code> file in the <code>order-service</code> project:</p>
+
+<pre><code class="language-java"># Incoming payment topic messages
+mp.messaging.incoming.payments.connector=smallrye-kafka
+mp.messaging.incoming.payments.value.deserializer=org.apache.kafka.common.serialization.StringDeserializer
+mp.messaging.incoming.payments.key.deserializer=org.apache.kafka.common.serialization.StringDeserializer
+mp.messaging.incoming.payments.bootstrap.servers=my-cluster-kafka-bootstrap:9092
+mp.messaging.incoming.payments.group.id=order-service
+mp.messaging.incoming.payments.auto.offset.reset=earliest
+mp.messaging.incoming.payments.enable.auto.commit=true
+mp.messaging.incoming.payments.request.timeout.ms=30000
+
+# Enable CORS requests from browsers
+quarkus.http.cors=true
+
+# Incoming order topic messages
+mp.messaging.incoming.orders.connector=smallrye-kafka
+mp.messaging.incoming.orders.value.deserializer=org.apache.kafka.common.serialization.StringDeserializer
+mp.messaging.incoming.orders.key.deserializer=org.apache.kafka.common.serialization.StringDeserializer
+mp.messaging.incoming.orders.bootstrap.servers=my-cluster-kafka-bootstrap:9092
+mp.messaging.incoming.orders.group.id=order-service
+mp.messaging.incoming.orders.auto.offset.reset=earliest
+mp.messaging.incoming.orders.enable.auto.commit=true
+mp.messaging.incoming.orders.request.timeout.ms=30000
+</code></pre>
+
+<h5 id="re-deploying-order-service-to-openshift">Re-Deploying Order service to OpenShift</h5>
+
+<p>Package the order application via clicking on <code>Package for OpenShift</code> in <code>Commands Palette</code>:</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/quarkus-dev-run-packageforOcp.png" alt="codeready-workspace-maven"></p>
+
+<p>Or run the following maven plugin in CodeReady Workspaces <em>Terminal</em>:</p>
+
+<p><code>mvn clean package -DskipTests</code></p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/order-mvn-package.png" alt="order"></p>
+
+<p>Rebuild a container image based the cart artifact that we just packaged, which will take about minutes to complete:</p>
+
+<p><code>oc start-build order --from-file target/*-runner.jar --follow</code></p>
+
+<p>The order service will be redeployed automatically via <a href="https://docs.openshift.com/container-platform/4.1/applications/deployments/managing-deployment-processes.html#deployments-triggers_deployment-operations" target="_blank">OpenShift Deployment triggers</a> after it completes to build.</p>
+
+<p>Let’s confirm if the all services works correctly using <code>Kafka</code> messaging via coolstore GUI test.</p>
+
+<h4 id="end-to-end-functional-testing">5. End to End Functional Testing</h4>
+
+<hr>
+
+<p>Let’s go shopping! Open the Web UI in your browser. To get the URL to the Web UI, run this command in CodeReady <em>Terminal</em>:</p>
+
+<p><code>oc get route | grep coolstore-ui | awk '{print $2}'</code></p>
+
+<p>Add some cool items to your shopping cart in the following shopping scenarios:</p>
+
+<ul>
+  <li>1) Add a <em>Red Hat Fedora</em> to your cart by click on <strong>Add to Cart</strong>. You will see the <code>Success! Added!</code> message under the top munu.</li>
+</ul>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/add-to-cart.png" alt="serverless"></p>
+
+<ul>
+  <li>2) Go to the <strong>Your Shopping Cart</strong> tab and click on the <strong>Checkout</strong> button . Input the credit card information. The Card Info should be 16 digits and begin with the digit <code>4</code>. For example <code>4123987754646678</code>.</li>
+</ul>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/checkout.png" alt="serverless"></p>
+
+<ul>
+  <li>3) Input your Credit Card information to pay for the items:</li>
+</ul>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/input-cc-info.png" alt="serverless"></p>
+
+<ul>
+  <li>4) Confirm the <em>Payment Status</em> of the your shopping items in the <strong>All Orders</strong> tab. It should be <code>Processing</code>.</li>
+</ul>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/payment-processing.png" alt="serverless"></p>
+
+<ul>
+  <li>5) After a few moments, reload the <strong>All Orders</strong> page to confirm that the Payment Status changed to <code>COMPLETED</code> or <code>FAILED</code>.</li>
+</ul>
+
+<blockquote>
+  <p><code>Note</code>: If the status is still <code>Processing</code>, the order service is processing incoming Kafka messages and store thme in MongoDB. Please reload the page a few times more.</p>
+</blockquote>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/payment-completedorfailed.png" alt="serverless"></p>
+
+<h3 id="summary">Summary</h3>
+
+<p>In this scenario we developed an <em>Event-Driven/Reactive</em> cloud-native appliction to deal with data streams from the shopping cart service to the order service and payment service using _Apache Kafka).</p>
+
+<p>We also used Quarkus and its <em>Kafka extension</em> to integrate the app with Kafka. <code>AMQ Streams</code>, a fully supported Kafka solution from Red Hat, enables you to create Apache Kafka clusters very easily via OpenShift developer catalog.</p>
+
+<p>In the end, we now have message-driven microservices for implementing reactive systems, where all the components interact using asynchronous messages passing. Most importantly, <strong>Quarkus</strong> is perfectly suited to implement event-driven microservices and reactive systems. Congratulations!</p>
+
+        <hr>
+        <h2>Evolving Serverless Service</h2>
+        <h2 id="lab3---evolving-services-with-serverless">Lab3 - Evolving services with Serverless</h2>
+
+<p>In our cloud-native application architecture, We now have multiple microservices in a <em>reactive</em> system.
+However, it’s not necessary our applications and services be up and running 24 hours  day. They only need to be running <em>on-demand</em>, when something needs to use the service. This is one of the reasons why <em>serverless</em> architectures have gained popularity.</p>
+
+<ul>
+  <li>
+    <p><strong>Serverless</strong> is often used interchangeably with the term <em>FaaS</em> (Functions-as-a-Service). But serverless doesn’t mean that there is no server.
+In fact, there <em>are</em> servers - a public cloud provider provides the servers that deploy, run, and manage your application.</p>
+  </li>
+  <li>
+    <p><strong>Serverless computing</strong> is an emerging category that represents a shift in the way developers build and deliver software systems.
+Abstracting application infrastructure away from the code can greatly simplify the development process while introducing new cost and efficiency benefits.
+Serverless computing and FaaS will play an important role in helping to define the next era of enterprise IT, along with cloud-native services
+and the <a href="https://enterprisersproject.com/hybrid-cloud" target="_blank">hybrid cloud</a>.</p>
+  </li>
+  <li>
+    <p><strong>Serverless platforms</strong> provide APIs that allow users to run code snippets (functions, also called <em>actions</em>) and return the results of each function.
+Serverless platforms also provide endpoints to allow the developer to retrieve function results. These endpoints can be used as inputs for other
+functions, thereby providing a sequence (or chain) of related functions.</p>
+  </li>
+</ul>
+
+<p>The severless application enables DevOps teams to enjoy benefits like:</p>
+
+<ul>
+  <li>Optimizing computing resources(i.e CPU, Memory)</li>
+  <li>Autoscaling</li>
+  <li>Simplifying CI/CD pipeline</li>
+</ul>
+
+<h4 id="goals-of-this-lab">Goals of this lab</h4>
+
+<hr>
+
+<p>The goal is to develop serverless applications on <strong>Red Hat Runtimes</strong> and deploy them on <strong>OpenShift 4</strong> using <strong>OpenShift Serverless</strong> (Based on the <a href="https://www.openshift.com/learn/topics/knative" target="_blank">Knative</a> project) with
+a cloud-native, continuous integration and delivery (CI/CD) Pipelines using <code>Tekton</code>. After this lab, you should end up with something like:</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/lab3-goal.png" alt="goal"></p>
+
+<p>In this lab, we’ll deploy the Payment Service as a Quarkus-based serverless application using Knative Serving, Istio, and Tekton Pipelines.</p>
+
+<p>The Knative Kafka Event <em>source</em> enables <em>Knative Eventing</em> integration with Apache Kafka. When a message is produced in Apache Kafka,
+the Apache Kafka Event Source will consume the produced message and post that message to the corresponding event <em>sink</em>.</p>
+
+<h5 id="what-is-knative">What is Knative?</h5>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/knative-audience.png" alt="Logo" width="700px"></p>
+
+<p><a href="https://www.openshift.com/learn/topics/knative">Knative</a> extends <a href="https://www.redhat.com/en/topics/containers/what-is-kubernetes" target="_blank">Kubernetes</a>
+to provide components for building, deploying, and managing <a href="https://developers.redhat.com/topics/serverless-architecture/" target="_blank">serverless</a> applications.
+Build serverless applications that run wherever you need them—on-premise or on any cloud—with Knative and OpenShift.</p>
+
+<p>Knative components leverage best practices from real-world Kubernetes deployments:</p>
+
+<ul>
+  <li>
+    <p><a href="https://github.com/knative/serving" target="_blank">Serving</a>uses Kubernetes and <a href="https://www.redhat.com/en/topics/microservices/what-is-a-service-mesh" target="_blank">Istio</a> to
+ rapidly deploy, network, and automatically scale serverless workloads.</p>
+  </li>
+  <li>
+    <p><a href="https://github.com/knative/eventing" target="_blank">Eventing</a> is common infrastructure for consuming and producing events to stimulate applications.</p>
+  </li>
+</ul>
+
+<h5 id="what-is-a-service-mesh">What is a Service Mesh?</h5>
+
+<p><a href="https://www.openshift.com/learn/topics/service-mesh">Service Mesh</a> provides traffic monitoring, access control, discovery, security, resiliency,
+and other useful things to a group of services. Istio does all that, but it doesn’t require any changes to the code of any of those services.
+To make the magic happen, Istio deploys a proxy (called a <em>sidecar</em>) next to each service. All of the traffic meant for a service goes to the proxy,
+which uses policies to decide how, when, or if that traffic should go on to the service. Istio also enables sophisticated DevOps techniques such as
+canary deployments, circuit breakers, fault injection, and more.</p>
+
+<p>Istio also moves operational aspects away from code development and into the domain of operations. Why should a developer be
+burdened with circuit breakers and fault injections and should they respond to them? Yes, but for handling and/or creating them? Take that out of
+your code and let your code focus on the underlying business domain.</p>
+
+<h4 id="building-a-native-executable">1. Building a Native Executable</h4>
+
+<hr>
+
+<p>Let’s now produce a native executable for an example Quarkus application. It improves the startup time of the application, and produces a minimal disk and
+memory footprint. The executable would have everything to run the application including the <code>JVM</code>(shrunk to be just enough to run the application),
+and the application. This is accomplished using <a href="https://graalvm.org/" target="_blank">GraalVM</a>.</p>
+
+<p><code>GraalVM</code> is a universal virtual machine for compiling and running applications written in JavaScript, Python, Ruby, R, JVM-based languages like
+Java, Scala, Groovy, Kotlin, Clojure, and LLVM-based languages such as C and C++. It includes ahead-of-time compilation, aggressive dead code elimination,
+and optimal packaging as native binaries that moves a lot of startup logic to build-time, thereby reducing startup time and memory resource requirements significantly.</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/native-image-process.png" alt="serverless"></p>
+
+<p><code>GraalVM</code> is already installed for you. Inspect the value of the <code>GRAALVM_HOME</code> variable in the CodeReady Workspaces <em>Terminal</em> with:</p>
+
+<p><code>echo $GRAALVM_HOME</code></p>
+
+<p>In this step, we will learn how to compile the application to a native executable and run the native image on local machine.</p>
+
+<p>Compiling a native image takes longer than a regular JAR file (bytecode) compilation. However, this compilation time is only incurred once,
+as opposed to every time the application starts, which is the case with other approaches for building and executing JARs.</p>
+
+<h5 id="build-native-image-and-run-it-locally">Build Native Image and Run it Locally</h5>
+
+<p>Let’s find out why Quarkus calls itself <em>SuperSonic Subatomic Subatomic Java</em>. Let’s build a sample app. In CodeReady Terminal, run this command:</p>
+
+<pre><code class="language-sh">mkdir /tmp/hello &amp;&amp; cd /tmp/hello &amp;&amp; \
+mvn io.quarkus:quarkus-maven-plugin:0.21.2:create \
+    -DprojectGroupId=org.acme \
+    -DprojectArtifactId=getting-started \
+    -DclassName="org.acme.quickstart.GreetingResource" \
+    -Dpath="/hello"
+</code></pre>
+
+<p>This will create a simple Quarkus app in the <code>/tmp/hello</code> directory.</p>
+
+<p>Next, create a <code>native executable</code> with this command:</p>
+
+<p><code>mvn -f /tmp/hello clean package -Pnative -DskipTests</code></p>
+
+<blockquote>
+  <p>This may take a minute or two to run. One of the benefits of Quarkus is amazingly fast startup time, at the expense of a longer build time to optimize and remove dead code, process annotations, etc. This is only incurred once, at build time rather than <em>every</em> startup!</p>
+</blockquote>
+
+<blockquote>
+  <p>NOTE: You can safely ignore any warnings like <code>Warning: RecomputeFieldValue.FieldOffset automatic substitution failed</code>.
+These are harmless and will be removed in future releases of Quarkus.</p>
+</blockquote>
+
+<blockquote>
+  <p>NOTE: Since we are on Linux in this environment, and the OS that will eventually run our application is also Linux, we can use our local OS to
+build the native Quarkus app. If you need to build native Linux binaries when on other OS’s like Windows or Mac OS X, you’ll need to have Docker
+installed and then use <code>mvn clean package -Pnative -Dnative-image.docker-build=true -DskipTests=true</code>.</p>
+</blockquote>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/payment-native-image-build.png" alt="serverless"></p>
+
+<p>Since our environment here is Linux, you can just run it. In the CodeReady Workspaces Terminal, run:</p>
+
+<p><code>/tmp/hello/target/*-runner</code></p>
+
+<p>Notice the amazingly fast startup time:</p>
+
+<pre><code class="language-shell">2019-09-16 08:02:29,096 INFO  [io.quarkus] (main) Quarkus 0.21.2 started in 0.014s. Listening on: http://[::]:8080
+2019-09-16 08:02:29,096 INFO  [io.quarkus] (main) Installed features: [cdi, resteasy]
+</code></pre>
+
+<p>That’s <em>14 milliseconds</em> to start up.</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/payment-native-runn.png" alt="serverless"></p>
+
+<p>And extremely low memory usage as reported by the Linux <code>ps</code> utility. While the app is running, open another Terminal
+(click the <code>+</code> button on the terminal tabs line) and run:</p>
+
+<p><code>ps -o pid,rss,command -p $(pgrep -f runner)</code></p>
+
+<p>You should see something like:</p>
+
+<pre><code class="language-shell">   PID   RSS COMMAND
+ 74810 50388 /tmp/hello/target/getting-started-1.0-SNAPSHOT-runner
+</code></pre>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/payment-native-pss.png" alt="serverless"></p>
+
+<p>This shows that our process is taking around <code>50 MB</code> of memory (<a href="https://en.wikipedia.org/wiki/Resident_set_size" target="_blank">Resident Set Size</a>, or RSS). Pretty compact!</p>
+
+<blockquote>
+  <p>NOTE: The RSS and memory usage of any app, including Quarkus, will vary depending your specific environment, and will rise as the application experiences load.</p>
+</blockquote>
+
+<p>Make sure the app works. In a new CdeReady Workspaces Terminal run:</p>
+
+<p><code>curl -i http://localhost:8080/hello; echo</code></p>
+
+<p>You should see the return:</p>
+
+<pre><code class="language-console">HTTP/1.1 200 OK
+Connection: keep-alive
+Content-Type: text/plain;charset=UTF-8
+Content-Length: 5
+Date: Mon, 16 Sep 2019 03:35:40 GMT
+
+hello
+</code></pre>
+
+<p><code>Congratuations!</code> You’ve now built a Java application as a native executable JAR and a Linux native binary. We’ll explore the benefits of native
+binaries later in when we start deploying to Kubernetes.</p>
+
+<p>Before moving to the next step, go to the first Terminal tab and press <code>CTRL+C</code> to stop our native app (or close the Terminal window).</p>
+
+<h4 id="delete-old-payment-service">2. Delete old payment service</h4>
+
+<hr>
+
+<p><em>Knative Serving</em> builds on Kubernetes and Istio to support deploying and serving of serverless applications and functions. <em>Serving</em> is easy to
+get started with and scales to support advanced scenarios.</p>
+
+<p>The Knative Serving project provides middleware primitives that enable:</p>
+
+<ul>
+  <li>Rapid deployment of serverless containers</li>
+  <li>Automatic scaling up and down to zero</li>
+  <li>Routing and network programming for Istio components</li>
+  <li>Point-in-time snapshots of deployed code and configurations</li>
+</ul>
+
+<p>In the lab, <em>Knative Serving</em> is already installed on your OpenShift cluster but if you want to install Knative Serving on your own OpenShift cluster,
+you can play with <a href="https://knative.dev/docs/install/knative-with-openshift/" target="_blank">Installing the Knative Serving Operator</a> as below:</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/knative_serving_tile_highlighted.png" alt="serverless"></p>
+
+<p>First, we need to delete existing <code>BuildConfig</code> as it is based an excutable Jar that we deployed it in lab 2.</p>
+
+<p><code>oc delete bc/payment</code></p>
+
+<p>We also will delete our existing payment <em>deployment</em> and <em>route</em> since Knative will handle deploying the payment service and routing traffic to its managed pod when needed. Delete the existing payment deployment and its associated route and service with:</p>
+
+<p><code>oc delete dc/payment route/payment svc/payment</code></p>
+
+<h4 id="enable-knative-eventing-integration-with-apache-kafka-event">3. Enable Knative Eventing integration with Apache Kafka Event</h4>
+
+<hr>
+
+<p>Knative Eventing is a system that is designed to address a common need for cloud native development and provides composable primitives to enable <code>late-binding</code> event sources and event consumers with below goals:</p>
+
+<ul>
+  <li>
+    <p>Services are loosely coupled during development and deployed independently.</p>
+  </li>
+  <li>
+    <p>Producer can generate events before a consumer is listening, and a consumer can express an interest in an event or class of events that is not yet being produced.</p>
+  </li>
+  <li>
+    <p>Services can be connected to create new applications without modifying producer or consumer, and with the ability to select a specific subset of events from a particular producer.</p>
+  </li>
+</ul>
+
+<p>The <em>Apache Kafka Event source</em> enables Knative Eventing integration with Apache Kafka. When a message is produced to Apache Kafka, the Event Source will consume the produced message and post that message to the corresponding event sink.</p>
+
+<h5 id="remove-direct-knative-integration-code">Remove direct Knative integration code</h5>
+
+<p>Currently our Payment service directly binds to Kafka to listen for events. Now that we have Knative eventing integration, we no longer need this code. Open the <code>PaymentResource.java</code> file (in <code>payment-service/src/main/java/com/redhat/cloudnative</code> directory).</p>
+
+<p>Delete (or comment out) the <code>onMessage()</code> method:</p>
+
+<pre><code class="language-java">//    @Incoming("orders")
+//    public CompletionStage&lt;Void&gt; onMessage(KafkaMessage&lt;String, String&gt; message)
+//            throws IOException {
+//
+//        log.info("Kafka message with value = {} arrived", message.getPayload());
+//        handleCloudEvent(message.getPayload());
+//        return message.ack();
+//    }
+</code></pre>
+
+<p>And delete the configuration for the incoming stream. In <code>application.properties</code>, delete (or comment out) the following lines for the <em>Incoming</em> stream:</p>
+
+<pre><code class="language-java"># Incoming stream (unneeded when using Knative events)
+# mp.messaging.incoming.orders.connector=smallrye-kafka
+# mp.messaging.incoming.orders.value.deserializer=org.apache.kafka.common.serialization.StringDeserializer
+# mp.messaging.incoming.orders.key.deserializer=org.apache.kafka.common.serialization.StringDeserializer
+# mp.messaging.incoming.orders.bootstrap.servers=my-cluster-kafka-bootstrap:9092
+# mp.messaging.incoming.orders.group.id=payment-order-service
+# mp.messaging.incoming.orders.auto.offset.reset=earliest
+# mp.messaging.incoming.orders.enable.auto.commit=true
+# mp.messaging.incoming.orders.request.timeout.ms=30000
+</code></pre>
+
+<h5 id="rebuild-and-re-deploy-new-payment-service">Rebuild and re-deploy new Payment service</h5>
+
+<p>Open the <code>payment-service/pom.xml</code> in the editor, then in the CodeReady command palette, Choose <code>Build Native Quarkus App</code>. This will re-build our native executable in the <code>target/</code> directory.</p>
+
+<p>Or you can run the commands directly:</p>
+
+<p><code>cd /projects/cloud-native-workshop-v2m4-labs/payment-service/</code></p>
+
+<p><code>mvn clean package -Pnative -DskipTests</code></p>
+
+<p>This will execute <code>mvn clean package -Pnative</code> behind the scenes. The <code>-Pnative</code> argument selects the native maven profile which invokes the Graal compiler.</p>
+
+<p>We’ve deleted our old build configuration that took a JAR file. We need a new build configuration that can take our new native compiled Quarkus app. Create a new build config with this command:</p>
+
+<p><code>oc new-build quay.io/quarkus/ubi-quarkus-native-binary-s2i:19.2.0 --binary --name=payment -l app=payment</code></p>
+
+<p>You should get a <code>--&gt; Success message</code> at the end.</p>
+
+<ul>
+  <li>Mext, start and watch the build, which will take about 3-4 minutes to complete:</li>
+</ul>
+
+<p><code>oc start-build payment --from-file target/*-runner --follow</code></p>
+
+<p>This step will combine the native binary with a base OS image, create a new container image, and push it to an internal image registry.</p>
+
+<p>Once that’s done, go to <em>Builds &gt; Image Streams</em> on the left menu then input <code>payment</code> to show the payment imagestream. Click on <code>payment</code> imagestream:</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/payment-is.png" alt="serverless"></p>
+
+<p>In the <em>Overview</em> tab, copy the <code>IMAGE REPOSITORY</code> value shown and then open the <code>payment-service/knative/knative-serving-service.yaml</code> file and update the <code>image:</code> line with this value.</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/payment-is-oveview.png" alt="serverless"></p>
+
+<pre><code class="language-yaml">apiVersion: serving.knative.dev/v1alpha1
+kind: Service
+metadata:
+  name: payment
+spec:
+  template:
+    metadata:
+      name: payment
+      annotations:
+        # disable istio-proxy injection
+        sidecar.istio.io/inject: "false"
+    spec:
+      containers:
+        # Replace Project name userXX-cloudnativeapps with project in which payment is deployed
+      - image: YOUR_IMAGE_SERVICE_URL:latest
+</code></pre>
+
+<p>The service can then be deployed using the following command via CodeReady Workspaces Terminal:</p>
+
+<p><code>oc apply -f /projects/cloud-native-workshop-v2m4-labs/payment-service/knative/knative-serving-service.yaml</code></p>
+
+<p>After successful creation of the service we should see a Kubernetes Deployment named similar to <code>payment-service-v1-deployment</code> available.</p>
+
+<p>Go to <em>Home &gt; Status</em> on the left menu and click on <strong>payment-service-v1-deployment</strong>. You will confirm 1 pod is <em>available</em>.</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/payment-serving-deployment.png" alt="serverless"></p>
+
+<p>In the lab environment, <em>Knative Serving</em> and <em>Knative Eventing</em> components are already installed. Select the <code>knative-serving</code> project in the project drop-down selector, then go to <code>Workloads &gt; Config Maps</code> in the left menu.</p>
+
+<p>Click on <strong>config-autoscaler</strong>.</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/knative-serving-config.png" alt="serverless"></p>
+
+<p>Once you click on <strong>config-autoscaler</strong>, click on the <strong>YAML</strong> tab to show the source code to the config map. Here you will see the details on how Knative autoscaling feature is specified.</p>
+
+<p>As default, Knative will automatically scale services down to zero instances when the service(i.e. payment) has no request after 30 seconds:</p>
+
+<ul>
+  <li><code>scale-to-zero-grace-period: 30s</code></li>
+</ul>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/scale-to-zero-grace-period.png" alt="serverless"></p>
+
+<p>In the meantime, it probably took at least 30 seconds so select your <code>userXX-cloudnativeapps</code> project using the drop-down at the top and then go back to <em>Home &gt; Status</em> on the left menu and click on <strong>payment-service-v1-deployment</strong>. You will see 0 pods are available:</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/payment-serving-down-to-zero.png" alt="serverless"></p>
+
+<p>You can’t access the serverless service using traditional routing (e.g. <code>oc get route</code>). Knative maintains its own routing table for managed services. You can list the routes that knative knows of with:</p>
+
+<p><code>oc get rt</code></p>
+
+<pre><code class="language-console">
+NAME      URL                                                 READY   REASON
+payment   http://payment.userXX-cloudnativeapps.[subdomain]   True
+</code></pre>
+
+<p>If you send traffic to this endpoint it will trigger the autoscaler to scale the app up. Trigger the app:</p>
+
+<p><code>export SVC_URL=$(oc get rt payment -o template='{{ .status.url }}')</code></p>
+
+<p><code>curl -i -H 'Content-Type: application/json' -d '{"foo": "bar"}' $SVC_URL</code></p>
+
+<p>This will send some dummy data to the <code>payment</code> service,  but more importantly it triggered knative
+to spin up the pod again automatically, and will shut it down 30 seconds later.</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/payment-serving-magic.png" alt="serverless"></p>
+
+<p><code>Congratulations!</code> You’ve now deployed the payment service as a Quarkus native image, served with <em>Knative Serving</em>, quicker than traditional Java applications. This is not the end of Knative capabilites so we will now see how the payment service will scale up <em>magically</em> in the following exercises.</p>
+
+<h5 id="create-kafkasource-to-enable-knative-eventing">Create KafkaSource to enable Knative Eventing</h5>
+
+<p>In this lab, Knative Eventing is already installed but if you want to install it in your own OpenShift cluster then you can install it via the <em>Knative Eventing Operator</em> in <a href="https://console-openshift-console.apps.cluster-bjs-3f37.bjs-3f37.open.redhat.com/" target="_blank">OpenShift web console</a>.</p>
+
+<p>Open <code>knative/kafka-event-source.yaml</code> (in the <em>payment-service</em> project) to define a <em>KafkaSource</em> to integrate with the Knative Eventing. Copy the following YAML code to this file:</p>
+
+<pre><code class="language-yaml">apiVersion: sources.eventing.knative.dev/v1alpha1
+kind: KafkaSource
+metadata:
+  name: kafka-source
+spec:
+  consumerGroup: payment-consumer-group
+  bootstrapServers: my-cluster-kafka-bootstrap:9092
+  topics: orders
+  sink:
+    apiVersion: serving.knative.dev/v1alpha1
+    kind: Service
+    name: payment
+</code></pre>
+
+<p>The object can then be deployed using the following command via CodeReady Workspaces Terminal:</p>
+
+<p><code>oc apply -f /projects/cloud-native-workshop-v2m4-labs/payment-service/knative/kafka-event-source.yaml</code></p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/kafka-event-source.png" alt="serverless"></p>
+
+<p>You can also see a new pod spun up which will manage the connection between Kafka and our <strong>payments</strong> service:</p>
+
+<p><code>oc get pods -l knative-eventing-source-name=kafka-source</code></p>
+
+<pre><code class="language-console">NAME                                 READY   STATUS    RESTARTS   AGE
+kafka-source-jktp9-b6b4c6797-4rspk   2/2     Running   1          21s
+</code></pre>
+
+<p>Great job!</p>
+
+<p>Let’s make sure if the payment service works properly with Knative features via Coolstore Web UI.</p>
+
+<h4 id="end-to-end-functional-testing">4. End to End Functional Testing</h4>
+
+<hr>
+
+<p>Before getting started, we need to make sure if <em>payment service</em> is scaled down to <em>zero</em> again in <em>Project Status</em>:</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/payment-down-again.png" alt="serverless"></p>
+
+<p>Let’s go shopping! Open the Web UI in your browser. To get the URL to the Web UI, run this command in CodeReady <em>Terminal</em>:</p>
+
+<p><code>oc get route | grep coolstore-ui | awk '{print $2}'</code></p>
+
+<p>Add some cool items to your shopping cart in the following shopping scenarios:</p>
+
+<ul>
+  <li>1) Add a <em>Froge Laptop Sticker</em> to your cart by click on <strong>Add to Cart</strong>. You will see the <code>Success! Added!</code> message under the top munu.</li>
+</ul>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/add-to-cart-serverless.png" alt="serverless"></p>
+
+<ul>
+  <li>2) Go to the <strong>Your Shopping Cart</strong> tab and click on the <strong>Checkout</strong> button . Input the credit card information. The Card Info should be 16 digits and begin with the digit <code>4</code>. For example <code>4123987754646678</code>.</li>
+</ul>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/checkout-serverless.png" alt="serverless"></p>
+
+<ul>
+  <li>3) Input your Credit Card information to pay for the items:</li>
+</ul>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/input-cc-info-serverless.png" alt="serverless"></p>
+
+<ul>
+  <li>4) Let’s find out how <em>Kafka Event</em> enables <em>Knative Eventing</em>. Go back to <em>Project Status</em> in <a href="https://console-openshift-console.apps.cluster-bjs-3f37.bjs-3f37.open.redhat.com/" target="_blank">OpenShift web console</a> then confirm if <em>payment service</em> is up automatically. It’s <code>MAGIC!!</code></li>
+</ul>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/payment-up-again.png" alt="serverless"></p>
+
+<ul>
+  <li>5) Confirm the <em>Payment Status</em> of the your shopping items in the <strong>All Orders</strong> tab. It should be <code>Processing</code>.</li>
+</ul>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/payment-processing-serverless.png" alt="serverless"></p>
+
+<ul>
+  <li>5) After a few moments, reload the <strong>All Orders</strong> page to confirm that the Payment Status changed to <code>COMPLETED</code> or <code>FAILED</code>.</li>
+</ul>
+
+<blockquote>
+  <p><code>Note</code>: If the status is still <code>Processing</code>, the order service is processing incoming Kafka messages and store thme in MongoDB. Please reload the page a few times more.</p>
+</blockquote>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/payment-completedorfailed-serverless.png" alt="serverless"></p>
+
+<p>This is the same result as before, but using Knative eventing to make a more powerful event-driven system that can scale with demand.</p>
+
+<h4 id="creating-cloud-native-cicd-pipelines-using-tekton">5. Creating Cloud-Native CI/CD Pipelines using Tekton</h4>
+
+<hr>
+
+<h5 id="what-is-the-cloud-native-cicd-pipelines">What is the Cloud-Native CI/CD Pipelines?</h5>
+
+<p>There’re lots of open source CI/CD tools to build, test, deploy, and manage cloud-native applications/microservices: from on-premise to private, public,
+and hybrid cloud. Each tool provides different features to integrate with existing platforms/systems. This sometimes makes it more complex
+for DevOps teams to be able to create the CI/CD pipelines and maintain them on Kubernetes clusters. The <em>cloud-native CI/CD pipeline</em> should be defined and executed in
+the Kubernetes native way. For example, the pipeline can be specified as Kubernetes resources using YAML format.</p>
+
+<p><em>OpenShift Pipelines</em> provides a cloud-native, continuous integration and delivery (CI/CD) solution for building pipelines using <a href="https://tekton.dev/" target="_blank">Tekton</a>.</p>
+
+<p>Tekton is a flexible, Kubernetes-native, open-source CI/CD framework that enables automating deployments across multiple platforms (Kubernetes, serverless, VMs, etc)
+by abstracting away the underlying details.</p>
+
+<p>OpenShift Pipelines features:</p>
+
+<ul>
+  <li>Standard CI/CD pipeline definition based on Tekton</li>
+  <li>Build images with Kubernetes tools such as S2I, Buildah, Buildpacks, Kaniko, etc</li>
+  <li>Deploy applications to multiple platforms such as Kubernetes, serverless and VMs</li>
+  <li>Easy to extend and integrate with existing tools</li>
+  <li>Scale pipelines on-demand</li>
+  <li>Portable across any Kubernetes platform</li>
+  <li>Designed for microservices and decentralized teams</li>
+  <li>Integrated with the OpenShift Developer Console</li>
+</ul>
+
+<blockquote>
+  <p>In the lab, OpenShift Pipelines is already installed on OpenShift cluster but if you want to install OpenShift Pipelines on your own OpenShift cluster, OpenShift Pipelines is provided as an add-on on top of OpenShift that can be installed via an operator available in the OpenShift OperatorHub.</p>
+</blockquote>
+
+<h5 id="what-is-tekton">What is Tekton?</h5>
+
+<p>Tekton defines a number of <a href="https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/" target="_blank">Kubernetes custom resources</a> as
+building blocks in order to standardize pipeline concepts and provide a terminology that is consistent across CI/CD solutions. These custom resources
+are an extension of the Kubernetes API that let users create and interact with these objects using the OpenShift CLI (<code>oc</code>), <code>kubectl</code>, and other Kubernetes tools.</p>
+
+<p>The custom resources needed to define a pipeline are listed below:</p>
+
+<ul>
+  <li>
+    <p><code>Task</code>: a reusable, loosely coupled number of steps that perform a specific task (e.g. building a container image)</p>
+  </li>
+  <li>
+    <p><code>Pipeline</code>: the definition of the pipeline and the tasks that it should perform</p>
+  </li>
+  <li>
+    <p><code>PipelineResource</code>: inputs (e.g. git repository) and outputs (e.g. image registry) to and out of a pipeline or task</p>
+  </li>
+  <li>
+    <p><code>TaskRun</code>: the execution and result (i.e. success or failure) of running an instance of task</p>
+  </li>
+  <li>
+    <p><code>PipelineRun</code>: the execution and result (i.e. success or failure) of running a pipeline</p>
+  </li>
+</ul>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/tekton-arch.png" alt="severless"></p>
+
+<p>For further details on pipeline concepts, refer to the <a href="https://github.com/tektoncd/pipeline/tree/master/docs#learn-more" target="_blank">Tekton documentation</a> that
+provides an excellent guide for understanding various parameters and attributes available for defining pipelines.</p>
+
+<p>In this lab, we will walk you through pipeline concepts and how to create and run a CI/CD pipeline for building and deploying serverless applications on <code>Knative</code> on OpenShift.</p>
+
+<h5 id="deploy-sample-application">Deploy Sample Application</h5>
+
+<p>Change to your developer project for the sample application that you will be using in this lab using this command: (replace <code>userXX</code> with your username):</p>
+
+<p><code>oc project userXX-cloudnative-pipeline</code></p>
+
+<p>You will use the <a href="https://github.com/spring-projects/spring-petclinic" target="_blank">Spring PetClinic</a> sample application during this tutorial, which is a simple Spring Boot application.</p>
+
+<p>Create the Kubernetes objects for deploying the PetClinic app on OpenShift. The deployment will not complete since there are no container images built for the PetClinic application yet. That you will do in the following sections through a CI/CD pipeline.</p>
+
+<p>Replace <code>userXX-cloudnative-pipeline</code> with your username in <strong>knative/pipeline/petclinic.yaml</strong>:</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/petclinic-namespace.png" alt="serverless"></p>
+
+<p>Then create the object in Kubernetes:</p>
+
+<p><code>oc create -f knative/pipeline/petclinic.yaml</code></p>
+
+<p>You should be able to see the deployment in the <a href="https://console-openshift-console.apps.cluster-bjs-3f37.bjs-3f37.open.redhat.com/" target="_blank">OpenShift web console</a>.</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/petclinic-deployed-1.png" alt="serverless"></p>
+
+<h5 id="install-tasks">Install Tasks</h5>
+
+<p><code>Tasks</code> consist of a number of steps that are executed sequentially. Each <code>task</code> is executed in a separate container within the same pod.
+They can also have inputs and outputs in order to interact with other tasks in the pipeline.</p>
+
+<p>Here is an example of a Maven task for building a Maven-based Java application:</p>
+
+<pre><code class="language-yaml">apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: maven-build
+spec:
+  inputs:
+    resources:
+    - name: workspace-git
+      targetPath: /
+      type: git
+  steps:
+  - name: build
+    image: maven:3.6.0-jdk-8-slim
+    command:
+    - /usr/bin/mvn
+    args:
+    - install
+</code></pre>
+
+<p>When a <code>task</code> starts running, it starts a pod and runs each <code>step</code> sequentially in a separate container on the same pod. This task happens to have a
+single step, but tasks can have multiple steps, and, since they run within the same pod, they have access to the same volumes in order to cache files,
+access configmaps, secrets, etc. <code>Tasks</code> can also receive inputs (e.g., a git repository) and outputs (e.g., an image in a registry) in order to interact
+with each other.</p>
+
+<p>Note that only the requirement for a git repository is declared on the task and not a specific git repository to be used. That allows <code>tasks</code> to be
+reusable for multiple pipelines and purposes. You can find more examples of reusable <code>tasks</code> in the <a href="https://github.com/tektoncd/catalog" target="_blank">Tekton Catalog</a>
+and <a href="https://github.com/openshift/pipelines-catalog" target="_blank">OpenShift Catalog</a> repositories.</p>
+
+<p>Install the <code>openshift-client</code> and <code>s2i-java</code> tasks from the catalog repository using <code>oc</code> or <code>kubectl</code>, which you will need for
+creating a pipeline in the next section:</p>
+
+<p>Create the following Tekton tasks which will be used in the <code>Pipelines</code>:</p>
+
+<p><code>oc create -f knative/pipeline/openshift-client-task.yaml</code></p>
+
+<p><code>oc create -f knative/pipeline/s2i-java-8-task.yaml</code></p>
+
+<p>Let’s confirm if the <strong>tasks</strong> are installed properly using <a href="https://github.com/tektoncd/cli/releases" target="_blank">Tekton CLI</a> that already installed in CodeReady Workspaces.</p>
+
+<p><code>tkn task list</code></p>
+
+<pre><code class="language-shell">openshift-client   7 seconds ago
+s2i-java-8         3 seconds ago
+</code></pre>
+
+<h5 id="create-pipeline">Create Pipeline</h5>
+
+<p>A pipeline defines a number of tasks that should be executed and how they interact with each other via their inputs and outputs.</p>
+
+<p>In this lab, we will create a pipeline that takes the source code of PetClinic application from GitHub and then builds and deploys it on OpenShift using <a href="https://docs.openshift.com/container-platform/4.1/builds/understanding-image-builds.html#build-strategy-s2i_understanding-image-builds" target="_blank">Source-to-Image (S2I)</a>.</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/pipeline-diagram.png" alt="serverless"></p>
+
+<p>Here is the YAML file that represents the above pipeline:</p>
+
+<pre><code class="language-yaml">apiVersion: tekton.dev/v1alpha1
+kind: Pipeline
+metadata:
+  name: petclinic-deploy-pipeline
+spec:
+  resources:
+  - name: app-git
+    type: git
+  - name: app-image
+    type: image
+  tasks:
+  - name: build
+    taskRef:
+      name: s2i-java-8
+    params:
+      - name: TLSVERIFY
+        value: "false"
+    resources:
+      inputs:
+      - name: source
+        resource: app-git
+      outputs:
+      - name: image
+        resource: app-image
+  - name: deploy
+    taskRef:
+      name: openshift-client
+    runAfter:
+      - build
+    params:
+    - name: ARGS
+      value:
+        - rollout
+        - latest
+        - spring-petclinic
+</code></pre>
+
+<p>This pipeline performs the following:</p>
+
+<ul>
+  <li>
+    <p>Clones the source code of the application from a Git repository (<code>app-git</code> resource)</p>
+  </li>
+  <li>
+    <p>Builds the container image using the <code>s2i-java-8</code> task that generates a <code>Dockerfile</code> for the application and uses <a href="https://buildah.io/" target="_blank">Buildah</a> to build the image</p>
+  </li>
+  <li>
+    <p>The application image is pushed to an image registry (<code>app-image</code> resource)</p>
+  </li>
+  <li>
+    <p>The new application image is deployed on OpenShift using the <code>openshift-cli</code></p>
+  </li>
+</ul>
+
+<p>You might have noticed that there are no references to the PetClinic Git repository and its image in the registry. That’s because <code>Pipelines</code> in Tekton are designed to be generic and re-usable across environments and stages through the application’s lifecycle. <code>Pipelines</code> abstract away the specifics of the Git source repository and image to be produced as <code>resources</code>. When triggering a pipeline, you can provide different Git repositories and image registries to be used during pipeline execution. Be patient! You will do that in a little bit in the next section.</p>
+
+<p>The execution order of <code>tasks</code> is determined by dependencies that are defined between the tasks via <code>inputs</code> and <code>outputs</code> as well as explicit orders that are defined via <code>runAfter</code>.</p>
+
+<p>In the <a href="https://console-openshift-console.apps.cluster-bjs-3f37.bjs-3f37.open.redhat.com/" target="_blank">OpenShift web console</a>, you can click on <em>Add &gt; Import YAML</em> at the top right of the screen while you are in the <code>userXX-cloudnative-pipeline</code> project.</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/console-import-yaml-1.png" alt="serverless"></p>
+
+<p>Paste the YAML into the textfield, and click on <code>Create</code>.</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/console-import-yaml-2.png" alt="serverless"></p>
+
+<p>Check the list of pipelines you have created in CodeReady Workspaces Terminal:</p>
+
+<p><code>tkn pipeline ls</code></p>
+
+<pre><code class="language-shell">NAME                       AGE              LAST RUN   STARTED   DURATION   STATUS
+petclinic-deploy-pipeline  8 seconds ago   ---        ---       ---        ---
+</code></pre>
+
+<h5 id="trigger-pipeline">Trigger Pipeline</h5>
+
+<p>Now that the pipeline is created, you can trigger it to execute the tasks specified in the pipeline. Triggering pipelines is an area that is under development and in the next release it will be possible to be done via the <a href="https://console-openshift-console.apps.cluster-bjs-3f37.bjs-3f37.open.redhat.com/" target="_blank">OpenShift web console</a> and Tekton CLI. In this tutorial, you will trigger the pipeline through creating the Kubernetes objects (the hard way!) in order to learn the mechanics of triggering.</p>
+
+<p>First, you should create a number of <code>PipelineResources</code> that contain the specifics of the Git repository and image registry to be used in the pipeline during execution. Expectedly, these are also reusable across multiple pipelines.</p>
+
+<p>The following <code>PipelineResource</code> defines the Git repository and reference for the PetClinic application. Create the following pipeline resources via the <a href="https://console-openshift-console.apps.cluster-bjs-3f37.bjs-3f37.open.redhat.com/" target="_blank">OpenShift web console</a> via <code>Add → Import YAML</code>:</p>
+
+<pre><code class="language-yaml">apiVersion: tekton.dev/v1alpha1
+kind: PipelineResource
+metadata:
+  name: petclinic-git
+spec:
+  type: git
+  params:
+  - name: url
+    value: https://github.com/spring-projects/spring-petclinic
+</code></pre>
+
+<p>And the following defines the OpenShift internal registry for the PetClinic image to be pushed to. Create the following pipeline resources via the <a href="https://console-openshift-console.apps.cluster-bjs-3f37.bjs-3f37.open.redhat.com/" target="_blank">OpenShift web console</a> via <code>Add → Import YAML</code>. Replace your username with <code>userXX</code>:</p>
+
+<pre><code class="language-yaml">apiVersion: tekton.dev/v1alpha1
+kind: PipelineResource
+metadata:
+  name: petclinic-image
+spec:
+  type: image
+  params:
+  - name: url
+    value: image-registry.openshift-image-registry.svc:5000/userXX-cloudnative-pipeline/spring-petclinic
+</code></pre>
+
+<p>Create the above pipeline resources via the <a href="https://console-openshift-console.apps.cluster-bjs-3f37.bjs-3f37.open.redhat.com/" target="_blank">OpenShift web console</a> via <code>Add → Import YAML</code>.</p>
+
+<p>You can see the list of resources created in CodeReady Workspaces Terminal:</p>
+
+<p><code>tkn resource ls</code></p>
+
+<pre><code class="language-shell">NAME              TYPE    DETAILS
+petclinic-git     git     url: https://github.com/spring-projects/spring-petclinic
+petclinic-image   image   url: image-registry.openshift-image-registry.svc:5000/userXX-cloudnative-pipeline/spring-petclinic
+</code></pre>
+
+<p>A <code>PipelineRun</code> is how you can start a pipeline and tie it to the Git and image resources that should be used for this specific invocation. You can start the pipeline in CodeReady Workspaces Terminal:</p>
+
+<pre><code class="language-shell">tkn pipeline start petclinic-deploy-pipeline \
+      -r app-git=petclinic-git \
+      -r app-image=petclinic-image \
+      -s pipeline
+</code></pre>
+
+<p>The result looks like:</p>
+
+<p><code>Pipelinerun started: petclinic-deploy-pipeline-run-97kdv</code></p>
+
+<p>The <code>-r</code> flag specifies the PipelineResources that should be provided to the pipeline and the <code>-s</code> flag specifies the service account to be used for running the pipeline.</p>
+
+<p>As soon as you started the <code>petclinic-deploy-pipeline pipeline</code>, a pipelinerun is instantiated and pods are created to execute the tasks that are defined in the pipeline.</p>
+
+<p><code>tkn pipeline list</code></p>
+
+<pre><code class="language-shell">NAME                        AGE              LAST RUN                              STARTED          DURATION   STATUS
+petclinic-deploy-pipeline   21 seconds ago   petclinic-deploy-pipeline-run-97kdv   11 seconds ago   ---        Running
+</code></pre>
+
+<p>Check out the logs of the pipeline as it runs using the <code>tkn pipeline logs</code> command which interactively allows you to pick the pipelinerun of your interest and inspect the logs:</p>
+
+<p><code>tkn pipeline logs -f</code></p>
+
+<pre><code class="language-shell">? Select pipeline : petclinic-deploy-pipeline
+? Select pipelinerun : petclinic-deploy-pipeline-run-97kdv started 39 seconds ago
+
+...
+[build : push] Copying config sha256:6c2be43b49deee05b0dee97bd23dab0dcfd9b1b6352fd085f833f62e7d106ae8
+[build : push] Writing manifest to image destination
+[build : push] Copying config sha256:6c2be43b49deee05b0dee97bd23dab0dcfd9b1b6352fd085f833f62e7d106ae8
+[build : push] Writing manifest to image destination
+...
+[build : image-digest-exporter-bj6dr] 2019/09/17 05:06:09 Image digest exporter output: []
+[deploy : oc] deploymentconfig.apps.openshift.io/spring-petclinic rolled out
+
+</code></pre>
+
+<blockquote>
+  <p><code>Note</code>: The build log(<em>ImageResource petclinic-image doesn’t have an index.json file</em>) doesn’t mean an error but it’s vailation check. Even if you’re failed, <strong>Pipeline Build</strong> will continue.</p>
+</blockquote>
+
+<p>After a few minutes, the pipeline should finish successfully.</p>
+
+<p><code>tkn pipeline list </code></p>
+
+<pre><code class="language-shell">NAME                        AGE             LAST RUN                              STARTED         DURATION    STATUS
+petclinic-deploy-pipeline   7 minutes ago   petclinic-deploy-pipeline-run-97kdv   5 minutes ago   4 minutes   Succeeded
+</code></pre>
+
+<p>Looking back at the project, you should see that the PetClinic image is successfully built and deployed.</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 4_files/petclinic-deployed-2.png" alt="serverless"></p>
+
+<h3 id="summary">Summary</h3>
+
+<p>In this module, we learned how to develop cloud-native applications using multiple Java runtimes (Quarkus and Spring Boot), Javascript (Node.js) and different datasources (i.e. PostgreSQL, MongoDB) to handle a variety of business use cases which implement real-time <em>request/response</em> communication using REST APIs, high performing cacheable services using <strong>JBoss Data Grid</strong>, event-driven/reactive shopping cart service using Apache Kafka in <strong>Red Hat AMQ Streams</strong>, and in the end, we treated the payment service as a <code>Serverless</code> application using <code>Knative</code> with Serving, Eventing, and Pipeline(Tekton).</p>
+
+<p><strong>Red Hat Runtimes</strong> enables enterprise developers to design the advanced cloud-native architecture and develop, build, deploy the cloud-native application on hybrid cloud on the <strong>Red Hat OpenShift Container Platform</strong>. Congratulations!</p>
+
+<h5 id="additional-resources">Additional Resources:</h5>
+
+<ul>
+  <li>
+    <p><a href="https://www.openshift.com/learn/topics/knative" target="_blank">Knative on OpenShift</a></p>
+  </li>
+  <li>
+    <p><a href="https://knative.dev/docs/install/knative-with-openshift/" target="_blank">Knative Install on OpenShift</a></p>
+  </li>
+  <li>
+    <p><a href="https://redhat-developer-demos.github.io/knative-tutorial" target="_blank">Knative Tutorial</a></p>
+  </li>
+  <li>
+    <p><a href="https://developers.redhat.com/topics/knative/" target="_blank">Knative, Serverless Kubernetes Blogs</a></p>
+  </li>
+  <li>
+    <p><a href="https://opensource.com/article/18/11/open-source-serverless-platforms" target="_blank">7 open source platforms to get started with serverless computing</a></p>
+  </li>
+  <li>
+    <p><a href="https://opensource.com/article/18/11/developing-functions-service-apache-openwhisk" target="_blank">How to develop functions-as-a-service with Apache OpenWhisk</a></p>
+  </li>
+  <li>
+    <p><a href="https://opensource.com/article/19/4/enabling-serverless-kubernetes" target="_blank">How to enable serverless computing in Kubernetes</a></p>
+  </li>
+</ul>
+
+        <hr>
+    </div>
+  </div>
+</main>
+
+
+
+</body></html>

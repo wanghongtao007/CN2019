@@ -1,0 +1,1714 @@
+<!DOCTYPE html>
+<!-- saved from url=(0104)http://guides-m3-labs-infra.apps.cluster-bjs-3f37.bjs-3f37.open.redhat.com/workshop/cloudnative/complete -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style type="text/css">.turbolinks-progress-bar {
+  position: fixed;
+  display: block;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: #0076ff;
+  z-index: 9999;
+  transition: width 300ms ease-out, opacity 150ms 150ms ease-in;
+  transform: translate3d(0, 0, 0);
+}</style>
+  
+  
+
+  <link rel="stylesheet" media="all" href="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/application-dcf5640dabe7c086c5db76b2e378b4def3309902bc32af61ab63094a23e1730b.css" data-turbolinks-track="reload">
+  <script src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/application-1763c4134299cf1911a383dd8d9b23b574b429196c500fbba1a010629fc4c558.js.下载" data-turbolinks-track="reload"></script><style type="text/css">/* Chart.js */
+@-webkit-keyframes chartjs-render-animation{from{opacity:0.99}to{opacity:1}}@keyframes chartjs-render-animation{from{opacity:0.99}to{opacity:1}}.chartjs-render-monitor{-webkit-animation:chartjs-render-animation 0.001s;animation:chartjs-render-animation 0.001s;}</style>
+<title>
+      The Containers and Cloud-Native Roadshow Dev Track - Module 3
+  </title><meta name="csrf-param" content="authenticity_token"><meta name="csrf-token" content="KhCNSYpXf40vwu7xLeRABlbGjI8vV3VLkB2DwB4WfTEX8fS7pZphemgE6EtKCi8RWNH2rU2iuWU3F6o/2plMxg=="></head>
+
+<body>
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid d-flex justify-content-start">
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarContent">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+      <a class="navbar-brand mb-0 h1" href="http://guides-m3-labs-infra.apps.cluster-bjs-3f37.bjs-3f37.open.redhat.com/workshop/cloudnative" id="workshopName">The Containers and Cloud-Native Roadshow Dev Track - Module 3</a>
+  </div>
+</nav>
+
+<script type="application/javascript">
+    if (App.hasOwnProperty('subscription_id')) {
+        App.cable.subscriptions.remove(App.subscription_id);
+    }
+
+    App.subscription_id = App.report_page_view('cloudnative#complete', '66ba5578-3611-4d4c-a9b3-411ab7c65249');
+</script>
+
+<main class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+        <h2>Your Workshop Environment</h2>
+        <h2 id="the-workshop-environment-you-are-using">The Workshop Environment You Are Using</h2>
+
+<p>Your workshop environment consists of several components which have been pre-installed and are ready to use. Depending on which parts of the workshop you’re doing, you will use one or more of:</p>
+
+<ul>
+  <li><a href="https://www.openshift.com/" target="_blank">Red Hat OpenShift</a> - You’ll use one or more <em>projects</em> (Kubernetes namespaces) that are your own and are isolated from other workshop students</li>
+  <li><a href="https://developers.redhat.com/products/codeready-workspaces/overview" target="_blank">Red Hat CodeReady Workspaces</a> - based on <strong>Eclipse Che</strong>, it’s a cloud-based, in-browser IDE (similar to IntelliJ IDEA, VSCode, Eclipse IDE). You’ve been provisioned your own personal workspace for use with this workshop. You’ll write, test, and deploy code from here.</li>
+  <li><a href="https://developers.redhat.com/products/rhamt" target="_blank">Red Hat Application Migration Toolkit</a> - You’ll use this to migrate an existing application</li>
+  <li><a href="https://www.redhat.com/en/products/runtimes" target="_blank">Red Hat Runtimes</a> - a collection of cloud-native runtimes like Spring Boot, Node.js, and <a href="https://quarkus.io/" target="_blank">Quarkus</a></li>
+  <li><a href="https://www.redhat.com/en/technologies/jboss-middleware/amq" target="_blank">Red Hat AMQ Streams</a> - streaming data platform based on <strong>Apache Kafka</strong></li>
+  <li><a href="https://access.redhat.com/products/red-hat-single-sign-on" target="_blank">Red Hat SSO</a> - For authentication / authorization - based on <strong>Keycloak</strong></li>
+  <li>Other open source projects like <a href="https://gogs.io/" target="_blank">Gogs</a> (Git server that holds application source code), <a href="https://knative.dev/" target="_blank">Knative</a> (for serverless apps), <a href="https://jenkins.io/" target="_blank">Jenkins</a> and <a href="https://cloud.google.com/tekton/" target="_blank">Tekton</a> (CI/CD pipelines), <a href="https://prometheus.io/" target="_blank">Prometheus</a> and <a href="https://grafana.com/" target="_blank">Grafana</a> (monitoring apps), and more.</li>
+</ul>
+
+<p>You’ll be provided clickable URLs throughout the workshop to access the services that have been installed for you.</p>
+
+<h2 id="how-to-complete-this-workshop">How to complete this workshop</h2>
+
+<p>Simply follow these instructions end-to-end. <strong>You’ll need to do quite a bit of copy/paste for Linux commands and source code modifications</strong>, as well as clicking around on various consoles used in the labs. When you get to the end of each section, you can click the “Next &gt;” button at the bottom to advance to the next topic. You can also use the menu on the left to move around the instructions at will.</p>
+
+<p>The entire workshop is split into one or more <em>modules</em> - Look at the top of the screen in the header to see which module you are on. After you complete this module, your instructor may have additional modules to complete.</p>
+
+<p>Good luck, and let’s get started!</p>
+
+        <hr>
+        <h2>Getting Started with Service Mesh</h2>
+        <h2 id="service-mesh-and-identity">Service Mesh and Identity</h2>
+
+<p>In this module, you will learn how to prevent cascading failures in a distributed environment, how to detect misbehaving services, and how to avoid having to implement resiliency and monitoring in your business logic. As we transition our applications towards a distributed architecture with microservices deployed across a distributed
+network, Many new challenges await us.</p>
+
+<p>Technologies like containers and container orchestration platforms like OpenShift solve the deployment of our distributed
+applications quite well, but are still catching up to addressing the service communication necessary to fully take advantage
+of distributed applications, such as dealing with:</p>
+
+<ul>
+  <li>Unpredictable failure modes</li>
+  <li>Verifying end-to-end application correctness</li>
+  <li>Unexpected system degradation</li>
+  <li>Continuous topology changes</li>
+  <li>The use of elastic/ephemeral/transient resources</li>
+</ul>
+
+<p>Today, developers are responsible for taking into account these challenges, and do things like:</p>
+
+<ul>
+  <li>Circuit breaking and Bulkheading (e.g. with Netfix Hystrix)</li>
+  <li>Timeouts/retries</li>
+  <li>Service discovery (e.g. with Eureka)</li>
+  <li>Client-side load balancing (e.g. with Netfix Ribbon)</li>
+</ul>
+
+<p>Another challenge is each runtime and language addresses these with different libraries and frameworks, and in
+some cases there may be no implementation of a particular library for your chosen language or runtime.</p>
+
+<p>In this scenario we’ll explore how to use the OpenShift <em>Service Mesh</em> (based on the <em>Istio</em> open source project) to solve many of these challenges and result in
+a much more robust, reliable, and resilient application in the face of the new world of dynamic distributed applications.</p>
+
+<h4 id="what-is-istio">What is Istio?</h4>
+
+<hr>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/istio-logo.png" alt="Logo" width="600px"></p>
+
+<p>Istio is an open, platform-independent service mesh designed to manage communications between microservices and
+applications in a transparent way. It provides behavioral insights and operational control over the service mesh
+as a whole. It provides a number of key capabilities uniformly across a network of services:</p>
+
+<ul>
+  <li>
+    <p><strong>Traffic Management</strong> - Control the flow of traffic and API calls between services, make calls more reliable, and make the network more robust in the face of adverse conditions.</p>
+  </li>
+  <li>
+    <p><strong>Observability</strong> - Gain understanding of the dependencies between services and the nature and flow of traffic between them, providing the ability to quickly identify issues.</p>
+  </li>
+  <li>
+    <p><strong>Policy Enforcement</strong> - Apply organizational policy to the interaction between services, ensure access policies are enforced and resources are fairly distributed among consumers. Policy changes are made by configuring the mesh, not by changing application code.</p>
+  </li>
+  <li>
+    <p><strong>Service Identity and Security</strong> - Provide services in the mesh with a verifiable identity and provide the ability to protect service traffic as it flows over networks of varying degrees of trustability.</p>
+  </li>
+</ul>
+
+<p>These capabilities greatly decrease the coupling between application code, the underlying platform, and policy. This decreased coupling not only makes services easier to implement, but also makes it simpler for operators to move application deployments between environments or to new policy schemes. Applications become inherently more portable as a result.</p>
+
+<p>Sounds fun, right? Let’s get started!</p>
+
+<h4 id="examine-istio">Examine Istio</h4>
+
+<hr>
+
+<p>For this module we’ve already installed Istio into our OpenShift platform as well as as serveral useful tools to use with it. Istio is installed in the <code>istio-system</code> project, and we’ve also added a few other commonly used tools like Kiali and Jaeger (more on these later)</p>
+
+<p>You can also read a bit more about the <a href="https://istio.io/docs" target="_blank">Istio</a> architecture below:</p>
+
+<h4 id="istio-details">Istio Details</h4>
+
+<hr>
+
+<p>An Istio service mesh is logically split into a <em>data plane</em> and a <em>control plane</em>.</p>
+
+<p>The <strong>data plane</strong> is composed of a set of intelligent proxies (<em>Envoy</em> proxies) deployed as <em>sidecars</em> to your application’s pods in OpenShift that mediate and control all network communication between microservices.</p>
+
+<p>The <strong>control plane</strong> is responsible for managing and configuring proxies to route traffic, as well as enforcing policies at runtime.</p>
+
+<p>The following diagram shows the different components that make up each plane:</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/arch.png" alt="Istio Arch" width="800px"></p>
+
+<h5 id="istio-components">Istio Components</h5>
+
+<p>Istio uses an extended version of the <a href="https://envoyproxy.github.io/envoy/" target="_blank">Envoy</a> proxy as a <em>side car</em> container attached to each service Pod. Envoy is a high-performance proxy developed in C++ to mediate all inbound and outbound traffic for all services in the service mesh. Istio leverages Envoy’s many built-in features, for example:</p>
+
+<ul>
+  <li>Dynamic service discovery</li>
+  <li>Load balancing</li>
+  <li>TLS termination</li>
+  <li>HTTP/2 and gRPC proxies</li>
+  <li>Circuit breakers</li>
+  <li>Health checks</li>
+  <li>Staged rollouts with %-based traffic split</li>
+  <li>Fault injection</li>
+  <li>Rich metrics</li>
+</ul>
+
+<p><strong>Envoy</strong> is the <em>data plane</em> component that deployed as a <em>sidecar</em> to the relevant service in the same Kubernetes pod. This deployment allows Istio to extract a wealth of signals about traffic behavior as attributes. Istio can, in turn, use these attributes in <em>Mixer</em> to enforce policy decisions, and send them to monitoring systems to provide information about the behavior of the entire mesh.</p>
+
+<p>Mixer is the <em>control plane</em> component responsible for enforcing access control and usage policies across the service mesh, and collects telemetry data from the Envoy proxy and other services. The proxy extracts request level attributes, and sends them to Mixer for evaluation.</p>
+
+<p>Mixer includes a flexible plugin model. This model enables Istio to interface with a variety of host environments and infrastructure backends. Thus, Istio abstracts the Envoy proxy and Istio-managed services from these details.</p>
+
+<p><strong>Pilot</strong> is the <em>control plane</em> component responsible for configuring the proxies at runtime. Pilot provides service discovery for the Envoy sidecars, traffic management capabilities for intelligent routing (for example, A/B tests or canary deployments), and resiliency (timeouts, retries, and circuit breakers).</p>
+
+<p>Pilot converts high level routing rules that control traffic behavior into Envoy-specific configurations, and propagates them to the sidecars at runtime. Pilot abstracts platform-specific service discovery mechanisms and synthesizes them into a standard format that any sidecar conforming with the <a href="https://github.com/envoyproxy/data-plane-api" target="_blank">Envoy data plane APIs</a> can consume. This loose coupling allows Istio to run on multiple environments such as Kubernetes, Consul, or Nomad, while maintaining the same operator interface for traffic management.</p>
+
+<p><strong>Citadel</strong> is the <em>control plane</em> component responsible for certificate issuance and rotation. Citadel provides strong service-to-service and end-user authentication with built-in identity and credential management. You can use Citadel to upgrade unencrypted traffic in the service mesh. Using Citadel, operators can enforce policies based on service identity rather than on network controls.</p>
+
+<p><strong>Galley</strong> is Istio’s configuration validation, ingestion, processing and distribution component. It is responsible for insulating the rest of the Istio components from the details of obtaining user configuration from the underlying platform (e.g. Kubernetes).</p>
+
+<p>Several <strong>Add-ons</strong> components are used to provide additional visualizations, metrics, and tracing functions:</p>
+
+<ul>
+  <li><a href="https://www.kiali.io/" target="_blank">Kiali</a> - Service mesh observability and configuration</li>
+  <li><a href="https://prometheus.io/" target="_blank">Prometheus</a> - Systems monitoring and alerting toolkit</li>
+  <li><a href="https://grafana.com/" target="_blank">Grafana</a> - Allows you to query, visualize, alert on and understand your metrics</li>
+  <li><a href="http://jaeger.readthedocs.io/" target="_blank">Jaeger Tracing</a> - Distributed tracing to gather timing data needed to troubleshoot latency problems in microservice architectures</li>
+</ul>
+
+<p>We will use these in future steps in this scenario!</p>
+
+<h4 id="getting-ready-for-the-labs">Getting Ready for the labs</h4>
+
+<blockquote>
+  <p><strong>NOTE</strong></p>
+
+  <p>If you’ve already completed the <strong>Optimizing Existing Applications</strong> module then you will simply need to import the code for this module. Skip down to the <strong>Import Projects</strong> section.</p>
+</blockquote>
+
+<hr>
+
+<h5 id="if-this-is-the-first-module-you-are-doing-today">If this is the first module you are doing today</h5>
+
+<p>You will be using Red Hat CodeReady Workspaces, an online IDE based on <a href="https://www.eclipse.org/che/" target="_blank">Eclipe Che</a>. <strong>Changes to files are auto-saved every few seconds</strong>, so you don’t need to explicitly save changes.</p>
+
+<p>To get started, <a href="http://codeready-labs-infra.apps.cluster-bjs-3f37.bjs-3f37.open.redhat.com/" target="_blank">access the Che instance</a> and log in using the username and password you’ve been assigned (e.g. <code>userXX/r3dh4t1!</code>):</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/che-login.png" alt="cdw"></p>
+
+<p>Once you log in, you’ll be placed on your personal dashboard. We’ve pre-created workspaces for you to use. Click on the name of the pre-created workspace on the left, as shown below (the name will be different depending on your assigned number). You can also click on the name of the workspace in the center, and then click on the green button that says “OPEN” on the top right hand side of the screen:</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/che-precreated.png" alt="cdw"></p>
+
+<p>After a minute or two, you’ll be placed in the workspace:</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/che-workspace.png" alt="cdw"></p>
+
+<p>To gain extra screen space, click on the yellow arrow to hide the left menu (you won’t need it):</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/che-realestate.png" alt="cdw"></p>
+
+<p>Users of Eclipse, IntelliJ IDEA or Visual Studio Code will see a familiar layout: a project/file browser on the left, a code editor on the right, and a terminal at the bottom. You’ll use all of these during the course of this workshop, so keep this browser tab open throughout. <strong>If things get weird, you can simply reload the browser tab to refresh the view.</strong></p>
+
+<h5 id="import-projects">Import Projects</h5>
+
+<p>Click on the <strong>Import Projects…</strong> in <strong>Workspace</strong> menu and enter the following:</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/codeready-workspace-menu.png" alt="codeready-workspace-import"></p>
+
+<ul>
+  <li>Version Control System: <code>GIT</code></li>
+  <li>URL: <code>http://gogs-labs-infra.apps.cluster-bjs-3f37.bjs-3f37.open.redhat.com/userXX/cloud-native-workshop-v2m3-labs.git</code>(IMPORTANT: replace <code>userXX</code> with your lab user)</li>
+  <li>Check <code>Import recursively (for multi-module projects)</code></li>
+  <li>Name: <code>cloud-native-workshop-v2m3-labs</code></li>
+</ul>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/codeready-workspace-import.png" alt="codeready-workspace-import" width="700px"></p>
+
+<p>The project will be imported into your workspace and visible in the project explorer.</p>
+
+<p>CodeReady Workspaces is a full featured IDE and provides language specific capabilities for various project types. In order to
+enable these capabilities for this Java-based Maven app, let’s convert the imported project to a Maven project. In the project explorer, right-click on each project and
+then click on <strong>Convert to Project</strong> continuously.</p>
+
+<blockquote>
+  <p><strong>NOTE</strong></p>
+
+  <p>If you do not see the <code>Convert to Project</code> then your projects are already converted, and you should see a small icon next to each project:
+<img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/maven-icon.png" alt="codeready-workspace-convert" width="600px"></p>
+</blockquote>
+
+<p>If not, then convert them:</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/codeready-workspace-convert.png" alt="codeready-workspace-convert" width="500px"></p>
+
+<p>Choose <strong>Maven</strong> from the project configurations and then click on <strong>Save</strong>.</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/codeready-workspace-maven.png" alt="codeready-workspace-maven" width="700px"></p>
+
+<p>Repeat the above for <code>inventory</code> and <code>catalog</code> projects.</p>
+
+<blockquote>
+  <p>NOTE: For the rest of these labs, anytime you need to run a command in a terminal, you can use the CodeReady Workspaces Terminal window. Be sure you’re in the correct directory for the command(s) you wish to run!</p>
+</blockquote>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/codeready-workspace-terminal.png" alt="codeready-workspace-terminal"></p>
+
+
+        <hr>
+        <h2>Creating Distributed Services</h2>
+        <h2 id="lab1---creating-distributed-services">Lab1 - Creating Distributed Services</h2>
+
+<p>In this step, we’ll install a sample application into the system. This application
+is included in Istio itself for demonstrating various aspects of it, but the application
+isn’t tied exclusively to Istio - it’s an ordinary microservice application that could be
+installed to any OpenShift instance with or without Istio.</p>
+
+<p>The sample application is called <em>Bookinfo</em>, a simple application that displays information about a
+book, similar to a single catalog entry of an online book store. Displayed on the page is a
+description of the book, book details (ISBN, number of pages, and so on), and a few book reviews.</p>
+
+<p>The BookInfo application is broken into four separate microservices:</p>
+
+<ul>
+  <li><strong>productpage</strong> - The <code>productpage</code> microservice calls the <code>details</code> and <code>reviews</code> microservices to populate the page.</li>
+  <li><strong>details</strong> - The <code>details</code> microservice contains book information.</li>
+  <li><strong>reviews</strong> - The <code>reviews</code> microservice contains book reviews. It also calls the <code>ratings</code> microservice to show a “star” rating for each book.</li>
+  <li><strong>ratings</strong> - The <code>ratings</code> microservice contains book rating information that accompanies a book review.</li>
+</ul>
+
+<p>There are 3 versions of the reviews microservice:</p>
+
+<ul>
+  <li>Version <code>v1</code> does not call the ratings service.</li>
+  <li>Version <code>v2</code> calls the ratings service, and displays each rating as 1 to 5 <strong>black</strong> stars.</li>
+  <li>Version <code>v3</code> calls the ratings service, and displays each rating as 1 to 5 <strong>red</strong> stars.</li>
+</ul>
+
+<p>The end-to-end architecture of the application is shown below.</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/istio_bookinfo.png" alt="Bookinfo Architecture"></p>
+
+<h4 id="deploy-bookinfo-application">1. Deploy Bookinfo Application</h4>
+
+<hr>
+
+<p>First, open a new browser with the <a href="https://console-openshift-console.apps.cluster-bjs-3f37.bjs-3f37.open.redhat.com/" target="_blank">OpenShift web console</a></p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/openshift_login.png" alt="openshift_login"></p>
+
+<p>Login using:</p>
+
+<ul>
+  <li>Username: <code>userXX</code></li>
+  <li>Password: <code>r3dh4t1!</code></li>
+</ul>
+
+<blockquote>
+  <p><strong>NOTE</strong>: Use of self-signed certificates</p>
+
+  <p>When you access the OpenShift web console](https://console-openshift-console.apps.cluster-bjs-3f37.bjs-3f37.open.redhat.com) or other URLs via <em>HTTPS</em> protocol, you will see browser warnings
+like <code>Your Connection is not secure</code> since this workshop uses self-signed certificates (which you should not do in production!).
+For example, if you’re using <strong>Chrome</strong>, to accept the warning,
+Click on <code>Advanced</code> then <code>Proceed to...</code> to access the page.</p>
+
+  <p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/browser_warning.png" alt="warning"></p>
+
+  <p>Other browsers have similar procedures to accept the security exception.</p>
+</blockquote>
+
+<p>Once logged in, uou will see the OpenShift landing page:</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/openshift_landing.png" alt="openshift_landing"></p>
+
+<blockquote>
+  <p>The project displayed in the landing page depends on which labs you will run today. If you will develop <code>Service Mesh and Identity</code> then you will see pre-created projects as the above screeenshot.</p>
+</blockquote>
+
+<p>Although your Eclipse Che workspace is running on the Kubernetes cluster, it’s running with a default restricted <em>Service Account</em> that prevents you from creating most resource types. If you’ve completed other modules, you’re probably already logged in, but let’s login again: open a Terminal and issue the following command:</p>
+
+<p><code>oc login https://$KUBERNETES_SERVICE_HOST:$KUBERNETES_SERVICE_PORT --insecure-skip-tls-verify=true</code></p>
+
+<p>Enter your username and password assigned to you:</p>
+
+<ul>
+  <li>Username: <code>userXX</code></li>
+  <li>Password: <code>r3dh4t1!</code></li>
+</ul>
+
+<p>You should see like:</p>
+
+<pre><code class="language-shell">Login successful.
+
+You have access to the following projects and can switch between them with 'oc project &lt;projectname&gt;':
+
+  * default
+    istio-system
+    userXX-bookinfo
+    userXX-catalog
+    userXX-cloudnative-pipeline
+    userXX-cloudnativeapps
+    userXX-inventory
+
+Using project "default".
+Welcome! See 'oc help' to get started.
+</code></pre>
+
+<p>Change to the empty <strong>userXX-bookinfo</strong> project via CodeReady Workspaces Terminal and this command (you should replace <strong>userXX</strong> with your username):</p>
+
+<p><code>oc project userXX-bookinfo</code></p>
+
+<p>Deploy the <strong>Bookinfo application</strong> in the bookinfo project:</p>
+
+<p><code>oc apply -f /projects/cloud-native-workshop-v2m3-labs/istio/bookinfo.yaml</code></p>
+
+<p>Next, open the <code>istio/bookinfo-gateway.yaml</code> file in CodeReady.</p>
+
+<p>Look for the <em>REPLACE WITH YOUR BOOKINFO APP URL</em> (there are 2 of them) and replace them with your custom url:</p>
+
+<p><code>userXX-bookinfo-istio-system.apps.cluster-bjs-3f37.bjs-3f37.open.redhat.com</code></p>
+
+<blockquote>
+  <p>Be sure to substitute your username for <code>userXX</code>!</p>
+</blockquote>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/bookinfo-gateway.png" alt="gateway"></p>
+
+<p>And then create the <em>ingress gateway</em> for Bookinfo:</p>
+
+<p><code>oc apply -f /projects/cloud-native-workshop-v2m3-labs/istio/bookinfo-gateway.yaml</code></p>
+
+<p>For your conveience, set an environment variable in the CodeReady Workspaces Terminal:</p>
+
+<p><code>export BOOK_URL=REPLACE WITH YOUR BOOKINFO APP URL</code> (again, replace the same value as above).</p>
+
+<p>When the app is installed, each Pod will get an additional <em>sidecar</em> container as described earlier.</p>
+
+<p>Let’s wait for our application to finish deploying. Go to the overview page in <em>userxx BookInfo Service Mesh</em> project:</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/bookinfo-deployed.png" alt="bookinfo"></p>
+
+<p>Or you can execute the following commands to wait for the deployment to complete and result <code>successfully rolled out</code>:</p>
+
+<pre><code class="language-shell">oc rollout status -w deployment/productpage-v1 &amp;&amp; \
+ oc rollout status -w deployment/reviews-v1 &amp;&amp; \
+ oc rollout status -w deployment/reviews-v2 &amp;&amp; \
+ oc rollout status -w deployment/reviews-v3 &amp;&amp; \
+ oc rollout status -w deployment/details-v1 &amp;&amp; \
+ oc rollout status -w deployment/ratings-v1
+</code></pre>
+
+<p>Confirm that Bookinfo has been <strong>successfully</strong> deployed via your own <em>Gateway URL</em>:</p>
+
+<p><code>curl -o /dev/null -s -w "%{http_code}\n" http://$BOOK_URL/productpage</code></p>
+
+<p>You should get <strong>200</strong> as a response.</p>
+
+<p>Add default destination rules (we’ll alter this later to affect routing of requests):</p>
+
+<p><code>oc apply -f /projects/cloud-native-workshop-v2m3-labs/istio/destination-rule-all.yaml</code></p>
+
+<p>List all available destination rules:</p>
+
+<p><code>oc get destinationrules -o yaml</code></p>
+
+<h4 id="access-bookinfo">2. Access Bookinfo</h4>
+
+<p>Open the application in your web browser to make sure if it’s working. You will find the URL via running the following command in CodeReady Workspaces Terminal:</p>
+
+<p><code>echo http://$BOOK_URL/productpage</code></p>
+
+<p>It should look something like:</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/bookinfo.png" alt="Bookinfo App"></p>
+
+<p>Reload the page multiple times. The three different versions of the Reviews service show the star ratings differently - <em>v1</em> shows no stars at all, <em>v2</em> shows black stars, and <em>v3</em> shows red stars:</p>
+
+<ul>
+  <li><strong>v1</strong>: <img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/stars-none.png" alt="no stars"></li>
+  <li><strong>v2</strong>: <img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/stars-black.png" alt="black stars"></li>
+  <li><strong>v3</strong>: <img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/stars-red.png" alt="red stars"></li>
+</ul>
+
+<p>That’s because there are 3 versions of reviews deployment for our reviews service. Istio’s
+load-balancer is using a <em>round-robin</em> algorithm to iterate through the 3 instances of this service.</p>
+
+<p>You should now have your OpenShift Pods running and have an Envoy sidecar in each of them
+alongside the microservice. The microservices are productpage, details, ratings, and
+reviews. Note that you’ll have three versions of the reviews microservice:</p>
+
+<p><code>oc get pods --selector app=reviews</code></p>
+
+<pre><code class="language-shell">NAME                          READY   STATUS    RESTARTS   AGE
+reviews-v1-7754bbd88-dm4s5    2/2     Running   0          12m
+reviews-v2-69fd995884-qpddl   2/2     Running   0          12m
+reviews-v3-5f9d5bbd8-sz29k    2/2     Running   0          12m
+</code></pre>
+
+<p>Notice that each of the microservices shows <strong>2/2</strong> containers ready for each service (one for the service and one for its sidecar).</p>
+
+<p>Now that we have our application deployed and linked into the Istio service mesh, let’s take a look at the immediate value we can get out of it without touching the application code itself!</p>
+
+<h5 id="congratulations">Congratulations!</h5>
+
+        <hr>
+        <h2>Service Visualization and Monitoring</h2>
+        <h2 id="lab2---service-visualization-and-monitoring">Lab2 - Service Visualization and Monitoring</h2>
+
+<p>In this lab you will visualize your service mesh using <strong>Kiali</strong>, <strong>Prometheus</strong>, <strong>Grafana</strong> and you will lean how to configure basic <strong>Istio funtionalities</strong> such as <strong>VirtualService</strong> and <strong>A/B Testing</strong>.</p>
+
+<h4 id="generating-application-load">1. Generating application load</h4>
+
+<hr>
+
+<p>To get a better idea of the power of metrics, let’s setup an endless loop that will continually access the application and generate load. We’ll open up a separate terminal just for this purpose.</p>
+
+<p>Open a new <em>Terminal</em> and execute this command with your own <em>Bookinfo App URL</em>:</p>
+
+<p><code>BOOK_URL=REPLACE WITH YOUR BOOKINFO APP URL</code></p>
+
+<p><code>for i in {1..1000} ; do curl -o /dev/null -s -w "%{http_code}\n" http://$BOOK_URL/productpage ; sleep 2 ; done</code></p>
+
+<p>This command will endlessly access the application and report the HTTP status result in a separate terminal window.</p>
+
+<p>With this application load running, metrics will become much more interesting in the next few steps.</p>
+
+<h4 id="examine-kiali">2. Examine Kiali</h4>
+
+<hr>
+
+<p><strong>Kiali</strong> allows you to manage and monitor your mesh from a single UI. This UI will allow you to view configurations, monitor traffic flow and health, and analyze traces.</p>
+
+<p>Open the <a href="https://kiali-istio-system.apps.cluster-bjs-3f37.bjs-3f37.open.redhat.com/" target="_blank">Kiali console</a>.</p>
+
+<p>You should see <em>Kiali Login</em> screen. Enter the username and password as below and click <em>Log In</em>.</p>
+
+<ul>
+  <li>Username: <code>admin</code></li>
+  <li>Password: <code>admin</code></li>
+</ul>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/istio-kiali-login.png" alt="istio-kiali"></p>
+
+<p>In the namespace selector at the top, enter your <strong>userXX-bookinfo</strong> application (e.g. user1-bookinfo) and press enter to filter to only show your bookinfo project.</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/kiali-all-namespaces.png" alt="kiali"></p>
+
+<p>This way you will only see your personal working namespace as below:</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/kiali-bookinfo-namespaces.png" alt="kiali" width="800px"></p>
+
+<p>Click on the “4 Applications” link.</p>
+
+<h5 id="service-graph">Service Graph</h5>
+
+<p>Click on the <em>Graph</em> page on the left and check <strong>Traffic Animation</strong> in <strong>Display</strong>:</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/kiali-service-graph.png" alt="kiali"></p>
+
+<p>It shows a graph with all the microservices, connected by the requests going through then. On this page, you can see how services interact with each other. Observe that traffic from <code>productpage</code> to <code>reviews</code> is equally hitting all three versions of the <code>reviews</code> service, and that <code>v2</code> and <code>v3</code> are in turn hitting the <code>ratings</code> service (while <code>v1</code> does not, so therefore you get no “stars” when you get load-balanced to <code>v1</code>).</p>
+
+<h5 id="applications">Applications</h5>
+
+<p>Click on <strong>Applications</strong> menu in the left navigation. On this page you can view a listing of all the services that
+are running in the cluster, and additional information about them, such as health status.</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/kiali-applications.png" alt="kiali"></p>
+
+<p>Click on the <strong>productpage</strong> application to see its details. You can also see the health of a service
+on the <strong>Health</strong> section when it’s online and responding to requests without errors:</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/kiali-app-productpage.png" alt="kiali"></p>
+
+<p>By clicking on <strong>Inbound Metrics</strong>, you can see the metrics for an application, like this:</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/kiali-app-productpage-inbound.png" alt="kiali"></p>
+
+<p>By clicking on <strong>Outbound Metrics</strong>, you can see the metrics for an application, like this:</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/kiali-app-productpage-outbound.png" alt="kiali"></p>
+
+<h5 id="workloads">Workloads</h5>
+
+<p>Click on the <strong>Workloads</strong> menu in the left navigation. On this page you can view a listing of all the workloads that are present in your application.</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/kiali-app-productpage-workload.png" alt="kiali"></p>
+
+<p>Click on the <strong>productpage-v1</strong> workload. Here you can see details for the workload, such as the pods and services that are included in it:</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/kiali-app-productpage-workload-v1.png" alt="kiali"></p>
+
+<p>By clicking <em>Inbound Metrics</em>, you can check the metrics for the workload. The metrics are the same as the <em>Application</em> ones.</p>
+
+<h5 id="services">Services</h5>
+
+<p>Click on <strong>Services</strong> menu in the left navigation. Here, you can see the listing of all services.</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/kiali-services.png" alt="kiali"></p>
+
+<p>Click on <strong>productpage</strong> service which will show you the details of the service, such as metrics, traces, workloads, virtual services, destination rules and more:</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/kiali-services-productpage.png" alt="kiali"></p>
+
+<h4 id="querying-metrics-with-prometheus">3. Querying Metrics with Prometheus</h4>
+
+<hr>
+
+<p><a href="https://prometheus.io/">Prometheus</a> will periodically <em>scrape</em> applications to retrieve their metrics (by default on the <code>/metrics</code> endpoint of the application). The Prometheus
+add-on for Istio is a Prometheus server that comes pre-configured to <em>scrape</em> Istio Mixer endpoints
+to collect its exposed metrics. It provides a mechanism for persistent storage
+and querying of those metrics metrics.</p>
+
+<p>Open the <a href="http://prometheus-istio-system.apps.cluster-bjs-3f37.bjs-3f37.open.redhat.com/">Prometheus console</a></p>
+
+<p>You should see Prometheus home screen, similar to this:</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/istio-prometheus-landing.png" alt="istio-prometheus"></p>
+
+<p>In the “Expression” input box at the top of the web page, enter the text: <strong>istio_request_duration_seconds_count</strong>. Then, click the <strong>Execute</strong> button.</p>
+
+<p>You should see a listing of each of the application’s services along with a count of how many times it was accessed.</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/istio-prometheus-console.png" alt="Prometheus console"></p>
+
+<p>You can also graph the results over time by clicking on the <em>Graph</em> tab (adjust the timeframe from 1 hour to 1 minute for example):</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/istio-prometheus-graph.png" alt="Prometheus graph"></p>
+
+<p>Other expressions to try:</p>
+
+<ul>
+  <li>Total count of all requests to <em>productpage</em> service: <code>istio_request_duration_seconds_count{destination_service=~\'productpage.*\'}</code></li>
+  <li>Total count of all requests to <em>v3</em> of the <em>reviews</em> service: <code>istio_request_duration_seconds_count{destination_service=~\'reviews.*\', destination_version=\'v3\'}</code></li>
+  <li>Rate of requests over the past 5 minutes to all <em>productpage</em> services: <code>rate(istio_request_duration_seconds_count{destination_service=~\'productpage.*\', response_code=\'200\'}[5m])</code></li>
+</ul>
+
+<p>There are many, many different queries you can perform to extract the data you need. Consult the
+<a href="https://prometheus.io/docs">Prometheus documentation</a> for more detail.</p>
+
+<h4 id="visualizing-metrics-with-grafana">4. Visualizing Metrics with Grafana</h4>
+
+<hr>
+
+<p>As the number of services and interactions grows in your application, this style of metrics may be a bit
+overwhelming. <a href="https://grafana.com/" target="_blank">Grafana</a> provides a visual representation of many available Prometheus
+metrics extracted from the Istio data plane and can be used to quickly spot problems and take action.</p>
+
+<p>Open the <a href="http://grafana-istio-system.apps.cluster-bjs-3f37.bjs-3f37.open.redhat.com/" target="_blank">Grafana console</a></p>
+
+<p>You should see Grafana home screen, similar to this:</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/grafana-home.png" alt="Grafana graph"></p>
+
+<h5 id="istio-mesh-metrics">Istio Mesh Metrics</h5>
+
+<p>Select <strong>Home &gt; Istio &gt; Istio Mesh Dashboard</strong> to see Istio mesh metrics:</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/grafana-mesh-metrics-select.png" alt="Grafana graph"></p>
+
+<p>You will see the built-in Istio metrics dashboard::</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/grafana-mesh-metrics.png" alt="Grafana graph"></p>
+
+<h5 id="istio-service-metrics">Istio Service Metrics</h5>
+
+<p>Let’s see detailed metrics of the <strong>productpage</strong> service. Click on <strong>productpage.userXX-bookinfo.svc.cluster.local</strong> and the service dashboard will look similar to this:</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/grafana-service-metrics.png" alt="Grafana graph"></p>
+
+<p>The Grafana Dashboard for Istio consists of three main sections:</p>
+
+<ul>
+  <li><em>A Global Summary View</em> provides a high-level summary of HTTP requests flowing through the service mesh.</li>
+  <li><em>A Mesh Summary View</em> provides slightly more detail than the Global Summary View, allowing per-service filtering and selection.</li>
+  <li><em>Individual Services View</em> provides metrics about requests and responses for each individual service within the mesh (HTTP and TCP).</li>
+</ul>
+
+<p>Note that <em>TCP Bandwidth</em> metrics are empty, as Bookinfo uses http-based services only. Lower down on this dashboard are metrics for workloads that call this service (labeled “Client Workloads”) and for workloads that process requests from the service (labeled <em>Service Workloads</em>).</p>
+
+<p>You can switch to a different service or filter metrics by <em>client-</em> and <em>service-workloads</em> by using drop-down lists at the top of the dashboard.</p>
+
+<h5 id="istio-workload-metrics">Istio Workload Metrics</h5>
+
+<p>To switch to the workloads dashboard, select <strong>Home &gt; Istio Workload Dashboard</strong> from the drop-down list in the top left corner of the screen.
+You should see a screen similar to this:</p>
+
+<blockquote>
+  <p>You should select your own userXX-bookinfo in the <code>Namespace</code> selector at the top to avoid noise from other workloads on the cluster!</p>
+</blockquote>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/grafana-workload-metrics.png" alt="Grafana graph"></p>
+
+<p>This dashboard shows workload’s metrics, and metrics for client- (inbound) and service (outbound) workloads.
+You can switch to a different workload, ot filter metrics by inbound or outbound workloads by using drop-down lists at the top of the dashboard.</p>
+
+<p>For more on how to create, configure, and edit dashboards, please see the <a href="http://docs.grafana.org/" target="_blank">Grafana documentation</a>.</p>
+
+<p>As a developer, you can get quite a bit of information from these metrics without doing anything to the application itself. Let’s use our new tools in the next section to see the real power of Istio to diagnose and fix issues in applications and make them more resilient and robust.</p>
+
+<h4 id="request-routing">5. Request Routing</h4>
+
+<hr>
+
+<p>This task shows you how to configure dynamic request routing based on weights and HTTP headers.</p>
+
+<p><em>Route rules</em> control how requests are routed within an Istio service mesh. Route rules provide:</p>
+
+<ul>
+  <li><em>Timeouts</em></li>
+  <li><em>Bounded retries</em> with timeout budgets and variable jitter between retries</li>
+  <li><em>Limits</em> on number of concurrent connections and requests to upstream services</li>
+  <li><em>Active (periodic) health checks</em> on each member of the load balancing pool</li>
+  <li><em>Fine-grained circuit breakers</em> (passive health checks) – applied per instance in the load balancing pool</li>
+</ul>
+
+<p>Requests can be routed based on the source and destination, HTTP header fields, and weights associated with individual service versions. For example, a route rule could route requests to different versions of a service.</p>
+
+<p>Together, these features enable the service mesh to tolerate failing nodes and prevent localized failures from cascading instability to other nodes. However, applications must still be designed to deal with failures by taking appropriate fallback actions. For example, when all instances in a load balancing pool have failed, Istio will return HTTP 503. It is the responsibility of the application to implement any fallback logic that is needed to handle the HTTP 503 error code from an upstream service.</p>
+
+<p>If your application already provides some defensive measures (e.g. using <a href="https://github.com/Netflix/Hystrix" target="_blank">Netflix Hystrix</a>), then that’s OK. <strong>Istio</strong> is completely transparent to the application. A failure response returned by Istio would not be distinguishable from a failure response returned by the upstream service to which the call was made.</p>
+
+<h4 id="service-versions">6. Service Versions</h4>
+
+<hr>
+
+<p>Istio introduces the concept of a service version, which is a finer-grained way to subdivide service instances by versions (<em>v1</em>, <em>v2</em>) or environment (<em>staging</em>, <em>prod</em>). These variants are not necessarily different API versions: they could be iterative changes to the same service, deployed in different environments (prod, staging, dev, etc.). Common scenarios where this is used include A/B testing or canary rollouts. Istio’s <a href="https://istio.io/docs/concepts/traffic-management/rules-configuration.html" target="_blank">traffic routing rules</a> can refer to service versions to provide additional control over traffic between services.</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/versions.png" alt="Versions"></p>
+
+<p>As illustrated in the figure above, clients of a service have no knowledge of different versions of the service. They can continue to access the services using the hostname/IP address of the service. The Envoy sidecar/proxy intercepts and forwards all requests/responses between the client and the service.</p>
+
+<h4 id="virtualservice-objects">7. VirtualService objects</h4>
+
+<hr>
+
+<p>In addition to the usual OpenShift object types like <em>BuildConfig</em>, <em>DeploymentConfig</em>, <em>Service</em> and <em>Route</em>, you also have new object types installed as part of Istio like <em>VirtualService</em>. Adding these objects to the running OpenShift cluster is how you configure routing rules for Istio.</p>
+
+<p>For our application, without an explicit default route set, Istio will route requests to all available versions of a service in a round-robin  fashion, and anytime you hit <em>v1</em> version you’ll get no stars.</p>
+
+<p>Let’s create a default set of <strong>virtual services</strong> which will direct all traffic to the <em>reviews:v1</em> service version.</p>
+
+<p>Open a new Terminal (while your other endless <code>for</code> loop continues to run) and execute this command to route all traffic to <code>v1</code>:</p>
+
+<p><code>oc create -f /projects/cloud-native-workshop-v2m3-labs/istio/virtual-service-all-v1.yaml</code></p>
+
+<p>You can see this default set of <em>virtual services</em> with:</p>
+
+<p><code>oc get virtualservices -o yaml</code></p>
+
+<p>There are default <em>virtual services</em> for each service, such as the one that forces all traffic to the <em>v1</em> version of the <em>reviews</em> service:</p>
+
+<p><code>oc get virtualservices/reviews -o yaml</code></p>
+
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  creationTimestamp: "2019-07-02T15:50:36Z"
+  generation: 1
+  name: reviews
+  namespace: userXX-bookinfo
+  resourceVersion: "2899673"
+spec:
+  hosts:
+  - reviews
+  http:
+  - route:
+    - destination:
+        host: reviews
+        subset: v1
+</code></pre>
+
+<p>Now, access the application again in your web browser using the below link and reload the page several times - you should not see any rating stars since <strong>reviews:v1</strong> does not access the <em>ratings</em> service.</p>
+
+<blockquote>
+  <p><strong>NOTE</strong> - It may take a minute or two for the new routing to take effect. If you still see red or black stars, wait a minute and try again. Eventually it should no longer show any red/black stars.</p>
+</blockquote>
+
+<ul>
+  <li>Bookinfo Application with no rating stars at <code>http://$BOOK_URL/productpage</code></li>
+</ul>
+
+<p>To verify this, open the Grafana Dashboard (find this URL via <em>Networking &gt; Routes</em>)</p>
+
+<p>Scroll down to the <strong>ratings</strong> service in <em>Istio Service Metrics Dashboard</em> and notice that the requests coming from the reviews service have stopped:</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/ratings-stopped.png" alt="Versions"></p>
+
+<h4 id="ab-testing-with-istio">8. A/B Testing with Istio</h4>
+
+<hr>
+
+<p>Let’s enable the ratings service for a test user named <em>jason</em> by routing <code>productpage</code> traffic to <em>reviews:v2</em> and any others to <em>reviews:v3</em>. Execute:</p>
+
+<p><code>oc apply -f /projects/cloud-native-workshop-v2m3-labs/istio/virtual-service-reviews-jason-v2-v3.yaml</code></p>
+
+<blockquote>
+  <p><strong>TIP</strong>: You can ignore warnings like <em>Warning: oc apply should be used on resource created by either oc create –save-config or oc apply</em>.</p>
+</blockquote>
+
+<p>Confirm the rule is created:</p>
+
+<p><code>oc get virtualservices/reviews -o yaml</code></p>
+
+<p>Notice the <em>match</em> element:</p>
+
+<pre><code class="language-yaml">http:
+  - match:
+    - headers:
+        end-user:
+          exact: jason
+    route:
+    - destination:
+        host: reviews
+        subset: v2
+  - route:
+    - destination:
+        host: reviews
+        subset: v3
+</code></pre>
+
+<p>This says that for any incoming HTTP request that has a cookie set to the <em>jason</em> user to direct traffic to <strong>reviews:v2</strong>, and others to <strong>reviews:v3</strong>.</p>
+
+<p>Now, access the application again via your own <em>Gateway URL</em>:</p>
+
+<p><code>http://YOUR_BOOK_APP_URL/productpage</code> and click <strong>Sign In</strong> (at the upper right) and sign in with:</p>
+
+<ul>
+  <li>Username: <strong>jason</strong></li>
+  <li>Password: <strong>jason</strong></li>
+</ul>
+
+<blockquote>
+  <p>If you get any certificate security exceptions, just accept them and continue. This is due to the use of self-signed certs.</p>
+</blockquote>
+
+<p>Once you login, refresh a few times - you should always see the black ratings stars coming from <strong>ratings:v2</strong> since you’re signed in as <code>jason</code>.</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/ratings-testuser.png" alt="Ratings for Test User"></p>
+
+<p>If you <strong>sign out</strong>, you’ll return to the <strong>reviews:v3</strong> version which shows red ratings stars.</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/ratings-signout.png" alt="Ratings for Test User"></p>
+
+<h5 id="congratulations">Congratulations!</h5>
+
+<p>In this lab, you used Istio to send 100% of the traffic to the a specific version of one of the application’s services. You then set a rule to selectively send traffic to other versions of based on matching criteria (e.g. a header or user cookie) in a request.</p>
+
+<p>This routing allows you to selectively send traffic to different service instances, e.g. for testing, or blue/green deployments, or dark launches, and more.</p>
+
+<p>We’ll explore this in the next step.</p>
+
+        <hr>
+        <h2>Advanced Service Mesh Development</h2>
+        <h2 id="lab3---advanced-service-mesh-development">Lab3 - Advanced Service Mesh Development</h2>
+
+<p>In this lab, you will use advanced service mesh features such as <strong>Fault Injection</strong>, <strong>Traffic Shifting</strong>, <strong>Circuit Breaking</strong>, and <strong>Rate Limiting</strong> with a different application - the Coolstore microservice developed in prior labs (i.e Catalog, Inventory) that you developed and deployed to OpenShift cluster in <em>Module 1</em> or/and <em>Module 2</em>.</p>
+
+<h5 id="if-this-is-the-first-module-you-are-doing-today">If this is the first module you are doing today</h5>
+
+<p>If you have already deployed the <em>inventory</em> and <em>catalog</em> microservices from Module 1, you can skip this step!</p>
+
+<p>If you haven’t done Module 1 or Module 2 today, <strong>or you didn’t quite complete them</strong>, you should deploy the coolstore application and microservices by executing the following shell scripts in CodeReady Workspaces Terminal:</p>
+
+<blockquote>
+  <p>Replace <code>userXX</code> with your username before running these commands:</p>
+</blockquote>
+
+<p><code>sh /projects/cloud-native-workshop-v2m3-labs/istio/scripts/deploy-inventory.sh userXX</code></p>
+
+<p><code>sh /projects/cloud-native-workshop-v2m3-labs/istio/scripts/deploy-catalog.sh userXX</code></p>
+
+<p>This will build and deploy the inventory and catalog components into the <code>userXX-inventory</code> and <code>userXX-catalog</code> projects in OpenShift. They won’t automatically get Istio sidecar proxy containers yet, but you’ll add that in the next step!</p>
+
+<h4 id="configuring-automatic-sidecar-injection-in-coolstore-microservices">1. Configuring Automatic Sidecar Injection in Coolstore Microservices</h4>
+
+<p>Let’s go to the <a href="https://kiali-istio-system.apps.cluster-bjs-3f37.bjs-3f37.open.redhat.com/" target="_blank">Kiali console</a> once again to confirm that the microservices (<em>Catalog</em>, <em>Inventory</em>) are not running with a <em>sidecar</em> and are not yet visible in the service mesh.</p>
+
+<p>Click on <strong>Applications</strong> on the left menu. Then, using the <code>Namespace</code> drop-down at the top, type in <code>userXX</code> (your username) to filter the list, and check the <code>userXX-catalog</code> and <code>userXX-inventory</code> namespaces, and de-select the <code>userXX-bookinfo</code> namespace. You will see <strong>Missing Sidecar</strong> in 4 applications.</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/kiali_missing_sidecar.png" alt="istio"></p>
+
+<p>Upstream Istio community installations rely on the existence of a <strong>proxy sidecar</strong> within the application’s pod to provide service mesh capabilities to the application. You can include the proxy sidecar by using a manual process before deployment. However, automatic injection ensures that your application contains the appropriate configuration for your service mesh at the time of its deployment.</p>
+
+<p><em>Automatic injection of the sidecar</em> is supported by using the <em>sidecar.istio.io/inject</em> annotation within your application yaml file. You will add this in the next step.</p>
+
+<blockquote>
+  <p>Upstream Istio community installations require a specific label on the namespace after which all pods in that namespace are injected with the sidecar.  The OpenShift Service Mesh approach requires you to opt in to injection using an annotation with no need to label namspaces. This method requires fewer privileges and does not conflict with other OpenShift capabilities such as builder pods.</p>
+</blockquote>
+
+<p>Back in the the <a href="https://console-openshift-console.apps.cluster-bjs-3f37.bjs-3f37.open.redhat.com/" target="_blank">OpenShift web console</a>, select the <em>userXX-inventory</em> project in the project drop-down, then go to <strong>Workloads &gt; Deployment Configs</strong> on the left menu, and click on <em>inventory-database</em> and then click the <em>YAML</em> tab.</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/inventory_db_dc.png" alt="istio"></p>
+
+<p>Add the following annotation in <code>spec.template.metadata.annotations</code> path in the YAML and click on <strong>Save</strong>.</p>
+
+<p><code>sidecar.istio.io/inject: "true"</code></p>
+
+<blockquote>
+  <p><strong>NOTE</strong> Be sure to place this annotation in the correct <code>annotations</code> block under <em>spec &gt; template &gt; metadata &gt; annotations</em> and match the same indentation as the annotation immediately above!</p>
+</blockquote>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/inventory_db_inject_sidecar.png" alt="istio"></p>
+
+<p>You will see a new <strong>istio-proxy</strong> container and <em>inventory-database</em> container in the “Pod Details” page when you navigate to <em>Workloads &gt; Pods &gt; inventory-database-xxxxx</em>. This new container will intercept traffic to and from the application pod and potentially alter and/or re-route it depending on service mesh configuration.</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/inventory_db_sidecar.png" alt="istio"></p>
+
+<p>Now you will inject a sidecar container to application container (Inventory) as well. First, we need to remove the healhcheck of the inventory service as it will also be proxied and as we have no route for it, will be rejected (and the pod killed since Kubernetes cannot access the health check!). Alternative health checks involve running commands directly in the container but we’ll just remove it for now. Remove it with:</p>
+
+<p><code>oc set probe dc/inventory-quarkus --remove --readiness --liveness -n userXX-inventory</code></p>
+
+<blockquote>
+  <p>Replace <code>userXX</code> with your username!</p>
+</blockquote>
+
+<p>Ensure the new deployemnt is successfully rolled out:</p>
+
+<p><code>oc rollout status -w dc/inventory-quarkus -n userXX-inventory</code></p>
+
+<p>Navigate <em>Workloads &gt; Deployment Configs</em> on the left menu. Select <em>userXX-inventory</em> project and click on <em>inventory-quarkus</em> and then the <code>YAML</code> tab.</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/inventory_dc.png" alt="istio"></p>
+
+<p>We’ll add the same annotation as before:</p>
+
+<p><code>sidecar.istio.io/inject: "true"</code></p>
+
+<blockquote>
+  <p><strong>NOTE</strong> Be sure to place this annotation in the correct <code>annotations</code> block under <em>spec &gt; template &gt; metadata &gt; annotations</em> and match the same indentation as the annotation immediately above!</p>
+</blockquote>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/inventory_inject_sidecar.png" alt="istio"></p>
+
+<p>Again you will see <strong>istio-proxy</strong> container and <em>inventory-quarkus</em> container in the “Pod Details” page when you navigate <em>Workloads &gt; Pods &gt; inventory-quarkus-xxxxx</em>:</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/inventory_sidecar.png" alt="istio"></p>
+
+<p>Next, do the same for the catalog and catalog’s database.  Go to <em>*Workloads &gt; Deployment Configs</em> on the left menu, select <em>userXX-catalog</em> project and click on <em>catalog-database</em>.</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/catalog_db_dc.png" alt="istio"></p>
+
+<p>Then click on <strong>YAML</strong> tab and add the following annotation in <code>spec.template.metadata.annotations</code> path and click on <strong>Save</strong>.</p>
+
+<p><code>sidecar.istio.io/inject: "true"</code></p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/catalog_db_inject_sidecar.png" alt="istio"></p>
+
+<p>You will see <strong>istio-proxy</strong> container and <em>catalog-database</em> container in Pod Details page when you navigate <em>Workloads &gt; Pods &gt; catalog-database-xxxxx</em>.</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/catalog_db_sidecar.png" alt="istio"></p>
+
+<p>Next, let’s inject a sidecar container to application container (Catalog) as well,
+go to <em>*Workloads &gt; Deployment Configs</em> on the left menu, select <em>userXX-catalog</em> project and click on <em>catalog-springboot</em>.</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/catalog_dc.png" alt="istio"></p>
+
+<p>Add the same annotation (on the YAML tab):</p>
+
+<p><code>sidecar.istio.io/inject: "true"</code></p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/catalog_inject_sidecar.png" alt="istio"></p>
+
+<p>You will see <strong>istio-proxy</strong> container and <em>catalog-springboot</em> container in the “Pod Details” page when you navigate <em>Workloads &gt; Pods &gt; catalog-springboot-xxxxx</em>:</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/catalog_sidecar.png" alt="istio"></p>
+
+<p>Let’s make sure if inventory and catalog services are working correctly via accessing <em>Catalog Route URL</em> in your browser. You can also find the URL via <em>Networking &gt; Routes</em> in OpenShift web console, after selecting the <code>userXX-catalog</code> from the <em>namespace</em> dropdown menu. Open the URL in your browser:</p>
+
+<ul>
+  <li>Catalog UI (replace <code>userXX</code> with your username): http://catalog-springboot-userXX-catalog.apps.cluster-bjs-3f37.bjs-3f37.open.redhat.com</li>
+</ul>
+
+<p>You will see the following web page including <strong>Inventory Quantity</strong> if the catalog service can access the inventory service via <em>Istio proxy sidecar</em>:</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/catalog_route_sidecar.png" alt="istio"></p>
+
+<blockquote>
+  <p>Leave this page open as the <em>Catalog UI browser</em> creates traffic (every 2 seconds) between services, which is useful for testing.</p>
+</blockquote>
+
+<p>Now, reload <strong>Applications</strong> in <a href="https://kiali-istio-system.apps.cluster-bjs-3f37.bjs-3f37.open.redhat.com/" target="_blank">Kiali console</a> and verify that the <em>Missing sidecar</em> warning is no longer present:</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/kiali_injecting_sidecar.png" alt="istio"></p>
+
+<p>Also, go to the Service Graph page and check <em>userXX-inventory</em>, <em>userXX-catalog</em> in Namespace, check <strong>Traffic Animation</strong> in <em>Display</em> for understanding
+the traffic flow from catalog service to inventory service:</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/kiali_graph_sidecar.png" alt="istio"></p>
+
+<h4 id="fault-injection">2. Fault Injection</h4>
+
+<hr>
+
+<p>This step will walk you through how to use <strong>Fault Injection</strong> to test the end-to-end failure recovery capability of the application as a whole. An incorrect configuration of the failure recovery policies could result in unavailability of critical services. Examples of incorrect configurations include incompatible or restrictive timeouts across service calls.</p>
+
+<p><em>Istio</em> provides a set of failure recovery features that can be taken advantage of by the services
+in an application. Features include:</p>
+
+<ul>
+  <li>Timeouts</li>
+  <li>Bounded retries with timeout budgets and variable jitter between retries</li>
+  <li>Limits on number of concurrent connections and requests to upstream services</li>
+  <li>Active (periodic) health checks on each member of the load balancing pool</li>
+  <li>Fine-grained circuit breakers (passive health checks) – applied per instance in the load balancing pool</li>
+</ul>
+
+<p>These features can be dynamically configured at runtime through Istio’s traffic management rules.</p>
+
+<p>A combination of active and passive health checks minimizes the chances of accessing an unhealthy service. When combined with platform-level health checks (such as readiness/liveness probes in OpenShift), applications can ensure that unhealthy pods/containers/VMs can be quickly weeded out of the service mesh, minimizing the
+request failures and impact on latency.</p>
+
+<p>Together, these features enable the service mesh to tolerate failing nodes and prevent localized failures from cascading instability to other nodes.</p>
+
+<p>Istio enables protocol-specific <em>fault injection</em> into the network (instead of killing pods) by delaying or corrupting packets at TCP layer.</p>
+
+<p>Two types of faults can be injected:</p>
+
+<ul>
+  <li><em>Delays</em> are timing failures. They mimic increased network latency or an overloaded upstream service.</li>
+  <li><em>Aborts</em> are crash failures. They mimic failures in upstream services. Aborts usually manifest in the form of HTTP error codes or TCP connection failures.</li>
+</ul>
+
+<h5 id="inject-a-fault">Inject a fault</h5>
+
+<p>To test our application microservices for resiliency, we will inject a failure in <strong>50%</strong> of the requests to the <em>inventory</em> service, causing the service to appear to fail (and return <code>HTTP 5xx</code> errors).</p>
+
+<p>First, add the following label in the Inventory service to use a <em>virtual service</em>. In the OpenShift Web Consle, select the <em>userXX-inventory</em> project in the project selector drop-down, then navigate to <em>Networking &gt; Services</em> in the left menu, and select <em>inventory-quarkus</em>.</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/inventory_svc_.png" alt="fault-injection"></p>
+
+<p>Click on <strong>YAML</strong> tab and add the following variables at the <em>metadata &gt; labels</em> area of the YAML file as shown:</p>
+
+<p><code>service: inventory-quarkus</code></p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/inventory_svc_add_label.png" alt="fault-injection"></p>
+
+<p>Click on <strong>Save</strong>.</p>
+
+<p>In CodeReady, open the empty <strong>inventory-default.yaml</strong> file in the <code>/projects/cloud-native-workshop-v2m3-labs/inventory/rules/ </code>directory. Add the below code to the file to create a gateway and virtual service:</p>
+
+<blockquote>
+  <p>You’ll need to replace <code>YOUR_INVENTORY_GATEWAY_URL</code> with the route URL for the inventory service, which looks like <code>inventory-quarkus-userXX-inventory.apps.cluster-bjs-3f37.bjs-3f37.open.redhat.com</code> (replace <code>userXX</code> with your username). There are two places to make this substitution, so do them both!</p>
+</blockquote>
+
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: inventory-gateway
+spec:
+  selector:
+    istio: ingressgateway # use istio default controller
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - 'YOUR_INVENTORY_GATEWAY_URL'
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: inventory-default
+spec:
+  hosts:
+  - 'YOUR_INVENTORY_GATEWAY_URL'
+  gateways:
+  - inventory-gateway
+  http:
+    - match:
+        - uri:
+            exact: /services/inventory
+        - uri:
+            exact: /
+      route:
+        - destination:
+            host: inventory-quarkus
+            port:
+              number: 8080
+</code></pre>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/inventory-default-gateway.png" alt="fault-injection"></p>
+
+<p>Delete the old direct route that was setup earlier with:</p>
+
+<p><code>oc delete route/inventory-quarkus -n userXX-inventory</code></p>
+
+<p>Create the new Istio-powered route by running the following command via CodeReady Workspaces Terminal to create this object in OpenShift:</p>
+
+<p><code>oc create -f /projects/cloud-native-workshop-v2m3-labs/inventory/rules/inventory-default.yaml -n userXX-inventory</code></p>
+
+<p>Now, you can test if the inventory service works correctly via accessing the <strong>YOUR_INVENTORY_GATEWAY_URL</strong> in your browser:</p>
+
+<p><code>i.e. http://inventory-quarkus-userXX-inventory.apps.cluster-bjs-3f37.bjs-3f37.open.redhat.com</code> (replace <code>userXX</code> with your username)</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/inventory-ui-gateway.png" alt="fault-injection"></p>
+
+<p>Let’s inject a failure (<em>500 status</em>) in <strong>50%</strong> of requests to <em>inventory</em> microservices. Edit <em>inventory-default.yaml</em> as below.</p>
+
+<p>Open <strong>inventory-vs-fault.yaml</strong> file in <code>/projects/cloud-native-workshop-v2m3-labs/inventory/rules/</code> and copy the following codes.</p>
+
+<blockquote>
+  <p>You need to replace all <code>YOUR_INVENTORY_GATEWAY_URL</code> with the previous route URL that you copied earlier.</p>
+</blockquote>
+
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: inventory-fault
+spec:
+  hosts:
+  - 'YOUR_INVENTORY_GATEWAY_URL'
+  gateways:
+  - inventory-gateway
+  http:
+    - fault:
+         abort:
+           httpStatus: 500
+           percentage:
+             value: 50
+      route:
+        - destination:
+            host: inventory-quarkus
+            port:
+              number: 8080
+</code></pre>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/inventory-vs-error.png" alt="fault-injection"></p>
+
+<p>Before creating a new <strong>inventory-fault VirtualService</strong>, we need to delete the existing inventory-default virtualService. Run the following command via CodeReady Workspaces Terminal:</p>
+
+<p><code>oc delete virtualservice/inventory-default -n userXX-inventory</code> (replace <code>userXX</code> with your username)</p>
+
+<p>Then create a new virtualservice and gateway with this command:</p>
+
+<p><code>oc create -f /projects/cloud-native-workshop-v2m3-labs/inventory/rules/inventory-vs-fault.yaml -n userXX-inventory</code></p>
+
+<p>Let’s find out if the fault injection works corectly via accessing the Inventory gateway once again. You will see that the <strong>Status</strong> of CoolStore Inventory continues to change between <strong>DEAD</strong> and <strong>OK</strong>:</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/inventory-dead-ok.png" alt="fault-injection"></p>
+
+<p>In the <strong>Kiali</strong> console you will also see failures for 50% of traffic bound for the <code>inventory </code>service. You will see <code>red</code> traffic from <em>istio-ingressgateway</em> as well as around 50% of requests are displayed as <em>5xx</em> on the right side, <em>HTTP Traffic</em>. It may not be <em>exactly</em> 50% since some traffic is coming from the catalog and ingress gateway at the same time, but it will approach 50% over time.</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/inventlry-vs-error-kiali.png" alt="fault-injection"></p>
+
+<p>Let’s now add a 5 second delay for the <code>inventory</code> service.</p>
+
+<p>Open <strong>inventory-vs-fault-delay.yaml</strong> file in <code>/projects/cloud-native-workshop-v2m3-labs/inventory/rules/</code> and copy the following code into it:</p>
+
+<blockquote>
+  <p>Again, you need to replace all <strong>YOUR_INVENTORY_GATEWAY_URL</strong> with the previous route URL that you copied earlier.</p>
+</blockquote>
+
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: inventory-fault-delay
+spec:
+  hosts:
+  - 'YOUR_INVENTORY_GATEWAY_URL'
+  gateways:
+  - inventory-gateway
+  http:
+    - fault:
+         delay:
+           fixedDelay: 5s
+           percentage:
+             value: 100
+      route:
+        - destination:
+            host: inventory-quarkus
+            port:
+              number: 8080
+</code></pre>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/inventory-vs-delay.png" alt="fault-injection"></p>
+
+<p>Before creating a new <strong>inventory-fault-delay VirtualService</strong>, we need to delete the existing inventory-fault VirtualService. Run the following command via CodeReady Workspaces Terminal:</p>
+
+<p><code>oc delete virtualservice/inventory-fault -n userXX-inventory</code></p>
+
+<p>Then create a new virtualservice and gateway.</p>
+
+<p><code>oc create -f /projects/cloud-native-workshop-v2m3-labs/inventory/rules/inventory-vs-fault-delay.yaml -n userXX-inventory</code></p>
+
+<p>Go to the <strong>Kiali Graph</strong> you opened earlier and you will see that the <code>green</code> traffic from <em>istio-ingressgateway</em> is delayed for requests coming from catalog service. Note that you need to check <strong>Traffic Animation</strong> in the <em>Display</em> select box.</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/inventlry-vs-delay-kiali.png" alt="fault-injection"></p>
+
+<p>If the Inventory’s front page was set to correctly handle delays, we expect it to load within
+approximately 5 seconds. To see the web page response times, open the Developer Tools menu in
+IE, Chrome or Firefox (typically, key combination <strong>Ctrl</strong>+<strong>Shift</strong>+<strong>I</strong> or <strong>Alt</strong>+<strong>Cmd</strong>+<strong>I</strong>), select the <code>Network</code> tab, and reload the bookinfo web page.</p>
+
+<p>You will see and feel that the webpage loads in about 5 seconds:</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/inventory-webui-delay.png" alt="Delay"></p>
+
+<p>Before we will move to the next step, clean up the fault injection and set the default virtual service once again using these commands in a Terminal:</p>
+
+<blockquote>
+  <p>Don’t forget to replace <code>userXX</code> with your username!</p>
+</blockquote>
+
+<p><code>oc delete virtualservice/inventory-fault-delay -n userXX-inventory</code></p>
+
+<p><code>oc delete gateway/inventory-gateway -n userXX-inventory</code></p>
+
+<p><code>oc create -f /projects/cloud-native-workshop-v2m3-labs/inventory/rules/inventory-default.yaml -n userXX-inventory</code></p>
+
+<p>Also, close the tabs in your browser for the Inventory and Catalog services to avoid unnecessary load, and stop the endless <code>for</code> loop you started in the beginning of this lab in CodeReady by closing the Terminal window that was running it.</p>
+
+<h4 id="enable-circuit-breaker">3. Enable Circuit Breaker</h4>
+
+<hr>
+
+<p>In this step, you will configure a circuit Breaker to protect the calls to <code>Inventory</code> service.
+If the <code>Inventory</code> service gets overloaded due to call volume, Istio will limit
+future calls to the service instances to allow them to recover.</p>
+
+<p>Circuit breaking is a critical component of distributed systems.
+It’s nearly always better to fail quickly and apply back pressure upstream
+as soon as possible. Istio enforces circuit breaking limits at the network
+level as opposed to having to configure and code each application independently.</p>
+
+<p>Istio supports various types of conditions that would trigger a circuit break:</p>
+
+<ul>
+  <li><strong>Cluster maximum connections</strong>: The maximum number of connections that Istio will establish to all hosts in a cluster.</li>
+  <li><strong>Cluster maximum pending requests</strong>: The maximum number of requests that will be queued while waiting for a
+ready connection pool connection.</li>
+  <li><strong>Cluster maximum requests</strong>: The maximum number of requests that can be outstanding to all hosts in a
+cluster at any given time. In practice this is applicable to HTTP/2 clusters since HTTP/1.1 clusters are
+governed by the maximum connections circuit breaker.</li>
+  <li><strong>Cluster maximum active retries</strong>: The maximum number of retries that can be outstanding to all hosts
+in a cluster at any given time. In general Istio recommends aggressively circuit breaking retries so that
+retries for sporadic failures are allowed but the overall retry volume cannot explode and cause large
+scale cascading failure.</li>
+</ul>
+
+<blockquote>
+  <p>Note that <strong>HTTP2</strong> uses a single connection and never queues (always multiplexes), so max connections and max pending requests are not applicable.</p>
+</blockquote>
+
+<p>Each circuit breaking limit is configurable and tracked on a per upstream cluster and per priority basis. This allows different components of the distributed system to be tuned independently and have different limits. See the <a href="https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/circuit_breaking" target="_blank">Envoy’s circuit breaker</a> for more details.</p>
+
+<p>Let’s add a circuit breaker to the calls to the <strong>Inventory service</strong>. Instead of using a <em>VirtualService</em> object, circuit breakers in isto are defined as <em>DestinationRule</em> objects. DestinationRule defines policies that apply to traffic intended for a service after routing has occurred. These rules specify configuration for load balancing, connection pool size from the sidecar, and outlier detection settings to detect and evict unhealthy hosts from the load balancing pool.</p>
+
+<p>Open the empty <strong>inventory-cb.yaml</strong> file in <code>/projects/cloud-native-workshop-v2m3-labs/inventory/rules/</code> and add this code to the file to enable circuit breaking when calling the Inventory service:</p>
+
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: inventory-cb
+spec:
+  host: inventory-quarkus
+  trafficPolicy:
+    connectionPool:
+      tcp:
+        maxConnections: 1
+      http:
+        http1MaxPendingRequests: 1
+        maxRequestsPerConnection: 1
+</code></pre>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/inventory-circuit-breaker.png" alt="circuit-breaker"></p>
+
+<p>Run the following command via CodeReady Workspaces Terminal to then create the rule:</p>
+
+<p><code>oc create -f /projects/cloud-native-workshop-v2m3-labs/inventory/rules/inventory-cb.yaml -n userXX-inventory</code></p>
+
+<p>We set the Inventory service’s maximum connections to 1 and maximum pending requests to 1. Thus, if we send more than 2 requests within a short period of time to the inventory service, 1 will go through, 1 will be pending, and any additional requests will be denied until the pending request is processed. Furthermore, it will detect any hosts that return a server error (HTTP 5xx) and eject the pod out of the load balancing pool for 15 minutes. You can visit here to check the <a href="https://istio.io/docs/reference/config/traffic-rules/destination-policies.html#istio.proxy.v1.config.CircuitBreaker.SimpleCircuitBreakerPolicy" target="_blank">Istio spec</a> for more details on what each configuration parameter does.</p>
+
+<h4 id="overload-the-service">4. Overload the service</h4>
+
+<hr>
+
+<p>Let’s use simple <strong>curl</strong> commands to send multiple concurrent requests to our application, and witness the circuit breaker kicking in and opening the circuit.</p>
+
+<p>Execute this to simulate a number of users attampting to access the gateway URL simultaneously in CodeReady Workspaces Terminal.</p>
+
+<blockquote>
+  <p>Replace <code>YOUR_IVENTORY_GATEWAY_URL</code> with your custom inventory URL, e.g. <code>http://inventory-quarkus-userXX-inventory.apps.cluster-bjs-3f37.bjs-3f37.open.redhat.com</code>.</p>
+</blockquote>
+
+<pre><code class="language-shell">    for i in {1..50} ; do
+        curl 'http://YOUR_IVENTORY_GATEWAY_URL/services/inventory' &gt;&amp; /dev/null &amp;
+    done
+</code></pre>
+
+<p>Due to the very conservative circuit breaker, many of these calls will fail with HTTP 503 (Server Unavailable). To see this,
+open the <em>Istio Service Mesh Dashboard</em> in the <a href="https://grafana-istio-system.apps.cluster-bjs-3f37.bjs-3f37.open.redhat.com/">Grafana console</a> and select <code>inventory-quarkus.userXX-inventory.svc.cluster.local</code> service:</p>
+
+<blockquote>
+  <p><code>NOTE</code>: It make take 10-20 seconds before the evidence of the circuit breaker is visible within the Grafana dashboard, due to the not-quite-realtime nature of Prometheus metrics and Grafana refresh periods and general network latency.</p>
+</blockquote>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/inventory-circuit-breaker-grafana.png" alt="circuit-breaker"></p>
+
+<p>That’s the circuit breaker in action, limiting the number of requests to the service. In practice your limits would be much higher.</p>
+
+<h4 id="stop-overloading">5. Stop overloading</h4>
+
+<hr>
+
+<p>Before moving on, stop the traffic generator by executing the following commands in CodeReady Workspaces Terminal:</p>
+
+<p><code>for i in {1..50} ; do kill %${i} ; done</code></p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/inventory-circuit-breaker-stop.png" alt="circuit-breaker"></p>
+
+<p>Delete the circuit breaker of the Inventory service via the following commands. You should replace <code>userXX</code> with your namespace:</p>
+
+<p><code>oc delete destinationrule/inventory-cb -n userXX-inventory</code></p>
+
+<h4 id="enable-authentication-using-single-sign-on">6. Enable Authentication using Single Sign-on</h4>
+
+<hr>
+
+<p>In this step, you will learn how to enable authenticating <strong>catalog</strong> microservices with Istio, <a href="https://en.wikipedia.org/wiki/JSON_Web_Token" target="_blank">JSON Web Token(JWT)</a>, and
+<a href="https://access.redhat.com/products/red-hat-single-sign-on">Red Hat Single Sign-On</a> in <a href="https://www.redhat.com/en/products/application-runtimes" target="_blank">Red Hat Runtimes</a>.</p>
+
+<p>First, let’s remove the direct route to the catalog service. We want traffic to be managed by the service mesh, and not allow direct traffic. Use the following command in the CodeReady Workspaces Terminal:</p>
+
+<p><code>oc delete route/catalog-springboot -n userXX-catalog</code></p>
+
+<p>In the <a href="https://console-openshift-console.apps.cluster-bjs-3f37.bjs-3f37.open.redhat.com/" target="_blank">OpenShift web console</a>, select the <code>userXX-catalog</code> project, then navigate to <em>Networking &gt; Services</em> from the left menu, select the <code>catalog-springboot</code> service</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/catalog_svc_vs.png" alt="sso"></p>
+
+<p>Select the YAML tab and add the following label in the catalog service to use a <strong>virtural service</strong>:</p>
+
+<p><code>service: catalog-springboot</code></p>
+
+<p>Also, since <a href="https://istio.io/docs/setup/additional-setup/requirements/">Istio requires service names</a> to be named with specific identifiers, change the name of the <code>8080-tcp</code> to be named <code>http</code> as shown:</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/catalog_svc_add_label.png" alt="sso"></p>
+
+<p>Click on <strong>Save</strong>.</p>
+
+<p>In CodeReady, open the <strong>catalog-default.yaml</strong> file in <code>/projects/cloud-native-workshop-v2m3-labs/catalog/rules/</code> to make a gateway and virtual service:</p>
+
+<blockquote>
+  <p>Replace all <strong>YOUR_CATALOG_GATEWAY_URL</strong> with the catlog route URL which will be <code>catalog-springboot-userXX-catalog.apps.cluster-bjs-3f37.bjs-3f37.open.redhat.com</code> but with <code>userXX</code> replaced with your username. Change the code in two places after inserting it into the <code>catalog-default.yaml</code> file:</p>
+</blockquote>
+
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: catalog-gateway
+spec:
+  selector:
+    istio: ingressgateway # use istio default controller
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - 'YOUR_CATALOG_GATEWAY_URL'
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: catalog-default
+spec:
+  hosts:
+  - 'YOUR_CATALOG_GATEWAY_URL'
+  gateways:
+  - catalog-gateway
+  http:
+    - match:
+        - uri:
+            exact: /services/products
+        - uri:
+            exact: /services/product
+        - uri:
+            exact: /
+      route:
+        - destination:
+            host: catalog-springboot
+            port:
+              number: 8080
+</code></pre>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/catalog-default-gateway.png" alt="sso"></p>
+
+<p>Then create this object in OpenShift by running the following command via CodeReady Workspaces Terminal:</p>
+
+<p><code>oc create -f /projects/cloud-native-workshop-v2m3-labs/catalog/rules/catalog-default.yaml -n userXX-catalog</code> (replace <code>userXX</code> with your username!)</p>
+
+<p>Now, you can test if the catalog service works correctly by accessing the <strong>YOUR_CATALOG_GATEWAY_URL</strong> without <em>authentication</em> in your browser:</p>
+
+<p><code>i.e. http://catalog-springboot-userXX-catalog.apps.cluster-bjs-3f37.bjs-3f37.open.redhat.com</code></p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/catalog-ui-gateway.png" alt="sso"></p>
+
+<p>Let’s deploy <strong>Red Hat Single Sign-On (RH-SSO)</strong> that enables service authentication for traffic in the service mesh.</p>
+
+<p><em>Red Hat Single Sign-On (RH-SSO)</em> is based on the <strong>Keycloak</strong> project and enables you to secure your web applications by providing Web single sign-on (SSO) capabilities based on popular standards such as <strong>SAML 2.0, OpenID Connect and OAuth 2.0</strong>. The RH-SSO server can act as a SAML or OpenID Connect-based Identity Provider, mediating with your enterprise user directory or 3rd-party SSO provider for identity information and your applications via standards-based tokens. The major features include:</p>
+
+<ul>
+  <li><strong>Authentication Server</strong> - Acts as a standalone SAML or OpenID Connect-based Identity Provider.</li>
+  <li><strong>User Federation</strong> - Certified with LDAP servers and Microsoft Active Directory as sources for user information.</li>
+  <li><strong>Identity Brokering</strong> - Integrates with 3rd-party Identity Providers including leading social networks as identity source.</li>
+  <li><strong>REST APIs and Administration GUI</strong> - Specify user federation, role mapping, and client applications with easy-to-use Administration GUI and REST APIs.</li>
+</ul>
+
+<p>We will deploy RH-SSO in Catalog project. Run the following commands in CodeReady Workspaces Terminal:</p>
+
+<blockquote>
+  <p>Note: You need to replace <code>userXX</code> with your username and replace <code>authuserXX</code> below with your username plus <code>auth</code> prefix. For example, <code>authuser12</code> or <code>authuser2</code>.</p>
+</blockquote>
+
+<pre><code class="language-shell">oc -n userXX-catalog new-app ccn-sso72 \
+   -p SSO_ADMIN_USERNAME=admin \
+   -p SSO_ADMIN_PASSWORD=admin \
+   -p SSO_REALM=istio \
+   -p SSO_SERVICE_USERNAME=authuserXX \
+   -p SSO_SERVICE_PASSWORD=openshift
+</code></pre>
+
+<p>Wait for RH-SSO to be deployed using this command:</p>
+
+<p><code>oc rollout status -w dc/sso -n userXX-catalog</code> (replace <code>userXX</code> with your username)</p>
+
+<p>Once this finishes (it may take a minute or two), in the <a href="https://console-openshift-console.apps.cluster-bjs-3f37.bjs-3f37.open.redhat.com/" target="_blank">OpenShift web console</a> navigate to <em>Networking &gt; Routes</em> and you will see the route URL as below (in the <code>userXX-catalog</code> project):</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/rhsso_deployment.png" alt="sso"></p>
+
+<p>Click on <strong>HTTPS</strong> URL(i.e. <code>secure-sso-userXX-catalog.apps.cluster-bjs-3f37.bjs-3f37.open.redhat.com</code>) to access RH-SSO web console as below:</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/rhsso_landing_page.png" alt="sso"></p>
+
+<p>Click on <em>Administration Console</em> to configure <strong>Istio</strong> Ream then input the usename and password that you used earlier:</p>
+
+<ul>
+  <li>Username or email: <strong>admin</strong></li>
+  <li>Password: <strong>admin</strong></li>
+</ul>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/rhsso_admin_login.png" alt="sso"></p>
+
+<p>You will see general information of the <em>Istio Realm</em>. Click on <strong>Login</strong> tab and de-select (swich off) <em>Require SSL</em> by setting it to <em>none</em> then click on <strong>Save</strong>.</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/rhsso_istio_realm.png" alt="sso"></p>
+
+<blockquote>
+  <p>Red Hat Single Sign-On generates a self-signed certificate the first time it runs. Please note that self-signed certificates don’t work to authenticate by Istio so we will change not to use SSL for testing Istio authentication.</p>
+</blockquote>
+
+<p>Next, create a new RH-SSO <em>client</em> that is for trusted browser apps and web services in our <em>Istio</em> realm.
+Go to <strong>Clients</strong> in the left menu then click on <strong>Create</strong>.</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/rhsso_clients.png" alt="sso"></p>
+
+<p>Input <strong>ccn-cli</strong> in <em>Client ID</em> field and click on <strong>Save</strong>.</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/rhsso_clients_create.png" alt="sso"></p>
+
+<p>On the next screen, you will see details on the <strong>Settings</strong> tab, the only thing you need to do is to input <em>Valid Redirect URIs</em> that can be used after successful login or logout for clients.</p>
+
+<blockquote>
+  <p>Replace <strong>YOUR_CATALOG_GATEWAY_URL</strong> with your own ingress gateway URL of the catalog service and please note to add <strong>http://</strong> at the front as well as <code>/*</code> at the end of URL.</p>
+</blockquote>
+
+<ul>
+  <li>Valid Redirect URIs: <code>http://catalog-springboot-userXX-catalog.apps.cluster-bjs-3f37.bjs-3f37.open.redhat.com/*</code> (replace <code>userXX</code> with your username!)</li>
+</ul>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/rhsso_clients_settings.png" alt="sso"></p>
+
+<p>Don’t forget to click <strong>Save</strong>!</p>
+
+<p>Now, let’s define a role that will be assigned to your credentials, let’s create a simple role called <strong>ccn_auth</strong>. Go to <strong>Roles</strong> in the left menu then click on <em>Add Role</em>.</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/rhsso_roles.png" alt="sso"></p>
+
+<p>Input <strong>ccn_auth</strong> in <em>Role Name</em> field and click on <strong>Save</strong>.</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/rhsso_roles_create.png" alt="sso"></p>
+
+<p>Next let’s update the password policy for our <em>authuser</em>.</p>
+
+<p>Go to <strong>Users</strong> menu on the left side menu then click on <strong>View all users</strong>.</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/rhsso_users.png" alt="sso"></p>
+
+<p>If you click on the <code>authuserXX</code> ID then you will find more information such as Details, Attributes, Credentials, Role Mappings, Groups, Contents, and Sessions. You don’t need to update any details in this step.</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/rhsso_istio_users_details.png" alt="sso"></p>
+
+<p>Go to <strong>Credentials</strong> tab and input the following variables:</p>
+
+<ul>
+  <li>New Password: <strong>openshift</strong></li>
+  <li>Password Confirmation: <strong>openshift</strong></li>
+  <li>Temporary: <strong>OFF</strong></li>
+</ul>
+
+<p>Make sure to turn off the “Temporary” flag unless you want the authuserXX to have to change his password the first time they authenticate.</p>
+
+<p>Click on <strong>Reset Password</strong>.</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/rhsso_users_credentials.png" alt="sso"></p>
+
+<p>Then click on <strong>Change password</strong> in the popup window.</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/rhsso_users_change_pwd.png" alt="sso"></p>
+
+<p>Now proceed to the <strong>Role Mappings</strong> tab and assign the role <strong>ccn_auth</strong> via clicking on <em>Add selected &gt;</em>.</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/rhsso_rolemapping.png" alt="sso"></p>
+
+<p>You will confirm the ccn_auth role in <em>Assigned Roles</em> box.</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/rhsso_rolemapping_assigned.png" alt="sso"></p>
+
+<p>Well done, you have enabled RH-SSO to with a custom realm, user and role!</p>
+
+<p>Turning to back to Istio, let’s create a user-facing authentication policy using JSON Web Tokens (JWTs). The format is defined in <a href="https://tools.ietf.org/html/rfc7519" target="_blank">RFC 7519</a>. You can find more details how <a href="https://tools.ietf.org/html/rfc6749" target="_blank">OAuth 2.0</a> and <a href="https://openid.net/connect/" target="_blank">OIDC 1.0</a> work in the overall authentication flow.</p>
+
+<p>In CodeReady, open the blank <strong>ccn-auth-config.yml</strong> file in <code>/projects/cloud-native-workshop-v2m3-labs/catalog/rules/</code> to create an authentication policy:</p>
+
+<blockquote>
+  <p>Replace all <strong>YOUR_SSO_HTTP_ROUTE_URL</strong> with your own HTTP route url of SSO container that you created earlier and also replace <strong>userXX</strong> with your username.</p>
+</blockquote>
+
+<p>You can also get the route url via executing the following commands in CodeReady Workspaces Terminal:</p>
+
+<p><code>oc get route -n userXX-catalog | grep -v secure | awk 'NR&gt;1{print $2}' | grep sso</code></p>
+
+<p>Use this value to replace <code>YOUR_SSO_HTTP_ROUTE_URL</code>. You will also use this later!</p>
+
+<pre><code class="language-yaml">apiVersion: authentication.istio.io/v1alpha1
+kind: Policy
+metadata:
+  name: auth-policy
+  namespace: userXX-catalog
+spec:
+  targets:
+  - name: catalog-springboot
+  origins:
+  - jwt:
+      issuer: http://YOUR_SSO_HTTP_ROUTE_URL/auth/realms/istio
+      jwks_uri: http://YOUR_SSO_HTTP_ROUTE_URL/auth/realms/istio/protocol/openid-connect/certs
+  principalBinding: USE_ORIGIN
+</code></pre>
+
+<p>The following fields are used above to create a Policy in Istio and are described here:</p>
+
+<ul>
+  <li><strong>issuer</strong> - Identifies the issuer that issued the JWT. See <a href="https://tools.ietf.org/html/rfc7519#section-4.1.1" target="_blank">issuer</a> usually a URL or an email address.</li>
+  <li><strong>jwksUri</strong> - URL of the provider’s public key set to validate signature of the JWT.</li>
+  <li><strong>audiences</strong> - The list of JWT <a href="https://tools.ietf.org/html/rfc7519#section-4.1.3" target="_blank">audiences</a>. that are allowed to access. A JWT containing any of these audiences will be accepted.</li>
+</ul>
+
+<p>Then execute the following oc command in CodeReady Workspaces Terminal to create this object:</p>
+
+<p><code>oc create -f /projects/cloud-native-workshop-v2m3-labs/catalog/rules/ccn-auth-config.yaml -n userXX-catalog</code> (replace <code>userXX</code> with your username!)</p>
+
+<p>Now you can’t access the catalog service without authentication of RH-SSO. You confirm it using a curl command  (replacing <code>userXX</code> with your username) in CodeReady Workspaces Terminal:</p>
+
+<p><code>curl -i http://YOUR_CATALOG_GATEWAY_URL/services/products ; echo</code></p>
+
+<p>You should get and <code>HTTP 401 Unauthorized</code> and <code>Origin authentication failed.</code> messages.</p>
+
+<p>The expected response is here because the user has not been identified with a valid JWT token in RH-SSO.
+It normally takes <code>5 ~ 10 seconds</code> to initialize the authentication policy in Istio Mixer. After this things go quickly as policies are cached for some period of time.</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/rhsso_call_catalog_noauth.png" alt="sso"></p>
+
+<p>In order to generate a correct token, run next <code>curl</code> request in CodeReady Workspaces Terminal. This command will
+store the output Authorization token from RH-SSO in an environment variable called <strong>TOKEN</strong>.</p>
+
+<blockquote>
+  <p>Replace <code>YOUR_SSO_HTTP_ROUTE_URL</code> with your own HTTP route url of SSO container that you created earlier.</p>
+</blockquote>
+
+<blockquote>
+  <p>Also replace <code>authuserXX</code> with your authentication username, e.g. <code>authuser34</code></p>
+</blockquote>
+
+<pre><code class="language-shell">export TOKEN=$( curl -X POST 'http://YOUR_SSO_HTTP_ROUTE_URL/auth/realms/istio/protocol/openid-connect/token' \
+ -H "Content-Type: application/x-www-form-urlencoded" \
+ -d "username=authuserXX" \
+ -d 'password=openshift' \
+ -d 'grant_type=password' \
+ -d 'client_id=ccn-cli' | jq -r '.access_token')
+</code></pre>
+
+<p>Ensure you have a valid token:</p>
+
+<p><code>echo; echo $TOKEN; echo</code></p>
+
+<p>Once you have generated the token, re-run the curl command below with the token in CodeReady Workspaces Terminal:</p>
+
+<p><code>curl -H "Authorization: Bearer $TOKEN" http://YOUR_CATALOG_GATEWAY_URL/services/products ; echo</code></p>
+
+<p>You will see the following expected output:</p>
+
+<pre><code class="language-json">[{"itemId":"329299","name":"Red Fedora","desc":"Official Red Hat Fedora","price":34.99,"quantity":736},{"itemId":"329199","name":
+"Forge Laptop Sticker","desc":"JBoss Community Forge Project Sticker","price":8.5,"quantity":512},{"itemId":"165613","name":"Solid
+Performance Polo","desc":"Moisture-wicking, antimicrobial 100% polyester design wicks for life of garment. No-curl, rib-knit collar;
+special collar band maintains crisp fold; three-button placket with dyed-to-match buttons; hemmed sleeves; even bottom with side vents;
+Import. Embroidery. Red Pepper.","price":17.8,"quantity":256},{"itemId":"165614","name":"Ogio Caliber Polo","desc":"Moisture-wicking 100%
+polyester. Rib-knit collar and cuffs; Ogio jacquard tape inside neck; bar-tacked three-button placket with Ogio dyed-to-match buttons;
+...
+</code></pre>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/rhsso_call_catalog_auth.png" alt="sso"></p>
+
+<p>Congratulations! You’ve integrated RH-SSO with Istio to protect service mesh traffic to the catalog service, without having to change the application at all. Let’s do it again with Spring Boot!</p>
+
+<h4 id="securing-spring-boot-with-red-hat-single-sing-on">7. Securing Spring Boot with Red Hat Single Sing-On</h4>
+
+<hr>
+
+<p>Unfortunately, the catalog service still doesn’t work when you access via the web page because the applicaion has no authentication configuration yet:</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/rhsso_web_catalog_noauth.png" alt="sso"></p>
+
+<p>Let’s integrate RH-SSO authentication to the presentation layer of the catalog service.
+First, clean up all authentication configuration that we have tested in the previous steps. Run the following script to clean up:</p>
+
+<p><code>/projects/cloud-native-workshop-v2m3-labs/istio/scripts/cleanup.sh userXX</code> (replace <code>userXX</code> with your username!)</p>
+
+<p>Next, open the <strong>application-default.properties</strong> in <code>/projects/cloud-native-workshop-v2m3-labs/catalog/src/main/resources/</code> and add the following settings at the bottom of the file:</p>
+
+<p>Replace <strong>YOUR_SSO_HTTP_ROUTE_URL/</strong></p>
+
+<pre><code class="language-yaml">#TODO: Set RH-SSO authentication
+keycloak.auth-server-url=http://YOUR_SSO_HTTP_ROUTE_URL/auth
+keycloak.realm=istio
+keycloak.resource=ccn-cli
+keycloak.public-client=true
+
+keycloak.security-constraints[0].authRoles[0]=ccn_auth
+keycloak.security-constraints[0].securityCollections[0].patterns[0]=/*
+</code></pre>
+
+<p>Let’s update <strong>pom.xml</strong> in <code>/projects/cloud-native-workshop-v2m3-labs/catalog/</code> to add the needed keycloak dependency to our app:.</p>
+
+<ul>
+  <li>Add <em>spring-boot-starter-parent</em> artifact Id before <em>properties</em> element:</li>
+</ul>
+
+<pre><code class="language-xml">    &lt;parent&gt;
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
+        &lt;version&gt;1.5.21.RELEASE&lt;/version&gt;
+        &lt;relativePath/&gt;
+    &lt;/parent&gt;
+</code></pre>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/rhsso_catalog_pom_parent.png" alt="sso"></p>
+
+<ul>
+  <li>Replace <strong>me.snowdrop</strong> dependencyManagement and <strong>spring-boot-starter</strong> dependency with <em>keycloak</em> dependency.</li>
+</ul>
+
+<p><strong>From:</strong></p>
+
+<pre><code class="language-yaml">    &lt;dependencyManagement&gt;
+        &lt;dependencies&gt;
+            &lt;dependency&gt;
+                &lt;groupId&gt;me.snowdrop&lt;/groupId&gt;
+                &lt;artifactId&gt;spring-boot-bom&lt;/artifactId&gt;
+                &lt;version&gt;${spring-boot.bom.version}&lt;/version&gt;
+                &lt;type&gt;pom&lt;/type&gt;
+                &lt;scope&gt;import&lt;/scope&gt;
+            &lt;/dependency&gt;
+        &lt;/dependencies&gt;
+    &lt;/dependencyManagement&gt;
+    &lt;dependencies&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+</code></pre>
+
+<p><strong>To:</strong></p>
+
+<pre><code class="language-yaml">    &lt;dependencyManagement&gt;
+       &lt;dependencies&gt;
+          &lt;dependency&gt;
+              &lt;groupId&gt;org.keycloak.bom&lt;/groupId&gt;
+              &lt;artifactId&gt;keycloak-adapter-bom&lt;/artifactId&gt;
+              &lt;version&gt;3.1.0.Final&lt;/version&gt;
+              &lt;type&gt;pom&lt;/type&gt;
+              &lt;scope&gt;import&lt;/scope&gt;
+          &lt;/dependency&gt;
+      &lt;/dependencies&gt;
+    &lt;/dependencyManagement&gt;
+    &lt;dependencies&gt;
+        &lt;dependency&gt;
+          &lt;groupId&gt;org.keycloak&lt;/groupId&gt;
+          &lt;artifactId&gt;keycloak-spring-boot-starter&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+</code></pre>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/rhsso_catalog_pom_dependency.png" alt="sso"></p>
+
+<p>Let’s re-deploy the catalog service to OpenShift by running the following maven command in CodeReady Workspaces Terminal:</p>
+
+<p><code>cd /projects/cloud-native-workshop-v2m3-labs/catalog</code></p>
+
+<p><code>mvn clean package spring-boot:repackage -DskipTests</code></p>
+
+<p><code>oc -n userXX-catalog start-build catalog-springboot --from-file=target/catalog-1.0.0-SNAPSHOT.jar --follow</code> (replace <code>userXX</code> with your username)</p>
+
+<p>Wait for the catalog pod to restart:</p>
+
+<p><code>oc rollout status -w dc/catalog-springboot -n userXX-catalog</code>  (replace <code>userXX</code> with your username)</p>
+
+<p>After the catalog pod is started, access the <em>catalog gateway</em> via a new web brower then you will redirect to the login page of <strong>RH-SSO</strong>.</p>
+
+<p>Input the following credential that we created it in RH-SSO administration page eariler.</p>
+
+<ul>
+  <li>Username or email: <strong>authuserXX</strong> (replace with your auth user, e.g. <code>authuser34</code>)</li>
+  <li>Password: <strong>openshift</strong></li>
+</ul>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/rhsso_catalog_redirect.png" alt="sso"></p>
+
+<p>Finally, you can access the catalog service as below:</p>
+
+<p><img src="./The Containers and Cloud-Native Roadshow Dev Track - Module 3_files/rhsso_web_catalog_auth.png" alt="sso"></p>
+
+<h4 id="summary">Summary</h4>
+
+<p>In this scenario you used Istio to implement many of the features needed in modern, distributed applications.</p>
+
+<p>Istio provides an easy way to create a network of deployed services with load balancing, service-to-service authentication, monitoring, and more
+without requiring any changes in service code. You add Istio support to services by deploying a special sidecar proxy throughout your environment
+that intercepts all network communication between microservices, configured and managed using Istio’s control plane functionality.</p>
+
+<p>Technologies like containers and container orchestration platforms like OpenShift solve the deployment of our distributed
+applications quite well, but are still catching up to addressing the service communication necessary to fully take advantage
+of distributed microservice applications. With Istio you can solve many of these issues outside of your business logic,
+freeing you as a developer from concerns that belong in the infrastructure. <strong>Congratulations!</strong></p>
+
+        <hr>
+    </div>
+  </div>
+</main>
+
+
+
+</body></html>
